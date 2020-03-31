@@ -18,4 +18,4 @@
 * [Channels](#channels)
 {% endif %}
 
-{% include ".partials/content.md" %}
+{% include "partials/content.md" %}
