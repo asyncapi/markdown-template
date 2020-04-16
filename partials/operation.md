@@ -8,7 +8,7 @@
 {% if op.hasMultipleMessages() %}
 Accepts **one of** the following messages:
 
-{%- for msg in op.messages() -%}
+{% for msg in op.messages() -%}
 ##### Message #{{loop.index}}
 {{ message(msg) }}
 {%- endfor -%}
