@@ -1,7 +1,12 @@
 {% from "./message.md" import message %}
 
 {% macro operation(op, channelName) %}
+{% set summary = op.summary() %}
 ### {% if op.isPublish() %} `publish`{% endif %}{% if op.isSubscribe() %} `subscribe`{% endif %} {{channelName}}
+
+{% if summary %} *{{ summary }}* {% endif %}
+
+{{ op.description() }}
 
 #### Message
 

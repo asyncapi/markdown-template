@@ -37,6 +37,10 @@ channels:
         $ref: '#/components/parameters/streetlightId'
     publish:
       summary: Inform about environmental lighting conditions of a particular streetlight.
+      description: |
+        This is the description with **bold** text.
+        
+        One multiple lines.
       operationId: receiveLightMeasurement
       tags:
         - name: oparation-tag1
