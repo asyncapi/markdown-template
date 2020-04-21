@@ -40,7 +40,7 @@ channels:
       description: |
         This is the description with **bold** text.
         
-        One multiple lines.
+        On multiple lines.
       operationId: receiveLightMeasurement
       tags:
         - name: oparation-tag1
