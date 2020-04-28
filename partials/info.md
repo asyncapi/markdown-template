@@ -86,7 +86,7 @@
             </thead>
             <tbody>
             {%- for security in server.security() %}
-              {%- set def = asyncapi.components().securityScheme(security.json() | firstKey) -%}
+              {%- set def = asyncapi.components().securityScheme(security.json() | keys | head ) -%}
               <tr>
                 <td>{{def.type()}}</td>
                 <td>{{def.in()}}</td>
