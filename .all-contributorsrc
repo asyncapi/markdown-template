@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "ximyro",
+      "name": "Ilya Buzlov",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1026811?v=4",
+      "profile": "https://github.com/ximyro",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "markdown-template",
+  "projectOwner": "asyncapi",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
