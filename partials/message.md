@@ -2,15 +2,15 @@
 {% from "./tags.md" import tags %}
 
 {% macro message(msg) %}
-{% if msg.summary() %}
+{% if msg.summary() -%}
 {{ msg.summary() }}
 
-{% endif %}
-{% if msg.description() %}
+{% endif -%}
+{%- if msg.description() -%}
 {{ msg.description() | safe }}
-{% endif %}
+{% endif -%}
 
-{% if msg.headers() %}
+{% if msg.headers() -%}
 ##### Headers
 
 {{ schema(msg.headers(), 'Message Headers', hideTitle=true) }}
@@ -23,7 +23,7 @@
 {{ ex | dump(2) | safe }}
 ```
 {% endfor -%}
-{% else %}
+{% else -%}
 ###### Example of headers _(generated)_
 
 ```json
