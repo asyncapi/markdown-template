@@ -16,8 +16,8 @@ Accepts **one of** the following messages:
 {% for msg in op.messages() -%}
 ##### Message #{{loop.index}}
 {{ message(msg) }}
-{%- endfor -%}
-{% else %}
+{% endfor -%}
+{% else -%}
 {{ message(op.message(0)) }}
-{% endif %}
+{% endif -%}
 {% endmacro %}

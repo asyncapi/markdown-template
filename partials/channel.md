@@ -1,21 +1,21 @@
 {% from "./parameters.md" import parameters %}
 {% from "./operation.md" import operation %}
-
 {% macro channel(chan, channelName) %}
+
 <a name="channel-{{channelName}}"></a>
 
-{% if chan.description() %}
+{% if chan.description() -%}
 {{ chan.description() | safe }}
-{% endif %}
+{% endif -%}
 
-{% if chan.parameters() %}
+{% if chan.parameters() -%}
 {{- parameters(chan.parameters()) -}}
-{% endif %}
+{% endif -%}
 
-{% if chan.hasPublish() %}
+{% if chan.hasPublish() -%}
 {{ operation(chan.publish(), channelName) }}
-{%- endif -%}
-{% if chan.hasSubscribe() %}
+{% endif -%}
+{% if chan.hasSubscribe() -%}
 {{ operation(chan.subscribe(), channelName) }}
-{%- endif -%}
+{% endif -%}
 {% endmacro %}

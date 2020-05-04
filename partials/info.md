@@ -1,8 +1,8 @@
-{%- if asyncapi.info().termsOfService() -%}
+{% if asyncapi.info().termsOfService() -%}
 <a name="termsOfService"></a>
 ## Terms of service
 [{{asyncapi.info().termsOfService()}}]({{asyncapi.info().termsOfService()}})
-{%- endif %}
+{% endif -%}
 {% if asyncapi.hasServers() %}
 <a name="servers"></a>
 
@@ -17,7 +17,7 @@
     </tr>
   </thead>
   <tbody>
-  {%- for serverName, server in asyncapi.servers() -%}
+  {% for serverName, server in asyncapi.servers() -%}
     <tr>
       <td>{{server.url()}}</td>
       <td>{{server.protocol()}}{% if server.protocolVersion() %}{{server.protocolVersion()}}{% endif %}</td>
@@ -105,4 +105,4 @@
   {%- endfor -%}
   </tbody>
 </table>
-{%- endif -%}
+{% endif -%}

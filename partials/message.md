@@ -35,7 +35,7 @@
 {% if msg.payload() -%}
 ##### Payload
 
-{{- schema(msg.payload(), 'Message Payload', hideTitle=true) -}}
+{{ schema(msg.payload(), 'Message Payload', hideTitle=true) }}
 
 {% if msg | getPayloadExamples %}
 ###### Examples of payload
@@ -44,15 +44,15 @@
 ```json
 {{ ex | dump(2) | safe }}
 ```
-{%- endfor -%}
-{% else %}
+{% endfor -%}
+{% else -%}
 ###### Example of payload _(generated)_
 
 ```json
 {{ msg.payload().json() | generateExample | safe }}
 ```
-{%- endif -%}
-{%- endif -%}
+{% endif -%}
+{% endif -%}
 
 
 {% if msg.hasTags() %}

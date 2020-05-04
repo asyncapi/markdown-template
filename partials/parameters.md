@@ -5,13 +5,13 @@
 #### Channel Parameters
 {%- endif %}
 
-{% for paramName, param in params %}
+{% for paramName, param in params -%}
 ##### {{paramName}}
 
 {% if param.description() -%}
 {{param.description() | safe}}
-{%- endif -%}
+{% endif -%}
 
-{{- schema(param.schema(), paramName, hideTitle=true) -}}
-{%- endfor -%}
+{{ schema(param.schema(), paramName, hideTitle=true) }}
+{% endfor %}
 {% endmacro %}
