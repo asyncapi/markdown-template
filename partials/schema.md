@@ -1,9 +1,9 @@
 {% from "./schema-prop.md" import schemaProp %}
 
 {% macro schema(schema, schemaName, hideTitle=false) %}
-{% if not hideTitle %}
+{% if not hideTitle -%}
 #### {{schemaName}}
-{% endif %}
+{% endif -%}
 
 <table>
   <thead>
@@ -15,11 +15,11 @@
     </tr>
   </thead>
   <tbody>
-    {% for propName, prop in schema.properties() %}
-      {{ schemaProp(prop, propName, required=(schema | isRequired(propName)), path='') }}
-    {% else %}
-      {{ schemaProp(schema, schemaName,  path='') }}
-    {% endfor %}
+    {%- for propName, prop in schema.properties() -%}
+		{{ schemaProp(prop, propName, required=(schema | isRequired(propName)), path='') }}
+    {%- else -%}
+		{{ schemaProp(schema, schemaName,  path='') }}
+    {% endfor -%}
   </tbody>
 </table>
 {% endmacro %}

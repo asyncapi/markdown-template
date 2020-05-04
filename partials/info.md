@@ -1,11 +1,11 @@
-{% if asyncapi.info().termsOfService() %}
+{% if asyncapi.info().termsOfService() -%}
 <a name="termsOfService"></a>
 ## Terms of service
 [{{asyncapi.info().termsOfService()}}]({{asyncapi.info().termsOfService()}})
-{% endif %}
-
+{% endif -%}
 {% if asyncapi.hasServers() %}
 <a name="servers"></a>
+
 ## Servers
 
 <table>
@@ -105,4 +105,4 @@
   {%- endfor -%}
   </tbody>
 </table>
-{% endif %}
+{% endif -%}
