@@ -2,4 +2,4 @@
 
 {% if asyncapi.hasChannels() %}
 {% include "partials/channels.md"  %}
-{% endif %}
+{%- endif -%}

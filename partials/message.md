@@ -18,11 +18,11 @@
 {% if msg | getHeadersExamples %}
 ###### Examples of headers
 
-{% for ex in msg | getHeadersExamples %}
+{% for ex in msg | getHeadersExamples -%}
 ```json
 {{ ex | dump(2) | safe }}
 ```
-{% endfor %}
+{% endfor -%}
 {% else %}
 ###### Example of headers _(generated)_
 
@@ -32,10 +32,10 @@
 {% endif %}
 {% endif %}
 
-{% if msg.payload() %}
+{% if msg.payload() -%}
 ##### Payload
 
-{{ schema(msg.payload(), 'Message Payload', hideTitle=true) }}
+{{- schema(msg.payload(), 'Message Payload', hideTitle=true) -}}
 
 {% if msg | getPayloadExamples %}
 ###### Examples of payload
@@ -44,15 +44,15 @@
 ```json
 {{ ex | dump(2) | safe }}
 ```
-{% endfor %}
+{%- endfor -%}
 {% else %}
 ###### Example of payload _(generated)_
 
 ```json
 {{ msg.payload().json() | generateExample | safe }}
 ```
-{% endif %}
-{% endif %}
+{%- endif -%}
+{%- endif -%}
 
 
 {% if msg.hasTags() %}
