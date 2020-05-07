@@ -6,6 +6,30 @@
   "commit": false,
   "contributors": [
     {
+      "login": "fmvilas",
+      "name": "Fran Méndez",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/242119?v=4",
+      "profile": "http://www.fmvilas.com",
+      "contributions": [
+        "code",
+        "doc",
+        "review",
+        "ideas"
+      ]
+    },
+    {
+      "login": "derberg",
+      "name": "Lukasz Gornicki",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/6995927?v=4",
+      "profile": "https://resume.github.io/?derberg",
+      "contributions": [
+        "code",
+        "doc",
+        "review",
+        "infra"
+      ]
+    },
+    {
       "login": "ximyro",
       "name": "Ilya Buzlov",
       "avatar_url": "https://avatars0.githubusercontent.com/u/1026811?v=4",
@@ -21,5 +45,6 @@
   "projectOwner": "asyncapi",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "none"
 }
