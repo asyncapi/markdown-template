@@ -58,5 +58,11 @@
       "@semantic-release/npm",
       "@semantic-release/github"
     ]
+  },
+  "generator": {
+    "generator": ">=0.50.0 <2.0.0",
+    "filters": [
+      "@asyncapi/generator-filters"
+    ]
   }
 }
