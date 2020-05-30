@@ -14,6 +14,11 @@ If you don't have the AsyncAPI Generator installed, you can install it like this
 ```
 npm install -g @asyncapi/generator
 ```
+## Supported parameters
+
+|Name|Description|Required|Example|
+|---|---|---|---|
+|outFilename|The filename of the output file. Defaults to `asyncapi.md`|No|`index.md`|
 
 ## Development
 
