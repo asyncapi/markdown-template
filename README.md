@@ -16,9 +16,9 @@ npm install -g @asyncapi/generator
 ```
 ## Supported parameters
 
-|Name|Description|Required|Example|
+|Name|Description|Required|Default|Example|
 |---|---|---|---|
-|outFilename|The filename of the output file. Defaults to `asyncapi.md`|No|`index.md`|
+|outFilename|The filename of the output file.|No|`asyncapi.md`|`index.md`|
 
 ## Development
 
