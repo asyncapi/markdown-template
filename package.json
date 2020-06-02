@@ -63,6 +63,13 @@
     "generator": ">=0.50.0 <2.0.0",
     "filters": [
       "@asyncapi/generator-filters"
-    ]
+    ],
+    "parameters": {
+      "outFilename": {
+        "description": "The name of the output markdown file",
+        "default": "asyncapi.md",
+        "required": false
+      }
+    }
   }
 }
