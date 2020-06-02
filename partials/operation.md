@@ -14,7 +14,7 @@
 Accepts **one of** the following messages:
 
 {% for msg in op.messages() -%}
-##### Message #{{loop.index}}
+##### Message `{{ msg.uid() }}`
 {{ message(msg) }}
 {% endfor -%}
 {%- else -%}
