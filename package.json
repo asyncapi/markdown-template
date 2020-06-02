@@ -66,7 +66,7 @@
     ],
     "parameters": {
       "outFilename": {
-        "description": "The name of the output file",
+        "description": "The name of the output markdown file",
         "default": "asyncapi.md",
         "required": false
       }
