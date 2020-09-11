@@ -1,10 +1,7 @@
-{% macro schemaProp(prop, propName, required=false, path='') %}
-<tr>
-  <td>{{ path | tree }}{{ propName }} {% if required %}<strong>(required)</strong>{% endif %}</td>
-  <td>{{ prop.type() }}{%- if prop.anyOf() -%}anyOf{%- endif -%}{%- if prop.allOf() -%}allOf{%- endif -%}{%- if prop.oneOf() %}oneOf{%- endif -%}{%- if prop.items().type %}({{prop.items().type()}}){%- endif -%}</td>
-  <td>{{ prop.description() | markdown2html | safe }}</td>
-  <td>{{ prop.enum() | acceptedValues | safe }}</td>
-</tr>
+{% from "./schema-table.md" import schemaTable %}
+{% macro schemaProp(prop, propName, required=false, path='', circularPropsParent) %}
+
+{{- schemaTable(prop, propName, required, path) -}}
 {%- for p in prop.anyOf() -%}{% set pName %}<{{ loop.index }}>{% endset %}
 {{- schemaProp(p, pName, path=(propName | buildPath(path, pName))) -}}
 {%- endfor -%}
@@ -16,7 +13,13 @@
 {{- schemaProp(p, pName, path=(propName | buildPath(path, pName))) -}}
 {%- endfor -%}
 {%- for pName, p in prop.properties() -%}
-{{- schemaProp(p, pName, path=(propName | buildPath(path, pName)), required=(prop | isRequired(pName))) -}}
+{% set circProps = p.circularProps() %}
+{% set isPropCircular = circularPropsParent | includes(pName) %}
+{% if isPropCircular === true %}
+{{- schemaTable(p, pName, prop | isRequired(pName), propName | buildPath(path, pName), isPropCircular) -}}
+{% else %}
+{{- schemaProp(p, pName, path=(propName | buildPath(path, pName)), required=(prop | isRequired(pName)), circProps) -}}
+{% endif %}
 {%- endfor -%}
 {%- if prop.additionalProperties() and prop.additionalProperties().properties -%}
 {%- for pName, p in prop.additionalProperties().properties() -%}
@@ -25,7 +28,12 @@
 {%- endif %}
 {%- if prop.items() and prop.items().properties -%}
 {%- for pName, p in prop.items().properties() -%}
+{% set isCirc = p.isCircular() %}
+{% if isCirc === true %}
+{{- schemaTable(prop, propName, prop | isRequired(pName), propName | buildPath(path, pName), isCirc) -}}
+{% else %}
 {{- schemaProp(p, pName, path=(propName | buildPath(path, pName)), required=(prop.items() | isRequired(pName))) -}}
+{% endif %}
 {%- endfor -%}
 {%- endif -%}
 {%- endmacro -%}
