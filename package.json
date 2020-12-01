@@ -62,7 +62,7 @@
     ]
   },
   "generator": {
-    "type": "react",
+    "renderer": "react",
     "generator": ">=0.50.0 <2.0.0",
     "parameters": {
       "outFilename": {
