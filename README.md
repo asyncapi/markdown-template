@@ -14,6 +14,7 @@ If you don't have the AsyncAPI Generator installed, you can install it like this
 ```
 npm install -g @asyncapi/generator
 ```
+
 ## Supported parameters
 
 |Name|Description|Required|Default|Example|
@@ -23,9 +24,10 @@ npm install -g @asyncapi/generator
 ## Development
 
 1. Make sure you have the latest generator installed `npm install -g @asyncapi/generator`.
-1. Modify the template or it's helper functions. Adjust `test/spec/asyncapi.yml` to have more features if needed.
-1. Generate output with watcher enables `npm run dev`.
-1. Check generated markdown file located in `./test/output/asyncapi.md`.
+2. Modify the template or it's helper functions. Adjust `test/spec/asyncapi.yml` to have more features if needed.
+3. Generate output with watcher enables `npm run dev`.
+4. Check generated markdown file located in `./test/output/asyncapi.md`.
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):

@@ -1,129 +1,63 @@
 import React from "react";
 import { File, Text } from "@asyncapi/generator-react-sdk";
-import * as _ from 'lodash';
-import { sample } from 'openapi-sampler';
+import { generateExample, getHeadersExamples, getPayloadExamples } from "@asyncapi/generator-filters";
 
-export default function MarkdownTemplate({ asyncapi }) {
+export default function MarkdownTemplate({ asyncapi, params }) {
   return (
-    <File>
-      <Text>
-
-        <Header type={1}>
-          {asyncapi.info().title()} {asyncapi.info().version()} documentation
-        </Header>
-
-        {asyncapi.info().description() && (
-          <Text>
-            {asyncapi.info().description()}
-          </Text>
-        )}
-
-        {asyncapi.info().hasExt('x-logo') && (
-          <Text>
-            <Image src={asyncapi.info().ext('x-logo')} desc={`${asyncapi.info().title()} logo`} />
-          </Text>
-        )}
-
-        <Header type={2}>Table of Contents</Header>
-        <Text>
-          {asyncapi.info().termsOfService() && 
-            <ListItem>
-              <Link href="#terms-of-service">Terms of Service</Link>
-            </ListItem>
-          }
-          {asyncapi.hasServers() && 
-            <ListItem>
-            <Link href="#servers">Servers</Link>
-          </ListItem>
-          }
-          {asyncapi.hasChannels() && 
-            <ListItem>
-              <Link href="#channels">Channels</Link>
-            </ListItem>
-          }
-        </Text>
-
-        <Content asyncapi={asyncapi} />
-      </Text>
+    <File name={params.outFilename || 'asyncapi.md'}>
+      <MainInfo asyncapi={asyncapi} />
+      <TableOfContents asyncapi={asyncapi} />
+      <Content asyncapi={asyncapi} />
     </File>
   );
 }
 
-// COMMON COMPONENTS
-
-function Header({ type = 1, childrenContent = "" }) {
-  const hashes = Array(type).fill("#").join("");
-  return <Text newLines={2}>{`${hashes} ${childrenContent}`}</Text>
-}
-
-function Link({ href = "", childrenContent = "" }) {
-  return `[${childrenContent}](${href})`;
-}
-
-function HtmlAnchor({ href = "", type = 1, childrenContent = "" }) {
+function MainInfo({ asyncapi }) {
   return (
     <>
-      <Text>{`<a name="${href}"></a>`}</Text>
-      <Header type={type}>{childrenContent}</Header>
+      <Header type={1}>
+        {asyncapi.info().title()} {asyncapi.info().version()} documentation
+      </Header>
+
+      {asyncapi.info().description() && (
+        <Text>
+          {asyncapi.info().description()}
+        </Text>
+      )}
+
+      {asyncapi.info().hasExt('x-logo') && (
+        <Text>
+          <Image src={asyncapi.info().ext('x-logo')} desc={`${asyncapi.info().title()} logo`} />
+        </Text>
+      )}
     </>
   );
 }
 
-function Image({ src = "", desc = "", childrenContent = "" }) {
-  return `![${desc || childrenContent}](${src})`;
-}
-
-function ListItem({ type = "*", childrenContent = "" }) {
-  return <Text>{`${type} ${childrenContent}`}</Text>;
-}
-
-function Table({ headers = [], rowRenderer = () => [], data = [] }) {
-  const row = entry => <Text>{`| ${rowRenderer(entry).join(' | ')} |`}</Text>;
+function TableOfContents({ asyncapi }) {
   return (
     <>
-      <TableHead headers={headers} />
-      {data.map(entry => row(entry))}
+      <Header type={2}>Table of Contents</Header>
+      <Text>
+        {asyncapi.info().termsOfService() && 
+          <ListItem>
+            <Link href="#terms-of-service">Terms of Service</Link>
+          </ListItem>
+        }
+        {asyncapi.hasServers() && 
+          <ListItem>
+            <Link href="#servers">Servers</Link>
+          </ListItem>
+        }
+        {asyncapi.hasChannels() && 
+          <ListItem>
+            <Link href="#channels">Channels</Link>
+          </ListItem>
+        }
+      </Text>
     </>
   );
 }
-
-function TableHead({ headers = [] }) {
-  const header = `| ${headers.join(' | ')} |`;
-  const breaks = `|${Array(headers.length).fill('-|').join('')}`;
-
-  return (
-    <>
-      <Text>{header}</Text>
-      <Text>{breaks}</Text>
-    </>
-  );
-}
-
-function TableRow({ rowRenderer = () => [], entry }) {
-  return <Text>{`| ${rowRenderer(entry).join(' | ')} |`}</Text>;
-}
-
-function CodeBlock({ language = 'json', childrenContent = '' }) {
-  return (
-    <Text>
-      {'```'}{language}{'\n'}
-      {childrenContent}{'\n'}
-      {'```'}
-    </Text>
-  );
-}
-
-function Tags({ tags = [] }) {
-  return (
-    <Text>
-      {tags.map(tag => (
-        <ListItem>{tag.name()}</ListItem>
-      ))}
-    </Text>
-  );
-}
-
-
 
 function Content({ asyncapi }) {
   return (
@@ -148,34 +82,39 @@ function TermsOfService({ asyncapi }) {
 
   return termsOfService ? (
     <Text newLines={2}>
-      <HtmlAnchor href="terms-of-service" type={2}>
+      <Header type={2}>
         Terms of service
-      </HtmlAnchor>
+      </Header>
       <Link href={termsOfService}>{termsOfService}</Link>
     </Text>
-  ) : "";
+  ) : null;
 }
-
 
 function Servers({ asyncapi }) {
   if (!asyncapi.hasServers()) {
     return null;
   }
-  const servers = asyncapi.servers();
+  const servers = Object.entries(asyncapi.servers()).map(([serverName, server]) => (
+    <Server serverName={serverName} server={server} asyncapi={asyncapi} />
+  ));
 
   return (
     <>
-      <HtmlAnchor href="servers" type={2}>
+      <Header type={2}>
         Servers
-      </HtmlAnchor>
-      {Object.entries(servers).map(([serverName, server]) => <Server serverName={serverName} server={server} asyncapi={asyncapi} />)}
+      </Header>
+      {servers}
     </>
   );
 }
 
 function Server({ serverName, server, asyncapi }) {
   const headers = ['URL', 'Protocol', 'Description'];
-  const rowRenderer = (entry) => [entry.url(), `${server.protocol()}${server.protocolVersion() ? ` ${server.protocolVersion()}` : ''}`, entry.description()];
+  const rowRenderer = (entry) => [
+    entry.url(),
+    `${server.protocol()}${server.protocolVersion() ? ` ${server.protocolVersion()}` : ''}`,
+    entry.description() || '-',
+  ];
 
   return (
     <>
@@ -190,10 +129,10 @@ function Server({ serverName, server, asyncapi }) {
 }
 
 function ServerVariables({ variables }) {
-  const variablesData = Object.entries(variables).map(([variableName, variable]) => {
-    variable.name = variableName;
-    return variable;
-  })
+  if (!variables) {
+    return null;
+  }
+
   const variableHeader = ['Name', 'Default value', 'Possible values', 'Description'];
   const variableRenderer = (variable) => [
     variable.name || '-',
@@ -201,16 +140,24 @@ function ServerVariables({ variables }) {
     variable.hasAllowedValues() ? variable.allowedValues().join(', ') : 'Any',
     variable.description() || '-',
   ];
+  const variablesData = Object.entries(variables).map(([variableName, variable]) => {
+    variable.name = variableName;
+    return variable;
+  });
 
-  return variables ? (
+  return (
     <Text>
       <Header type={4}>URL Variables</Header>
       <Table headers={variableHeader} rowRenderer={variableRenderer} data={variablesData} />
     </Text>
-  ) : null;
+  );
 }
 
 function ServerSecurity({ security, asyncapi }) {
+  if (!security) {
+    return null;
+  }
+
   const securityHeader = ['Type', 'In', 'Name', 'Scheme', 'Format', 'Description'];
   const securityRenderer = (entry) => [
     entry.type() || '-',
@@ -222,38 +169,40 @@ function ServerSecurity({ security, asyncapi }) {
   ];
 
   const components = asyncapi.components();
-  const data = security.map(s => {
+  const securityData = security.map(s => {
     const key = Object.keys(s.json())[0];
     return components.securityScheme(key);
-  })
+  });
   
-  return security ? (
+  return (
     <Text>
       <Header type={4}>Security Requirements</Header>
-      <Table headers={securityHeader} rowRenderer={securityRenderer} data={data} />
+      <Table headers={securityHeader} rowRenderer={securityRenderer} data={securityData} />
     </Text>
-  ) : null;
+  );
 }
 
 function Channels({ asyncapi }) {
-  const channels = asyncapi.channels();
+  const channels = Object.entries(asyncapi.channels()).map(([channelName, channel]) => (
+    <Channel channelName={channelName} channel={channel} />
+  ));
 
   return (
     <>
-      <HtmlAnchor href="channels" type={2}>
+      <Header type={2}>
         Channels
-      </HtmlAnchor>
-      {Object.entries(channels).map(([channelName, channel]) => <Channel channelName={channelName} channel={channel} asyncapi={asyncapi} />)}
+      </Header>
+      {channels}
     </>
   );
 }
 
-function Channel({ channelName, channel, asyncapi }) {
+function Channel({ channelName, channel }) {
   return (
     <Text>
-      <HtmlAnchor href={`${channelName}-channels`} type={3}>
+      <Header type={3}>
         {`**${channelName}** Channel`}
-      </HtmlAnchor>
+      </Header>
       {channel.hasDescription() && (
         <Text newLines={2}>
           {channel.description()}
@@ -263,18 +212,18 @@ function Channel({ channelName, channel, asyncapi }) {
         <Parameters parameters={channel.parameters()} />
       )}
       {channel.hasPublish() && (
-        <Operation operation={channel.publish()} channelName={channelName} />
+        <Operation operation={channel.publish()} />
       )}
       {channel.hasSubscribe() && (
-        <Operation operation={channel.subscribe()} channelName={channelName} />
+        <Operation operation={channel.subscribe()} />
       )}
     </Text>
   );
 }
 
-function Parameters({ parameters = {} }) {
+function Parameters({ parameters }) {
   const params = Object.entries(parameters).map(([paramName, param]) => (
-    <Text>
+    <>
       <Header type={5}>{paramName}</Header>
       {param.hasDescription() && (
         <Text>
@@ -282,7 +231,7 @@ function Parameters({ parameters = {} }) {
         </Text>
       )}
       <Schema schema={param.schema()} schemaName={paramName} hideTitle={true} />
-    </Text>
+    </>
   ));
 
   return (
@@ -293,9 +242,8 @@ function Parameters({ parameters = {} }) {
   );
 }
 
-function Operation({ operation, channelName }) {
+function Operation({ operation }) {
   const type = operation.isPublish() ? 'publish' : 'subscribe';
-
   return (
     <Text>
       <Header type={4}>{`\`${type}\` Operation`}</Header>
@@ -315,25 +263,20 @@ function Operation({ operation, channelName }) {
             Accepts **one of** the following messages:
           </Text>
           {operation.messages().map(msg => (
-            <>
-              <Header type={5}>Message `{msg.uid()}`</Header>
-              <Message message={msg} />
-            </>
+            <Message title={`Message \`${msg.uid()}\``} message={msg} />
           ))}
         </>
       ) : (
-        <>
-          <Header type={5}>Message</Header>
-          <Message message={operation.message(0)} />
-        </>
+        <Message title='Message' message={operation.message(0)} />
       )}
     </Text>
   );
 }
 
-function Message({ message }) {
+function Message({ message, title = 'Message' }) {
   return (
     <>
+      <Header type={5}>{title}</Header>
       {message.summary() && (
         <Text newLines={2}>
           *{message.summary()}*
@@ -371,30 +314,14 @@ function Message({ message }) {
   )
 }
 
-function generateExample(schema, options) {
-  return JSON.stringify(sample(schema, options || {}) || '', null, 2);
-}
-
-function getHeadersExamples(msg) {
-  if (Array.isArray(msg.examples()) && msg.examples().find(e => e.headers)) {
-    // Instead of flat or flatmap use this.
-    return _.flatMap(msg.examples().map(e => e.headers).filter(Boolean));
-  }
-  
-  if (msg.headers() && msg.headers().examples()) {
-    return msg.headers().examples();
-  }
-}
-
-function getPayloadExamples(msg) {
-  if (Array.isArray(msg.examples()) && msg.examples().find(e => e.payload)) {
-    // Instead of flat or flatmap use this.
-    return _.flatMap(msg.examples().map(e => e.payload).filter(Boolean));
-  }
-  
-  if (msg.payload() && msg.payload().examples()) {
-    return msg.payload().examples();
-  }
+function Tags({ tags = [] }) {
+  return (
+    <Text>
+      {tags.map(tag => (
+        <ListItem>{tag.name()}</ListItem>
+      ))}
+    </Text>
+  );
 }
 
 function Example({ type = 'headers', message }) {
@@ -423,7 +350,6 @@ function Example({ type = 'headers', message }) {
     );
   } else {
     const examples = getPayloadExamples(message);
-    console.log(examples)
     if (examples) {
       return (
         <>
@@ -571,4 +497,59 @@ function buildPath(propName, path) {
 
 function isRequired(obj, key) {
   return obj && Array.isArray(obj.required) && !!(obj.required.includes(key));
+}
+
+// COMMON COMPONENTS
+
+function Header({ type = 1, childrenContent = "" }) {
+  const hashes = Array(type).fill("#").join("");
+  return <Text newLines={2}>{`${hashes} ${childrenContent}`}</Text>
+}
+
+function Link({ href = "", childrenContent = "" }) {
+  return `[${childrenContent}](${href})`;
+}
+
+function Image({ src = "", desc = "", childrenContent = "" }) {
+  return `![${desc || childrenContent}](${src})`;
+}
+
+function ListItem({ type = "*", childrenContent = "" }) {
+  return <Text>{`${type} ${childrenContent}`}</Text>;
+}
+
+function Table({ headers = [], rowRenderer = () => [], data = [] }) {
+  const row = entry => <Text>{`| ${rowRenderer(entry).join(' | ')} |`}</Text>;
+  return (
+    <>
+      <TableHead headers={headers} />
+      {data.map(entry => row(entry))}
+    </>
+  );
+}
+
+function TableHead({ headers = [] }) {
+  const header = `| ${headers.join(' | ')} |`;
+  const breaks = `|${Array(headers.length).fill('-|').join('')}`;
+
+  return (
+    <>
+      <Text>{header}</Text>
+      <Text>{breaks}</Text>
+    </>
+  );
+}
+
+function TableRow({ rowRenderer = () => [], entry }) {
+  return <Text>{`| ${rowRenderer(entry).join(' | ')} |`}</Text>;
+}
+
+function CodeBlock({ language = 'json', childrenContent = '' }) {
+  return (
+    <Text>
+      {'```'}{language}{'\n'}
+      {childrenContent}{'\n'}
+      {'```'}
+    </Text>
+  );
 }
