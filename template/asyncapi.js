@@ -2,7 +2,7 @@ import React from "react";
 import { File, Text } from "@asyncapi/generator-react-sdk";
 import { generateExample, getHeadersExamples, getPayloadExamples } from "@asyncapi/generator-filters";
 
-export default function MarkdownTemplate({ asyncapi, params }) {
+export default function({ asyncapi, params }) {
   return (
     <File name={params.outFilename || 'asyncapi.md'}>
       <MainInfo asyncapi={asyncapi} />
