@@ -46,15 +46,7 @@ function Channel({ channelName, channel }) {
 
 function Parameters({ parameters }) {
   const params = Object.entries(parameters).map(([paramName, param]) => (
-    <>
-      <Header type={5}>{paramName}</Header>
-      {param.hasDescription() && (
-        <Text>
-          {param.description()}
-        </Text>
-      )}
-      <Schema schema={param.schema()} schemaName={paramName} hideTitle={true} />
-    </>
+    <Schema schema={param.schema()} schemaName={paramName} description={param.description()} hideTitle={true} />
   ));
 
   return (

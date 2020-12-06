@@ -3,13 +3,13 @@ import { Text } from "@asyncapi/generator-react-sdk";
 
 import { Header, TableHead, TableRow } from "../partials/common";
 
-export function Schema({ schema, schemaName, hideTitle = false }) {
+export function Schema({ schema, schemaName, description = '', hideTitle = false }) {
   const headers = ['Name', 'Type', 'Description', 'Accepted values'];
   
   let properties = schema.properties();
   properties = Object.keys(properties).length ? Object.entries(properties).map(([propName, prop]) => (
-    <SchemaProp prop={prop} propName={propName} path='' required={isRequired(schema, propName)} />
-  )) : <SchemaProp prop={schema} propName={schemaName} path='' />;
+    <SchemaProp prop={prop} propName={propName} path='' required={isRequired(schema, propName)} description={description} />
+  )) : <SchemaProp prop={schema} propName={schemaName} path='' description={description} />;
 
   return (
     <Text>
@@ -20,15 +20,15 @@ export function Schema({ schema, schemaName, hideTitle = false }) {
   );
 }
 
-function SchemaProp({ prop, propName, required = false, path = '', circularPropsParent = [] }) {
+function SchemaProp({ prop, propName, required = false, path = '', description = '', circularPropsParent = [] }) {
   const anyOf = prop.anyOf() && prop.anyOf().map((p, idx) => (
-    <SchemaProp prop={p} propName={idx} path={propName || buildPath(path, idx)} />
+    <SchemaProp prop={p} propName={idx} path={buildPath(path || propName, idx)} />
   ));
   const allOf = prop.allOf() && prop.allOf().map((p, idx) => (
-    <SchemaProp prop={p} propName={idx} path={propName || buildPath(path, idx)} />
+    <SchemaProp prop={p} propName={idx} path={buildPath(path || propName, idx)} />
   ));
   const oneOf = prop.oneOf() && prop.oneOf().map((p, idx) => (
-    <SchemaProp prop={p} propName={idx} path={propName || buildPath(path, idx)} />
+    <SchemaProp prop={p} propName={idx} path={buildPath(path || propName, idx)} />
   ));
   
   const properties = Object.entries(prop.properties()).map(([pName, p]) => {
@@ -40,7 +40,7 @@ function SchemaProp({ prop, propName, required = false, path = '', circularProps
         <SchemaPropRow
           prop={p} 
           propName={pName}
-          path={propName || buildPath(path, pName)} 
+          path={buildPath(path || propName, pName)} 
           required={isRequired(prop, pName)}
           isCircular={isPropCircular}
         />
@@ -50,7 +50,7 @@ function SchemaProp({ prop, propName, required = false, path = '', circularProps
         <SchemaProp 
           prop={p} 
           propName={pName} 
-          path={propName || buildPath(path, pName)} 
+          path={buildPath(path || propName, pName)} 
           required={isRequired(prop, pName)}
           circularPropsParent={circProps}
         />
@@ -60,7 +60,7 @@ function SchemaProp({ prop, propName, required = false, path = '', circularProps
 
   const additionalProperties = prop.additionalProperties() && prop.additionalProperties().properties 
     ? Object.entries(prop.additionalProperties()).map(([pName, p]) => (
-      <SchemaProp prop={p} propName={pName} path={propName || buildPath(path, pName)} required={isRequired(prop.additionalProperties(), pName)} />
+      <SchemaProp prop={p} propName={pName} path={buildPath(path || propName, pName)} required={isRequired(prop.additionalProperties(), pName)} />
     )) : null;
   
   const items = prop.items() && prop.items().properties
@@ -72,7 +72,7 @@ function SchemaProp({ prop, propName, required = false, path = '', circularProps
           <SchemaPropRow
             prop={p} 
             propName={pName}
-            path={propName || buildPath(path, pName)} 
+            path={buildPath(path || propName, pName)} 
             required={isRequired(prop, pName)}
             isCircular={isCirc}
           />
@@ -82,7 +82,7 @@ function SchemaProp({ prop, propName, required = false, path = '', circularProps
           <SchemaProp 
             prop={p} 
             propName={pName} 
-            path={propName || buildPath(path, pName)} 
+            path={buildPath(path || propName, pName)} 
             required={isRequired(prop.items(), pName)}
           />
         );
@@ -91,7 +91,7 @@ function SchemaProp({ prop, propName, required = false, path = '', circularProps
 
   return (
     <>
-      <SchemaPropRow prop={prop} propName={propName} required={required} path={path} />
+      <SchemaPropRow prop={prop} propName={propName} required={required} path={path} description={description} />
       {anyOf}
       {allOf}
       {oneOf}
@@ -102,12 +102,13 @@ function SchemaProp({ prop, propName, required = false, path = '', circularProps
   );
 }
 
-function SchemaPropRow({ prop, propName, required = false, path = '', isCircular = false }) {
+function SchemaPropRow({ prop, propName, required = false, path = '', description = '', isCircular = false }) {
   const acceptedValues = prop.enum() && prop.enum().length ? prop.enum().join(', ') : '_Any_';
   const types = `${prop.anyOf() ? `anyOf` : ''}${prop.allOf() ? `allOf` : ''}${prop.oneOf() ? `oneOf` : ''}${prop.items() && !Array.isArray(prop.items()) && prop.items().type() ? `${prop.items().type()}` : ''}`;
-  let description = `${prop.description() || ''}${isCircular ? ' **[CIRCULAR]**': ''}`
+  description = `${description || prop.description() || ''}${isCircular ? ' **[CIRCULAR]**': ''}`
+
   const rowRenderer = () => [
-    `${tree(path, propName)}${required ? ' **(required)**': ''}`,
+    `${tree(path) || propName}${required ? ' **(required)**': ''}`,
     `${prop.type() || ''}${types}`,
     description.trim() || '-',
     acceptedValues
@@ -116,16 +117,14 @@ function SchemaPropRow({ prop, propName, required = false, path = '', isCircular
   return <TableRow rowRenderer={rowRenderer} entry={prop} />;
 }
 
-function tree(path, field = '') {
+function tree(path = '') {
   const filteredPaths = path.split('.').filter(Boolean);
-  if (!filteredPaths.length) return field;
-  const dottedPath = filteredPaths.join('.');
-  return `${dottedPath}.${field}`;
+  return filteredPaths.join('.');
 }
 
-function buildPath(propName, path) {
-  if (!path) return propName;
-  return `${path}.${propName}`;
+function buildPath(path = '', field = '') {
+  if (!path) return field;
+  return `${path}.${field}`;
 }
 
 function isRequired(obj, key) {
