@@ -63,7 +63,7 @@
   },
   "generator": {
     "renderer": "react",
-    "generator": ">=1.0.1 <2.0.0",
+    "generator": ">=1.1.0 <2.0.0",
     "parameters": {
       "outFilename": {
         "description": "The name of the output markdown file",
