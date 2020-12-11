@@ -1,4 +1,3 @@
-import React from "react";
 import { Text } from "@asyncapi/generator-react-sdk";
 
 import { Header, TableHead, TableRow } from "../partials/common";

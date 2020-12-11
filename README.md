@@ -24,7 +24,7 @@ npm install -g @asyncapi/generator
 ## Development
 
 1. Make sure you have the latest generator installed `npm install -g @asyncapi/generator`.
-2. Modify the template or it's helper functions. Adjust `test/spec/asyncapi.yml` to have more features if needed.
+2. Modify the template or it's reusable parts. Adjust `test/spec/asyncapi.yml` to have more complexity if needed.
 3. Generate output with watcher enables `npm run dev`.
 4. Check generated markdown file located in `./test/output/asyncapi.md`.
 
