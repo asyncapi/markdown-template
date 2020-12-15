@@ -5,13 +5,13 @@
 
 ## Usage
 
-```
+```bash
 ag asyncapi.yaml @asyncapi/markdown-template -o output
 ```
 
 If you don't have the AsyncAPI Generator installed, you can install it like this:
 
-```
+```bash
 npm install -g @asyncapi/generator
 ```
 
