@@ -29,8 +29,7 @@
   },
   "dependencies": {
     "@asyncapi/generator-filters": "^1.1.0",
-    "@asyncapi/generator-react-sdk": "^0.1.1",
-    "react": "^17.0.1"
+    "@asyncapi/generator-react-sdk": "^0.1.1"
   },
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^8.0.1",
