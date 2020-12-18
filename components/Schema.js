@@ -1,6 +1,6 @@
 import { Text } from "@asyncapi/generator-react-sdk";
 
-import { Header, TableHead, TableRow } from "../partials/common";
+import { Header, TableHead, TableRow } from "./common";
 
 export function Schema({ schema, schemaName, description = '', hideTitle = false }) {
   const headers = ['Name', 'Type', 'Description', 'Accepted values'];

@@ -1,6 +1,6 @@
 import { Text } from "@asyncapi/generator-react-sdk";
 
-import { Header, Link, Image } from "../partials/common";
+import { Header, Link, Image } from "./common";
 
 export function Info({ asyncapi }) {
   const info = asyncapi.info();

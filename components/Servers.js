@@ -1,6 +1,6 @@
 import { Text } from "@asyncapi/generator-react-sdk";
 
-import { Header, Table } from "../partials/common";
+import { Header, Table } from "./common";
 
 export function Servers({ asyncapi }) {
   if (!asyncapi.hasServers()) {
