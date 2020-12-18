@@ -1,9 +1,9 @@
 import { File, Text } from "@asyncapi/generator-react-sdk";
 
-import { Header, Link, ListItem } from "../partials/common";
-import { Info, TermsOfService } from "../partials/Info";
-import { Servers } from "../partials/Servers";
-import { Channels } from "../partials/Channels";
+import { Header, Link, ListItem } from "../components/common";
+import { Info, TermsOfService } from "../components/Info";
+import { Servers } from "../components/Servers";
+import { Channels } from "../components/Channels";
 
 export default function({ asyncapi, params }) {
   return (

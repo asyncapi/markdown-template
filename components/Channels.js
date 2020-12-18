@@ -1,6 +1,6 @@
 import { Text } from "@asyncapi/generator-react-sdk";
 
-import { Header } from "../partials/common";
+import { Header } from "./common";
 import { Message } from "./Message";
 import { Schema } from "./Schema";
 
