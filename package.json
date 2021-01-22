@@ -21,8 +21,9 @@
   "scripts": {
     "test": "echo \"No test specified yet\"",
     "release": "semantic-release",
-    "get-version": "echo $npm_package_version",
-    "dev": "ag test/spec/asyncapi.yml ./ -o test/output --force-write --watch-template"
+    "dev": "ag test/spec/asyncapi.yml ./ -o test/output --force-write --watch-template",
+    "generate:assets": "echo 'No additional assets need to be generated at the moment'",
+    "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION"
   },
   "publishConfig": {
     "access": "public"
