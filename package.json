@@ -20,6 +20,7 @@
   "homepage": "https://github.com/asyncapi/markdown-template#readme",
   "scripts": {
     "test": "echo \"No test specified yet\"",
+    "lint": "echo \"No linter specified yet\"",
     "release": "semantic-release",
     "dev": "ag test/spec/asyncapi.yml ./ -o test/output --force-write --watch-template",
     "generate:assets": "echo 'No additional assets need to be generated at the moment'",
