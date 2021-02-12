@@ -2,12 +2,12 @@ import { Text } from "@asyncapi/generator-react-sdk";
 
 import { Header, Link, Image } from "./common";
 
-export function Info({ asyncapi }) {
+export function Info({ asyncapi, params }) {
   const info = asyncapi.info();
   return (
     <>
       <Header type={1}>
-        {info.title()} {info.version()} documentation
+        {info.title()} {params.version || info.version()} documentation
       </Header>
 
       {info.description() && (
