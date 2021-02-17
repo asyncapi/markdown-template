@@ -17,9 +17,11 @@ npm install -g @asyncapi/generator
 
 ## Supported parameters
 
-|Name|Description|Required|Default|Example|
-|---|---|---|---|---|
-|outFilename|The filename of the output file.|No|`asyncapi.md`|`index.md`|
+|Name|Description|Required|Default|Allowed values|Example|
+|---|---|---|---|---|---|
+|outFilename|The filename of the output file.|No|`asyncapi.md`|*Any* with `.md` extension|`index.md`|
+|version|Override the version of your application provided under `info.version` location in the specification file.|No|Version is taken from the specification file.|Version is taken from the spec file. |`1.0.0`|
+
 
 ## Development
 

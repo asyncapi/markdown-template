@@ -8,7 +8,7 @@ import { Channels } from "../components/Channels";
 export default function({ asyncapi, params }) {
   return (
     <File name={params.outFilename || 'asyncapi.md'}>
-      <Info asyncapi={asyncapi} />
+      <Info asyncapi={asyncapi} params={params} />
       <TableOfContents asyncapi={asyncapi} />
       <TermsOfService asyncapi={asyncapi} />
       <Servers asyncapi={asyncapi} />
