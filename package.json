@@ -31,7 +31,8 @@
   },
   "dependencies": {
     "@asyncapi/generator-filters": "^1.1.0",
-    "@asyncapi/generator-react-sdk": "^0.1.6"
+    "@asyncapi/generator-react-sdk": "^0.1.6",
+    "yaml": "^1.10.0"
   },
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^8.0.1",
@@ -66,9 +67,17 @@
     "renderer": "react",
     "generator": ">=1.1.0 <2.0.0",
     "parameters": {
+      "frontMatter": {
+        "description": "The name of a JSON or YAML formatted file containing values to override the default YAML frontmatter.",
+        "required": false
+      },
       "outFilename": {
         "description": "The name of the output markdown file",
         "default": "asyncapi.md",
+        "required": false
+      },
+      "slate": {
+        "description": "Include Slate YAML frontmatter in the output markdown. Disables markdown ToC. See https://github/slatedocs/slate",
         "required": false
       },
       "version": {

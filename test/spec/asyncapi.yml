@@ -96,7 +96,7 @@ channels:
         $ref: '#/components/messages/dimLight'
   some.channel:
     subscribe:
-      description: this doesn't show in markdown!
+      description: this description shows in markdown
       message:
         oneOf:
           - $ref: '#/components/messages/successMessage'

@@ -4,12 +4,14 @@ import { Header, Link, ListItem } from "../components/common";
 import { Info, TermsOfService } from "../components/Info";
 import { Servers } from "../components/Servers";
 import { Channels } from "../components/Channels";
+import { FrontMatter } from "../components/FrontMatter";
 
 export default function({ asyncapi, params }) {
   return (
     <File name={params.outFilename || 'asyncapi.md'}>
+      <FrontMatter asyncapi={asyncapi} params={params} />
       <Info asyncapi={asyncapi} params={params} />
-      <TableOfContents asyncapi={asyncapi} />
+      <TableOfContents asyncapi={asyncapi} params={params} />
       <TermsOfService asyncapi={asyncapi} />
       <Servers asyncapi={asyncapi} />
       <Channels asyncapi={asyncapi} />
@@ -17,7 +19,8 @@ export default function({ asyncapi, params }) {
   );
 }
 
-function TableOfContents({ asyncapi }) {
+function TableOfContents({ asyncapi, params }) {
+  if (params.slate) return '';
   return (
     <>
       <Header type={2}>Table of Contents</Header>
