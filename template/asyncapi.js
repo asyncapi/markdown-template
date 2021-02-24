@@ -11,7 +11,7 @@ export default function({ asyncapi, params }) {
     <File name={params.outFilename || 'asyncapi.md'}>
       <FrontMatter asyncapi={asyncapi} params={params} />
       <Info asyncapi={asyncapi} params={params} />
-      <TableOfContents asyncapi={asyncapi} params={params} />
+      {!params.slate && <TableOfContents asyncapi={asyncapi} />}
       <TermsOfService asyncapi={asyncapi} />
       <Servers asyncapi={asyncapi} />
       <Channels asyncapi={asyncapi} />
