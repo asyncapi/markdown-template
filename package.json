@@ -68,7 +68,7 @@
     "generator": ">=1.1.0 <2.0.0",
     "parameters": {
       "frontMatter": {
-        "description": "The name of a JSON or YAML formatted file containing values to override the default YAML frontmatter.",
+        "description": "The name of a JSON or YAML formatted file containing values to provide the YAML frontmatter for static-site or documentation generators. The file may contain {{title}} and {{version}} replaceable tags.",
         "required": false
       },
       "outFilename": {
@@ -76,8 +76,9 @@
         "default": "asyncapi.md",
         "required": false
       },
-      "slate": {
-        "description": "Include Slate YAML frontmatter in the output markdown. Disables markdown ToC. See https://github/slatedocs/slate",
+      "toc": {
+        "description": "Include a Table-of-Contents in the output markdown.",
+        "default": "true",
         "required": false
       },
       "version": {

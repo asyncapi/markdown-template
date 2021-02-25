@@ -9,9 +9,9 @@ import { FrontMatter } from "../components/FrontMatter";
 export default function({ asyncapi, params }) {
   return (
     <File name={params.outFilename || 'asyncapi.md'}>
-      <FrontMatter asyncapi={asyncapi} params={params} />
+      {params.frontMatter && <FrontMatter asyncapi={asyncapi} params={params} />}
       <Info asyncapi={asyncapi} params={params} />
-      {!params.slate && <TableOfContents asyncapi={asyncapi} />}
+      {params.toc !== 'false' && <TableOfContents asyncapi={asyncapi} params={params}/>}
       <TermsOfService asyncapi={asyncapi} />
       <Servers asyncapi={asyncapi} />
       <Channels asyncapi={asyncapi} />
@@ -20,7 +20,6 @@ export default function({ asyncapi, params }) {
 }
 
 function TableOfContents({ asyncapi, params }) {
-  if (params.slate) return '';
   return (
     <>
       <Header type={2}>Table of Contents</Header>

@@ -4,21 +4,9 @@ import * as fs from "fs";
 import * as yaml from "yaml";
 
 export function FrontMatter({ asyncapi, params }) {
-  if (!(params.slate || params.frontMatter)) return '';
-
-  let frontMatter;
-  if (params.frontMatter) {
-    frontMatter = yaml.parse(fs.readFileSync(params.frontMatter,'utf8'));
-  } else {
-    frontMatter = {
-      title: asyncapi.info().title(),
-      language_tabs: [],
-      toc_footers: [],
-      includes: [],
-      search: true,
-      code_clipboard: true
-    };
-  }
-  const frontMatterStr = yaml.stringify(frontMatter);
-  return <Text newLines={2}>{`---\n${frontMatterStr}\n---`}</Text>
+  const frontMatter = yaml.parse(fs.readFileSync(params.frontMatter,'utf8'));
+  let frontMatterStr = yaml.stringify(frontMatter);
+  frontMatterStr = frontMatterStr.split('{{title}}').join(asyncapi.info().title());
+  frontMatterStr = frontMatterStr.split('{{version}}').join(params.version || asyncapi.info().version());
+  return <Text newLines={2}>{`---\n${frontMatterStr}---`}</Text>
 }

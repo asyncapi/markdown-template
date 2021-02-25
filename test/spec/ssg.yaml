@@ -1,0 +1,7 @@
+---
+
+# example of a frontMatter file for a static site generator
+
+title: '{{title}} version {{version}}'
+layout: asyncapi
+permalink: /asyncapi-docs

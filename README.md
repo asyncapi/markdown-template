@@ -19,9 +19,9 @@ npm install -g @asyncapi/generator
 
 |Name|Description|Required|Default|Allowed values|Example|
 |---|---|---|---|---|---|
-|frontMatter|The name of a JSON or YAML formatted file containing values to override the default YAML frontmatter.|No|None|Any JSON or YAML formatted file|`slate.yaml`|
+|frontMatter|The name of a JSON or YAML formatted file containing values to provide the YAML frontmatter for static-site or documentation generators. The file may contain {{title}} and {{version}} replaceable tags.|No|None|Any JSON or YAML formatted file|`slate.yaml`|
 |outFilename|The filename of the output file.|No|`asyncapi.md`|*Any* with `.md` extension|`index.md`|
-|slate|Include [Slate](https://github/slatedocs/slate) YAML frontmatter in the output markdown. Disables markdown ToC.|No|`false`|`boolean`|`true`|
+|toc|Include a Table-of-Contents in the output markdown.|No|`true`|`boolean`|`false`|
 |version|Override the version of your application provided under `info.version` location in the specification file.|No|Version is taken from the specification file.|Version is taken from the spec file. |`1.0.0`|
 
 

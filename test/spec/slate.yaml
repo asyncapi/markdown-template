@@ -1,5 +1,9 @@
 ---
-title: My AsyncAPI
+
+# example of a frontMatter file for the Slate documentation generator
+# see https://github.com/Slatedocs/Slate
+
+title: '{{title}} version {{version}}'
 language_tabs: [ { shell: "Shell" }, { javascript: "Node.js" } ]
 toc_footers: [ "Built with AsyncAPI/Generator" ]
 includes: []
