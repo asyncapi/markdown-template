@@ -66,6 +66,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "MikeRalphson",
+      "name": "Mike Ralphson",
+      "avatar_url": "https://avatars.githubusercontent.com/u/21603?v=4",
+      "profile": "http://mermade.github.io",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
