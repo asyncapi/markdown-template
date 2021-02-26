@@ -2,6 +2,6 @@
 
 # example of a frontMatter file for a static site generator
 
-title: '{{title}} version {{version}}'
+title: AsyncAPI Documentation
 layout: asyncapi
 permalink: /asyncapi-docs
