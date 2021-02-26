@@ -11,7 +11,7 @@ export default function({ asyncapi, params }) {
     <File name={params.outFilename || 'asyncapi.md'}>
       {params.frontMatter && <FrontMatter asyncapi={asyncapi} params={params} />}
       <Info asyncapi={asyncapi} params={params} />
-      {params.toc !== 'false' && <TableOfContents asyncapi={asyncapi} params={params}/>}
+      {params.toc !== 'false' && <TableOfContents asyncapi={asyncapi} />}
       <TermsOfService asyncapi={asyncapi} />
       <Servers asyncapi={asyncapi} />
       <Channels asyncapi={asyncapi} />
@@ -19,7 +19,7 @@ export default function({ asyncapi, params }) {
   );
 }
 
-function TableOfContents({ asyncapi, params }) {
+function TableOfContents({ asyncapi }) {
   return (
     <>
       <Header type={2}>Table of Contents</Header>
