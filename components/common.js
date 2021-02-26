@@ -52,3 +52,8 @@ export function CodeBlock({ language = 'json', childrenContent = '' }) {
     </Text>
   );
 }
+
+export function BlockQuote({ childrenContent = "" }) {
+  return <Text newLines={2}>{`> ${childrenContent}`}</Text>
+}
+

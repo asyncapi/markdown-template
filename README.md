@@ -19,7 +19,9 @@ npm install -g @asyncapi/generator
 
 |Name|Description|Required|Default|Allowed values|Example|
 |---|---|---|---|---|---|
+|frontMatter|The name of a JSON or YAML formatted file containing values to provide the YAML frontmatter for static-site or documentation generators, just like [this](test/spec/ssg.yaml) one. The file may contain {{title}} and {{version}} tags. They are replaced with information for the AsyncAPI document that is under `info.title` and `info.version`. You can overwrite the version with `version` parameter. [Here](test/spec/slate.yaml) you can see an example that uses tags in frontmatter compatible with [slate](https://github.com/Slatedocs/Slate) |No|None|Any JSON or YAML formatted file|`slate.yaml`|
 |outFilename|The filename of the output file.|No|`asyncapi.md`|*Any* with `.md` extension|`index.md`|
+|toc|Include a Table-of-Contents in the output markdown.|No|`true`|`boolean`|`false`|
 |version|Override the version of your application provided under `info.version` location in the specification file.|No|Version is taken from the specification file.|Version is taken from the spec file. |`1.0.0`|
 
 
@@ -29,6 +31,8 @@ npm install -g @asyncapi/generator
 2. Modify the template or it's reusable parts. Adjust `test/spec/asyncapi.yml` to have more complexity if needed.
 3. Generate output with watcher enabled by running the command `npm run dev`.
 4. Check generated markdown file located in `./test/output/asyncapi.md`.
+
+Parameters for the template are defined in `package.json`.
 
 ## Contributors ✨
 

@@ -4,12 +4,14 @@ import { Header, Link, ListItem } from "../components/common";
 import { Info, TermsOfService } from "../components/Info";
 import { Servers } from "../components/Servers";
 import { Channels } from "../components/Channels";
+import { FrontMatter } from "../components/FrontMatter";
 
 export default function({ asyncapi, params }) {
   return (
     <File name={params.outFilename || 'asyncapi.md'}>
+      {params.frontMatter && <FrontMatter asyncapi={asyncapi} params={params} />}
       <Info asyncapi={asyncapi} params={params} />
-      <TableOfContents asyncapi={asyncapi} />
+      {params.toc !== 'false' && <TableOfContents asyncapi={asyncapi} />}
       <TermsOfService asyncapi={asyncapi} />
       <Servers asyncapi={asyncapi} />
       <Channels asyncapi={asyncapi} />
