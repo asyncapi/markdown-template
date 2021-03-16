@@ -127,5 +127,6 @@ function buildPath(path = '', field = '') {
 }
 
 function isRequired(obj, key) {
-  return obj && Array.isArray(obj.required) && !!(obj.required.includes(key));
+  const required = obj.required() || [];
+  return required.includes(key);
 }
