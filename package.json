@@ -1,6 +1,6 @@
 {
   "name": "@asyncapi/markdown-template",
-  "version": "0.13.2",
+  "version": "0.13.3",
   "description": "Markdown template for the AsyncAPI generator.",
   "keywords": [
     "asyncapi",
