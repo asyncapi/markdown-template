@@ -57,12 +57,12 @@ function SchemaProp({ prop, propName, required = false, path = '', description =
     }
   });
 
-  const additionalProperties = prop.additionalProperties() && prop.additionalProperties().properties 
-    ? Object.entries(prop.additionalProperties()).map(([pName, p]) => (
+  const additionalProperties = prop.additionalProperties() && prop.additionalProperties().properties()
+    ? Object.entries(prop.additionalProperties().properties()).map(([pName, p]) => (
       <SchemaProp prop={p} propName={pName} path={buildPath(path || propName, pName)} required={isRequired(prop.additionalProperties(), pName)} />
     )) : null;
   
-  const items = prop.items() && prop.items().properties
+  const items = prop.items() && prop.items().properties()
     ? Object.entries(prop.items().properties()).map(([pName, p]) => {
       const isCirc = p.isCircular();
 
