@@ -172,6 +172,7 @@ components:
   schemas:
     lightMeasuredPayload:
       type: object
+      additionalProperties: true
       properties:
         lumens:
           type: integer
