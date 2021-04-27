@@ -172,8 +172,10 @@ components:
   schemas:
     lightMeasuredPayload:
       type: object
-      additionalProperties: true
       properties:
+        testProp: 
+          type: object
+          additionalProperties: true
         lumens:
           type: integer
           minimum: 0
