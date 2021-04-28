@@ -23,7 +23,7 @@
     "lint": "echo \"No linter specified yet\"",
     "release": "semantic-release",
     "dev": "ag test/spec/asyncapi.yml ./ -o test/output --force-write --watch-template",
-    "test:generation": "ag test/spec/asyncapi.yml ./ -o test/output --force-write",
+    "test:generation": "ag https://raw.githubusercontent.com/asyncapi/generator/master/test/docs/dummy.yml ./ -o test/output --force-write",
     "generate:assets": "echo 'No additional assets need to be generated at the moment'",
     "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION"
   },
