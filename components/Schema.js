@@ -57,7 +57,7 @@ function SchemaProp({ prop, propName, required = false, path = '', description =
     }
   });
 
-  const additionalProperties = prop.additionalProperties() && typeof prop.additionalProperties() !== "boolean" && prop.additionalProperties().properties()
+  const additionalProperties = prop.additionalProperties() && typeof prop.additionalProperties() === "object" && prop.additionalProperties().properties()
     ? Object.entries(prop.additionalProperties().properties()).map(([pName, p]) => (
       <SchemaProp prop={p} propName={pName} path={buildPath(path || propName, pName)} required={isRequired(prop.additionalProperties(), pName)} />
     )) : null;
