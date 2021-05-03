@@ -19,10 +19,11 @@
   },
   "homepage": "https://github.com/asyncapi/markdown-template#readme",
   "scripts": {
-    "test": "echo \"No test specified yet\"",
+    "test": "npm run test:generation",
     "lint": "echo \"No linter specified yet\"",
     "release": "semantic-release",
     "dev": "ag test/spec/asyncapi.yml ./ -o test/output --force-write --watch-template",
+    "test:generation": "ag https://raw.githubusercontent.com/asyncapi/generator/a5c02dac4aa16f7d68e92d205ef7f05b2f97f529/test/docs/dummy.yml ./ -o test/output --force-write",
     "generate:assets": "echo 'No additional assets need to be generated at the moment'",
     "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION"
   },
@@ -35,6 +36,7 @@
     "yaml": "^1.10.0"
   },
   "devDependencies": {
+    "@asyncapi/generator": "^1.6.13",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/github": "^7.0.4",
     "@semantic-release/npm": "^7.0.3",
