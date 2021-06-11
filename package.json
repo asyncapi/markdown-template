@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@asyncapi/generator-filters": "^1.1.0",
-    "@asyncapi/generator-react-sdk": "^0.2.8",
+    "@asyncapi/generator-react-sdk": "^0.2.9",
     "yaml": "^1.10.0"
   },
   "devDependencies": {
