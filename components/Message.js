@@ -1,7 +1,8 @@
 import { Text } from "@asyncapi/generator-react-sdk";
-import { generateExample, getHeadersExamples, getPayloadExamples } from "@asyncapi/generator-filters";
+import { generateExample } from "@asyncapi/generator-filters";
 
-import { Header, ListItem, CodeBlock, BlockQuote } from "./common";
+import { Header, CodeBlock, BlockQuote, Tags } from "./common";
+import { getPayloadExamples, getHeadersExamples } from "./helpers";
 import { Schema } from "./Schema";
 
 export function Message({ message, title = 'Message' }) {
@@ -45,16 +46,6 @@ export function Message({ message, title = 'Message' }) {
   )
 }
 
-function Tags({ tags = [] }) {
-  return (
-    <Text>
-      {tags.map(tag => (
-        <ListItem>{tag.name()}</ListItem>
-      ))}
-    </Text>
-  );
-}
-
 function Example({ type = 'headers', message }) {
   if (type === 'headers') {
     const examples = getHeadersExamples(message);
@@ -64,6 +55,8 @@ function Example({ type = 'headers', message }) {
           <BlockQuote>Examples of headers</BlockQuote>
           {examples.map(ex => (
             <Text newLines={2}>
+              {ex.name && <Text>{ex.name}</Text>}
+              {ex.summary && <Text>{ex.summary}</Text>}
               <CodeBlock language='json'>{JSON.stringify(ex, null, 2)}</CodeBlock>
             </Text>
           ))}
@@ -87,7 +80,9 @@ function Example({ type = 'headers', message }) {
           <BlockQuote>Examples of payload</BlockQuote>
           {examples.map(ex => (
             <Text newLines={2}>
-              <CodeBlock language='json'>{JSON.stringify(ex, null, 2)}</CodeBlock>
+              {ex.name && <Text>{ex.name}</Text>}
+              {ex.summary && <Text>{ex.summary}</Text>}
+              <CodeBlock language='json'>{JSON.stringify(ex.example, null, 2)}</CodeBlock>
             </Text>
           ))}
         </>
