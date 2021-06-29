@@ -29,7 +29,7 @@ export function Table({ headers = [], rowRenderer = () => [], data = [] }) {
 
 export function TableHead({ headers = [] }) {
   const header = `| ${headers.join(' | ')} |`;
-  const breaks = `|${Array(headers.length).fill('-|').join('')}`;
+  const breaks = `|${Array(headers.length).fill('---|').join('')}`;
 
   return (
     <>
