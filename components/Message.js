@@ -23,7 +23,7 @@ export function Message({ message, title = 'Message' }) {
         <>
           <Header type={6}>Headers</Header>
           <Schema schema={message.headers()} schemaName='Message Headers' hideTitle={true} />
-          <Example type='headers' message={message} />
+          <Examples type='headers' message={message} />
         </>
       )}
 
@@ -31,7 +31,7 @@ export function Message({ message, title = 'Message' }) {
         <>
           <Header type={6}>Payload</Header>
           <Schema schema={message.payload()} schemaName='Message Payload' hideTitle={true} />
-          <Example type='payload' message={message} />
+          <Examples type='payload' message={message} />
         </>
       )}
 
@@ -45,20 +45,14 @@ export function Message({ message, title = 'Message' }) {
   )
 }
 
-function Example({ type = 'headers', message }) {
+function Examples({ type = 'headers', message }) {
   if (type === 'headers') {
     const examples = getHeadersExamples(message);
     if (examples) {
       return (
         <>
           <BlockQuote>Examples of headers</BlockQuote>
-          {examples.map(ex => (
-            <Text newLines={2}>
-              {ex.name && <Text newLines={2}>**{ex.name}**</Text>}
-              {ex.summary && <Text newLines={2}>{ex.summary}</Text>}
-              <CodeBlock language='json'>{JSON.stringify(ex.example, null, 2)}</CodeBlock>
-            </Text>
-          ))}
+          <Example examples={examples} />
         </>
       );
     }
@@ -77,13 +71,7 @@ function Example({ type = 'headers', message }) {
       return (
         <>
           <BlockQuote>Examples of payload</BlockQuote>
-          {examples.map(ex => (
-            <Text newLines={2}>
-              {ex.name && <Text newLines={2}>**{ex.name}**</Text>}
-              {ex.summary && <Text newLines={2}>{ex.summary}</Text>}
-              <CodeBlock language='json'>{JSON.stringify(ex.example, null, 2)}</CodeBlock>
-            </Text>
-          ))}
+          <Example examples={examples} />
         </>
       );
     }
@@ -97,4 +85,18 @@ function Example({ type = 'headers', message }) {
       </>
     );
   }
+}
+
+function Example({ examples = [] }) {
+  if (examples.length === 0) {
+    return null;
+  }
+  
+  return examples.map(ex => (
+    <Text newLines={2}>
+      {ex.name && <Text newLines={2}>**{ex.name}**</Text>}
+      {ex.summary && <Text newLines={2}>{ex.summary}</Text>}
+      <CodeBlock language='json'>{JSON.stringify(ex.example, null, 2)}</CodeBlock>
+    </Text>
+  ))
 }
