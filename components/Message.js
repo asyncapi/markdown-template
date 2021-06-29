@@ -56,7 +56,7 @@ function Example({ type = 'headers', message }) {
             <Text newLines={2}>
               {ex.name && <Text newLines={2}>**{ex.name}**</Text>}
               {ex.summary && <Text newLines={2}>{ex.summary}</Text>}
-              <CodeBlock language='json'>{JSON.stringify(ex, null, 2)}</CodeBlock>
+              <CodeBlock language='json'>{JSON.stringify(ex.example, null, 2)}</CodeBlock>
             </Text>
           ))}
         </>
