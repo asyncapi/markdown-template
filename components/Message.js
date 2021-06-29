@@ -1,8 +1,7 @@
 import { Text } from "@asyncapi/generator-react-sdk";
-import { generateExample } from "@asyncapi/generator-filters";
+import { generateExample, getPayloadExamples, getHeadersExamples } from "@asyncapi/generator-filters";
 
 import { Header, CodeBlock, BlockQuote, Tags } from "./common";
-import { getPayloadExamples, getHeadersExamples } from "./helpers";
 import { Schema } from "./Schema";
 
 export function Message({ message, title = 'Message' }) {
@@ -55,8 +54,8 @@ function Example({ type = 'headers', message }) {
           <BlockQuote>Examples of headers</BlockQuote>
           {examples.map(ex => (
             <Text newLines={2}>
-              {ex.name && <Text>{ex.name}</Text>}
-              {ex.summary && <Text>{ex.summary}</Text>}
+              {ex.name && <Text newLines={2}>**{ex.name}**</Text>}
+              {ex.summary && <Text newLines={2}>{ex.summary}</Text>}
               <CodeBlock language='json'>{JSON.stringify(ex, null, 2)}</CodeBlock>
             </Text>
           ))}
@@ -80,8 +79,8 @@ function Example({ type = 'headers', message }) {
           <BlockQuote>Examples of payload</BlockQuote>
           {examples.map(ex => (
             <Text newLines={2}>
-              {ex.name && <Text>{ex.name}</Text>}
-              {ex.summary && <Text>{ex.summary}</Text>}
+              {ex.name && <Text newLines={2}>**{ex.name}**</Text>}
+              {ex.summary && <Text newLines={2}>{ex.summary}</Text>}
               <CodeBlock language='json'>{JSON.stringify(ex.example, null, 2)}</CodeBlock>
             </Text>
           ))}
