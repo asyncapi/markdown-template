@@ -103,12 +103,30 @@ function SchemaProp({ prop, propName, required = false, path = '', description =
 
 function SchemaPropRow({ prop, propName, required = false, path = '', description = '', isCircular = false }) {
   const acceptedValues = prop.enum() && prop.enum().length ? prop.enum().join(', ') : '_Any_';
-  const types = `${prop.anyOf() ? `anyOf` : ''}${prop.allOf() ? `allOf` : ''}${prop.oneOf() ? `oneOf` : ''}${prop.items() && !Array.isArray(prop.items()) && prop.items().type() ? `${prop.items().type()}` : ''}`;
+
+  let itemType;
+  if (prop.items() && !Array.isArray(prop.items()) && prop.items().type()) {
+    let type = prop.items().type();
+    if (Array.isArray(type)) {
+      itemType = type.join(' or ');
+    } else {
+      itemType = type;
+    }
+  }
+
+  const types = [
+    Array.isArray(prop.type()) ? prop.type().join(' or ') : prop.type(),
+    prop.anyOf() && `anyOf`,
+    prop.allOf() && `allOf`,
+    prop.oneOf() && `oneOf`,
+    itemType,
+  ].filter(t => t).join(', ');
+
   description = `${description || prop.description() || ''}${isCircular ? ' **[CIRCULAR]**': ''}`.replace(new RegExp('\S*\r?\n','g'), ' ');
 
   const rowRenderer = () => [
     `${tree(path) || propName}${required ? ' **(required)**': ''}`,
-    `${prop.type() || ''}${types}`,
+    `${types}`,
     description.trim() || '-',
     acceptedValues
   ];
