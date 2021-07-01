@@ -4,7 +4,7 @@ import { Header, TableHead, TableRow } from "./common";
 
 export function Schema({ schema, schemaName, description = '', hideTitle = false }) {
   const headers = ['Name', 'Type', 'Description', 'Accepted values'];
-  
+
   let properties = schema.properties();
   properties = Object.keys(properties).length ? Object.entries(properties).map(([propName, prop]) => (
     <SchemaProp prop={prop} propName={propName} path='' required={isRequired(schema, propName)} description={description} />
@@ -29,27 +29,27 @@ function SchemaProp({ prop, propName, required = false, path = '', description =
   const oneOf = prop.oneOf() && prop.oneOf().map((p, idx) => (
     <SchemaProp prop={p} propName={idx} path={buildPath(path || propName, idx)} />
   ));
-  
+
   const properties = Object.entries(prop.properties()).map(([pName, p]) => {
     const circProps = p.circularProps();
     const isPropCircular = circularPropsParent.includes(pName);
-    
+
     if (isPropCircular === true) {
       return (
         <SchemaPropRow
-          prop={p} 
+          prop={p}
           propName={pName}
-          path={buildPath(path || propName, pName)} 
+          path={buildPath(path || propName, pName)}
           required={isRequired(prop, pName)}
           isCircular={isPropCircular}
         />
       );
     } else {
       return (
-        <SchemaProp 
-          prop={p} 
-          propName={pName} 
-          path={buildPath(path || propName, pName)} 
+        <SchemaProp
+          prop={p}
+          propName={pName}
+          path={buildPath(path || propName, pName)}
           required={isRequired(prop, pName)}
           circularPropsParent={circProps}
         />
@@ -61,7 +61,7 @@ function SchemaProp({ prop, propName, required = false, path = '', description =
     ? Object.entries(prop.additionalProperties().properties()).map(([pName, p]) => (
       <SchemaProp prop={p} propName={pName} path={buildPath(path || propName, pName)} required={isRequired(prop.additionalProperties(), pName)} />
     )) : null;
-  
+
   const items = prop.items() && !Array.isArray(prop.items()) && prop.items().properties()
     ? Object.entries(prop.items().properties()).map(([pName, p]) => {
       const isCirc = p.isCircular();
@@ -69,19 +69,19 @@ function SchemaProp({ prop, propName, required = false, path = '', description =
       if (isCirc === true) {
         return (
           <SchemaPropRow
-            prop={p} 
+            prop={p}
             propName={pName}
-            path={buildPath(path || propName, pName)} 
+            path={buildPath(path || propName, pName)}
             required={isRequired(prop, pName)}
             isCircular={isCirc}
           />
         );
       } else {
         return (
-          <SchemaProp 
-            prop={p} 
-            propName={pName} 
-            path={buildPath(path || propName, pName)} 
+          <SchemaProp
+            prop={p}
+            propName={pName}
+            path={buildPath(path || propName, pName)}
             required={isRequired(prop.items(), pName)}
           />
         );
@@ -103,12 +103,30 @@ function SchemaProp({ prop, propName, required = false, path = '', description =
 
 function SchemaPropRow({ prop, propName, required = false, path = '', description = '', isCircular = false }) {
   const acceptedValues = prop.enum() && prop.enum().length ? prop.enum().join(', ') : '_Any_';
-  const types = `${prop.anyOf() ? `anyOf` : ''}${prop.allOf() ? `allOf` : ''}${prop.oneOf() ? `oneOf` : ''}${prop.items() && !Array.isArray(prop.items()) && prop.items().type() ? `${prop.items().type()}` : ''}`;
-  description = `${description || prop.description() || ''}${isCircular ? ' **[CIRCULAR]**': ''}`
+
+  let itemType;
+  if (prop.items() && !Array.isArray(prop.items()) && prop.items().type()) {
+    let type = prop.items().type();
+    if (Array.isArray(type)) {
+      itemType = type.join(' or ');
+    } else {
+      itemType = type;
+    }
+  }
+
+  const types = [
+    Array.isArray(prop.type()) ? prop.type().join(' or ') : prop.type(),
+    prop.anyOf() && `anyOf`,
+    prop.allOf() && `allOf`,
+    prop.oneOf() && `oneOf`,
+    itemType,
+  ].filter(t => t).join(', ');
+
+  description = `${description || prop.description() || ''}${isCircular ? ' **[CIRCULAR]**': ''}`.replace(new RegExp('\S*\r?\n','g'), ' ');
 
   const rowRenderer = () => [
     `${tree(path) || propName}${required ? ' **(required)**': ''}`,
-    `${prop.type() || ''}${types}`,
+    `${types}`,
     description.trim() || '-',
     acceptedValues
   ];
