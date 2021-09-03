@@ -1,6 +1,6 @@
 {
   "name": "@asyncapi/markdown-template",
-  "version": "0.14.3",
+  "version": "0.14.5",
   "description": "Markdown template for the AsyncAPI generator.",
   "keywords": [
     "asyncapi",
@@ -32,11 +32,11 @@
   },
   "dependencies": {
     "@asyncapi/generator-filters": "^2.1.0",
-    "@asyncapi/generator-react-sdk": "^0.2.11",
+    "@asyncapi/generator-react-sdk": "^0.2.13",
     "yaml": "^1.10.0"
   },
   "devDependencies": {
-    "@asyncapi/generator": "^1.8.0",
+    "@asyncapi/generator": "^1.8.6",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/github": "^7.0.4",
     "@semantic-release/npm": "^7.0.3",
