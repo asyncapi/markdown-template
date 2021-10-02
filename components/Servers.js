@@ -35,7 +35,7 @@ function Server({ serverName, server, asyncapi }) {
         <Table headers={headers} rowRenderer={rowRenderer} data={[server]} />
       </Text>
       <ServerVariables variables={server.variables()} />
-      <ServerSecurity security={server.security()} asyncapi={asyncapi} />
+      <ServerSecurity protocol={server.protocol()} security={server.security()} asyncapi={asyncapi} />
     </>
   );
 }
@@ -65,7 +65,10 @@ function ServerVariables({ variables }) {
   );
 }
 
-function ServerSecurity({ security, asyncapi }) {
+function ServerSecurity({ protocol, security, asyncapi }) {
+  if (isKafka(protocol)) {
+    return KafkaServerSecurity({ protocol, security, asyncapi });
+  }
   if (!security) {
     return null;
   }
@@ -85,7 +88,83 @@ function ServerSecurity({ security, asyncapi }) {
     const key = Object.keys(s.json())[0];
     return components.securityScheme(key);
   });
-  
+
+  return (
+    <Text>
+      <Header type={4}>Security Requirements</Header>
+      <Table headers={securityHeader} rowRenderer={securityRenderer} data={securityData} />
+    </Text>
+  );
+}
+
+function isKafka(protocol) {
+  return (protocol === 'kafka' || protocol === 'kafka-secure');
+}
+
+function KafkaServerSecurity({ protocol, security, asyncapi }) {
+  let securityData;
+  if (security) {
+    const components = asyncapi.components();
+    securityData = security.map(s => {
+      const key = Object.keys(s.json())[0];
+      return components.securityScheme(key);
+    });
+  }
+  else {
+    securityData = [null];
+  }
+
+  const securityHeader = ['Type', 'Description', 'security.protocol', 'sasl.mechanism'];
+
+  const securityRenderer = (entry) => {
+    let securityProtocol, saslMechanism;
+    if (protocol === 'kafka') {
+      if (entry) {
+        securityProtocol = 'SASL_PLAINTEXT';
+      }
+      else {
+        securityProtocol = 'PLAINTEXT';
+      }
+    }
+    else {
+      if (entry) {
+        securityProtocol = 'SASL_SSL';
+      }
+      else {
+        securityProtocol = 'SSL';
+      }
+    }
+    if (entry) {
+      switch (entry.type()) {
+        case 'plain':
+          saslMechanism = 'PLAIN';
+          break;
+        case 'scramSha256':
+          saslMechanism = 'SCRAM-SHA-256';
+          break;
+        case 'scramSha512':
+          saslMechanism = 'SCRAM-SHA-512';
+          break;
+        case 'oauth2':
+          saslMechanism = 'OAUTHBEARER';
+          break;
+        case 'gssapi':
+          saslMechanism = 'GSSAPI';
+          break;
+        case 'X509':
+          securityProtocol = 'SSL';
+          break;
+      }
+    }
+
+    return [
+      entry && entry.type() || '-',
+      entry && entry.description() || '-',
+      securityProtocol || '-',
+      saslMechanism || '-'
+    ];
+  };
+
   return (
     <Text>
       <Header type={4}>Security Requirements</Header>
