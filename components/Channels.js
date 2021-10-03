@@ -81,7 +81,7 @@ function Operation({ operation }) {
           ))}
         </>
       ) : (
-        <Message title='Message' message={operation.message(0)} />
+        <Message title={`Message \`${operation.message(0)}\``} message={operation.message(0)} />
       )}
     </Text>
   );
