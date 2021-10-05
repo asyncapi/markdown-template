@@ -80,12 +80,9 @@ function Operation({ operation }) {
             <Message title={`Message \`${msg.uid()}\``} message={msg} />
           ))}
         </>
-      ) : (
-        <Message 
-          title={operation.message(0) ? `Message \`${operation.message(0).uid()}\``: 'Message'}
-          message={operation.message(0)
-        } />
-      )}
+      ) : operation.message(0) ? (
+        <Message title={`Message \`${operation.message(0).uid()}\``} message={operation.message(0)} />
+      ) : null }
     </Text>
   );
 }
