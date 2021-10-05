@@ -66,8 +66,8 @@ function ServerVariables({ variables }) {
 }
 
 function ServerSecurity({ protocol, security, asyncapi }) {
-  if (isKafka(protocol)) {
-    return KafkaServerSecurity({ protocol, security, asyncapi });
+  if (protocol === 'kafka' || protocol === 'kafka-secure') {
+    return <KafkaServerSecurity protocol={protocol} security={security} asyncapi={asyncapi} />
   }
   if (!security) {
     return null;
@@ -95,10 +95,6 @@ function ServerSecurity({ protocol, security, asyncapi }) {
       <Table headers={securityHeader} rowRenderer={securityRenderer} data={securityData} />
     </Text>
   );
-}
-
-function isKafka(protocol) {
-  return (protocol === 'kafka' || protocol === 'kafka-secure');
 }
 
 function KafkaServerSecurity({ protocol, security, asyncapi }) {
@@ -158,8 +154,8 @@ function KafkaServerSecurity({ protocol, security, asyncapi }) {
     }
 
     return [
-      entry && entry.type() || '-',
-      entry && entry.description() || '-',
+      (entry && entry.type()) || '-',
+      (entry && entry.description()) || '-',
       securityProtocol || '-',
       saslMechanism || '-'
     ];
