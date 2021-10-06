@@ -56,8 +56,25 @@ function Parameters({ parameters }) {
   );
 }
 
+function OperationMessages({ messages }) {
+  return (
+  <>
+    {messages.length > 1 && 
+      <Text newLines={2}>
+        Accepts **one of** the following messages:
+      </Text>
+    }
+    {messages.map(msg => (
+      <Message title={`Message \`${msg.uid()}\``} message={msg} />
+    ))
+    }
+  </>
+  )
+}
+
 function Operation({ operation }) {
   const type = operation.isPublish() ? 'publish' : 'subscribe';
+  const hasMessages = operation.hasMultipleMessages() || !!operation.message(0);
   return (
     <Text>
       <Header type={4}>{`\`${type}\` Operation`}</Header>
@@ -71,17 +88,8 @@ function Operation({ operation }) {
           {operation.description()}
         </Text>
       )}
-      {operation.hasMultipleMessages() ? (
-        <>
-          <Text newLines={2}>
-            Accepts **one of** the following messages:
-          </Text>
-          {operation.messages().map(msg => (
-            <Message title={`Message \`${msg.uid()}\``} message={msg} />
-          ))}
-        </>
-      ) : (
-        <Message title='Message' message={operation.message(0)} />
+      {hasMessages && (
+        <OperationMessages messages={operation.messages()} />
       )}
     </Text>
   );
