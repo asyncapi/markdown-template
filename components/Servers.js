@@ -23,11 +23,10 @@ export function Servers({ asyncapi }) {
 }
 
 function Server({ serverName, server, asyncapi }) {
-  const headers = ['URL', 'Protocol', 'Description'];
+  const headers = ['URL', 'Protocol'];
   const rowRenderer = (entry) => [
     entry.url(),
     `${server.protocol()}${server.protocolVersion() ? ` ${server.protocolVersion()}` : ''}`,
-    entry.description() || '-',
   ];
 
   return (
@@ -36,12 +35,17 @@ function Server({ serverName, server, asyncapi }) {
         <Header type={3}>{`**${serverName}** Server`}</Header>
         <Table headers={headers} rowRenderer={rowRenderer} data={[server]} />
       </Text>
+      {server.hasDescription() && (
+        <Text>
+          {server.description()}
+        </Text>
+      )}
       <ServerVariables variables={server.variables()} />
       <ServerSecurity protocol={server.protocol()} security={server.security()} asyncapi={asyncapi} />
-      <Bindings
+      {/* <Bindings
         name="Server specific information"
         item={server}
-      />
+      /> */}
     </>
   );
 }

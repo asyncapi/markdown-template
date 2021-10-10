@@ -38,7 +38,7 @@ function SchemaContent({ schema, schemaName, path = '' }) {
         <SchemaPropRow schema={s} schemaName={idx} path={buildPath(path || schemaName, idx)} nameNote='allOf item' />
       ))}
       {schema.not() && (
-        <SchemaPropRow schema={schema.not()} path={path} nameNote='cannot adhere to' />
+        <SchemaPropRow schema={schema.not()} path={path} nameNote='not' />
       )}
       {schema.propertyNames() && (
         <SchemaPropRow schema={schema.propertyNames()} path={path} nameNote='property names' />
@@ -230,7 +230,7 @@ function SchemaPropRow({
 
   if (
     nameNote === 'root' &&
-    (schemaType === 'object' || schemaType === 'array') &&
+    (!schemaType || schemaType === 'object' || schemaType === 'array') &&
     !description &&
     !values &&
     !constraints &&
