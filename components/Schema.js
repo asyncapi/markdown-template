@@ -45,9 +45,6 @@ function SchemaContent({ schema, schemaName, path = '' }) {
       {schema.contains() && (
         <SchemaPropRow schema={schema.contains()} path={path} nameNote='contains' />
       )}
-      {schema.contains() && (
-        <SchemaPropRow schema={schema.contains()} path={path} nameNote='contains' />
-      )}
       {schema.if() && (
         <SchemaPropRow schema={schema.if()} path={path} nameNote='if' />
       )}
@@ -90,10 +87,10 @@ function SchemaProperties({ schema, schemaName, path }) {
           path={buildPath(path || schemaName, propertyName)}
           required={required.includes(propertyName)}
           isCircular={circularProps.includes(propertyName)}
-          // dependentRequired={SchemaHelpers.getDependentRequired(
-          //   propertyName,
-          //   schema,
-          // )}
+          dependentRequired={SchemaHelpers.getDependentRequired(
+            propertyName,
+            schema,
+          )}
           key={propertyName}
         />
       ))}
@@ -229,6 +226,7 @@ function SchemaPropRow({
   schema, 
   schemaName, 
   required = false, 
+  dependentRequired = [],
   path = '', 
   isCircular = false,
   nameNote = '',
@@ -255,7 +253,7 @@ function SchemaPropRow({
 
   const values = rawValue ? `\`${SchemaHelpers.prettifyValue(schema.const())}\`` : schemaValues(schema);
   const constraints = schemaConstraints(schema);
-  const notes = schemaNotes(schema, required, isCircular);
+  const notes = schemaNotes(schema, required, dependentRequired, isCircular);
 
   const rowRenderer = () => [
     nameNote ? name ? `${name} (${nameNote})` : `(${nameNote})` : name,
@@ -320,12 +318,17 @@ function schemaConstraints(schema) {
   return constraints.concat(SchemaHelpers.humanizeConstraints(schema)).join(', ');
 }
 
-function schemaNotes(schema, required = false, isCircular = false) {
+function schemaNotes(schema, required = false, dependentRequired = [], isCircular = false) {
   if (!schema) return null;
   const notes = [];
 
   if (schema.deprecated()) notes.push('**deprecated**');
+
   if (required) notes.push('**required**');
+  if (dependentRequired.length) {
+    notes.push(`**required when defined (${dependentRequired.join(', ')})**`);
+  }
+
   if (isCircular) notes.push('**[CIRCULAR]**');
   if (schema.writeOnly()) notes.push('**write-only**');
   if (schema.readOnly()) notes.push('**read-only**');
