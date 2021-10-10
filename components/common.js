@@ -13,13 +13,6 @@ export function Image({ src = "", desc = "", childrenContent = "" }) {
   return `![${desc || childrenContent}](${src})`;
 }
 
-export function List({ list = [] }) {
-  if (list.length === 0) return null;
-  return list.map(item => (
-    <ListItem>{item}</ListItem>
-  ));
-}
-
 export function ListItem({ type = "*", childrenContent = "" }) {
   return <Text>{`${type} ${childrenContent}`}</Text>;
 }

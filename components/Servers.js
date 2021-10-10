@@ -1,5 +1,4 @@
 import { Text } from "@asyncapi/generator-react-sdk";
-import ServerVariableModel from '@asyncapi/parser/lib/models/server-variable';
 
 import { Header, Table } from "./common";
 
@@ -22,10 +21,11 @@ export function Servers({ asyncapi }) {
 }
 
 function Server({ serverName, server, asyncapi }) {
-  const headers = ['URL', 'Protocol'];
+  const headers = ['URL', 'Protocol', 'Description'];
   const rowRenderer = (entry) => [
     entry.url(),
     `${server.protocol()}${server.protocolVersion() ? ` ${server.protocolVersion()}` : ''}`,
+    entry.description() || '-',
   ];
 
   return (
@@ -34,11 +34,6 @@ function Server({ serverName, server, asyncapi }) {
         <Header type={3}>{`**${serverName}** Server`}</Header>
         <Table headers={headers} rowRenderer={rowRenderer} data={[server]} />
       </Text>
-      {server.hasDescription() && (
-        <Text>
-          {server.description()}
-        </Text>
-      )}
       <ServerVariables variables={server.variables()} />
       <ServerSecurity protocol={server.protocol()} security={server.security()} asyncapi={asyncapi} />
     </>
@@ -50,15 +45,16 @@ function ServerVariables({ variables }) {
     return null;
   }
 
-  const variableHeader = ['Name', 'Description', 'Default value', 'Allowed values'];
+  const variableHeader = ['Name', 'Default value', 'Possible values', 'Description'];
   const variableRenderer = (variable) => [
-    variable.json().name || '-',
-    variable.description() || '-',
+    variable.name || '-',
     variable.hasDefaultValue() ? variable.defaultValue() : '*None*',
-    variable.hasAllowedValues() ? variable.allowedValues().join(', ') : '*Any*',
+    variable.hasAllowedValues() ? variable.allowedValues().join(', ') : 'Any',
+    variable.description() || '-',
   ];
   const variablesData = Object.entries(variables).map(([variableName, variable]) => {
-    return new ServerVariableModel({ ...variable, name: variableName });
+    variable.name = variableName;
+    return variable;
   });
 
   return (
