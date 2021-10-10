@@ -19,11 +19,10 @@
   },
   "homepage": "https://github.com/asyncapi/markdown-template#readme",
   "scripts": {
-    "test": "npm run test:generation",
+    "test": "jest --coverage",
     "lint": "echo \"No linter specified yet\"",
     "release": "semantic-release",
     "dev": "ag test/spec/asyncapi.yml ./ -o test/output --force-write --watch-template",
-    "test:generation": "ag https://raw.githubusercontent.com/asyncapi/generator/a5c02dac4aa16f7d68e92d205ef7f05b2f97f529/test/docs/dummy.yml ./ -o test/output --force-write",
     "generate:assets": "echo 'No additional assets need to be generated at the moment'",
     "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION"
   },
@@ -43,7 +42,9 @@
     "@semantic-release/npm": "^7.0.3",
     "@semantic-release/release-notes-generator": "^9.0.1",
     "conventional-changelog-conventionalcommits": "^4.2.3",
-    "semantic-release": "^17.0.4"
+    "semantic-release": "^17.0.4",
+    "jest": "^27.2.5",
+    "jest-esm-transformer": "^1.0.0"
   },
   "release": {
     "branches": [
@@ -88,6 +89,11 @@
         "description": "Override the version of your application provided under `info.version` location in the specification file.",
         "required": false
       }
+    }
+  },
+  "jest": {
+    "transform": {
+      "\\.m?jsx?$": "jest-esm-transformer"
     }
   }
 }

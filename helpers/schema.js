@@ -1,6 +1,6 @@
 import SchemaModel from '@asyncapi/parser/lib/models/schema';
 
-const SchemaCustomTypes = {
+export const SchemaCustomTypes = {
   // for `true` and `{}` schemas
   ANY: 'any',
   // for schemas without `type` keyword
@@ -204,7 +204,6 @@ export class SchemaHelpers {
           obj[paramaterName] = Object.assign({}, parameter.schema().json());
           obj[paramaterName].description =
             parameter.description() || obj[paramaterName].description;
-          obj[paramaterName][this.extParameterLocation] = parameter.location();
           return obj;
         },
         {},
