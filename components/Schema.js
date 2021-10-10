@@ -10,6 +10,7 @@ export function Schema({ schema, schemaName, hideTitle = false }) {
     <Text>
       {hideTitle === false ? <Header type={4}>{schemaName}</Header> : null}
       <TableHead headers={headers} />
+      <SchemaPropRow schema={schema} path='' nameNote='root' />
       <SchemaContent schema={schema} schemaName='' />
     </Text>
   );
@@ -120,26 +121,7 @@ function SchemaAdditionalProperties({ schema, path }) {
   }
 
   const additionalProperties = schema.additionalProperties();
-  if (additionalProperties === true || additionalProperties === undefined) {
-    // where additional properties are defined in the root of schema
-    if (!path) {
-      return (
-        <Text>
-          _Additional properties are allowed._
-        </Text>
-      )
-    }
-    return null;
-  }
-  if (additionalProperties === false) {
-    // where additional properties are defined in the root of schema
-    if (!path) {
-      return (
-        <Text>
-          _Additional properties are **NOT** allowed._
-        </Text>
-      )
-    }
+  if (additionalProperties === true || additionalProperties === undefined || additionalProperties === false) {
     return null;
   }
 
@@ -194,26 +176,7 @@ function SchemaAdditionalItems({ schema, path }) {
   }
 
   const additionalItems = schema.additionalItems();
-  if (additionalItems === true || additionalItems === undefined) {
-    // where additional items are defined in the root of schema
-    if (!path) {
-      return (
-        <Text>
-          _Additional items are allowed._
-        </Text>
-      )
-    }
-    return null;
-  }
-  if (additionalItems === false) {
-    // where additional items are defined in the root of schema
-    if (!path) {
-      return (
-        <Text>
-          _Additional items are **NOT** allowed._
-        </Text>
-      )
-    }
+  if (additionalItems === true || additionalItems === undefined || additionalItems === false) {
     return null;
   }
 
@@ -250,6 +213,7 @@ function SchemaPropRow({
   let description = (schema.description() || '').replace(new RegExp('\S*\r?\n','g'), ' ');
   const externalDocs = schema.externalDocs();
   description = externalDocs ? `${!description.endsWith('.') ? `${description}.` : description} [${externalDocs.description() || 'Documentation'}](${externalDocs.url()})` : description;
+  description = description.trim();
 
   const values = rawValue ? `\`${SchemaHelpers.prettifyValue(schema.const())}\`` : schemaValues(schema);
   const constraints = schemaConstraints(schema);
@@ -264,10 +228,21 @@ function SchemaPropRow({
     notes || '-',
   ];
 
+  if (
+    nameNote === 'root' &&
+    (schemaType === 'object' || schemaType === 'array') &&
+    !description &&
+    !values &&
+    !constraints &&
+    !notes
+  ) {
+    return null;
+  }
+
   return (
     <>
       <TableRow rowRenderer={rowRenderer} entry={schema} />
-      <SchemaContent schema={schema} schemaName={schemaName} path={path} />
+      {nameNote !== 'root' && <SchemaContent schema={schema} schemaName={schemaName} path={path} />}
     </>
   )
 }
