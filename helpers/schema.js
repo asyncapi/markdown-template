@@ -170,7 +170,7 @@ export class SchemaHelpers {
       schemaKeys.includes(key),
     );
     if (hasInferredTypes === true) {
-      return ''; // SchemaCustomTypes.RESTRICTED_ANY;
+      return '';
     }
     if (this.toCombinedType(schema)) {
       return '';
