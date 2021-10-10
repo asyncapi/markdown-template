@@ -282,12 +282,6 @@ function buildPath(path = '', field = '') {
   return `${path}.${field}`;
 }
 
-function isRequired(obj, key) {
-  if (!obj || typeof obj.required !== 'function') return false;
-  const required = obj.required() || [];
-  return required.includes(key);
-}
-
 function schemaValues(schema) {
   if (!schema) return null;
   const values = [];
