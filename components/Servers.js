@@ -1,5 +1,7 @@
 import { Text } from "@asyncapi/generator-react-sdk";
+import ServerVariableModel from '@asyncapi/parser/lib/models/server-variable';
 
+import { Bindings } from "./Bindings";
 import { Header, Table } from "./common";
 
 export function Servers({ asyncapi }) {
@@ -36,6 +38,10 @@ function Server({ serverName, server, asyncapi }) {
       </Text>
       <ServerVariables variables={server.variables()} />
       <ServerSecurity protocol={server.protocol()} security={server.security()} asyncapi={asyncapi} />
+      <Bindings
+        name="Server specific information"
+        item={server}
+      />
     </>
   );
 }
@@ -45,16 +51,15 @@ function ServerVariables({ variables }) {
     return null;
   }
 
-  const variableHeader = ['Name', 'Default value', 'Possible values', 'Description'];
+  const variableHeader = ['Name', 'Default value', 'Allowed values', 'Description'];
   const variableRenderer = (variable) => [
-    variable.name || '-',
+    variable.json().name || '-',
     variable.hasDefaultValue() ? variable.defaultValue() : '*None*',
-    variable.hasAllowedValues() ? variable.allowedValues().join(', ') : 'Any',
+    variable.hasAllowedValues() ? variable.allowedValues().join(', ') : '*Any*',
     variable.description() || '-',
   ];
   const variablesData = Object.entries(variables).map(([variableName, variable]) => {
-    variable.name = variableName;
-    return variable;
+    return new ServerVariableModel({ ...variable, name: variableName });
   });
 
   return (

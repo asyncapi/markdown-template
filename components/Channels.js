@@ -1,4 +1,5 @@
 import { Text } from "@asyncapi/generator-react-sdk";
+import { SchemaHelpers } from "../helpers/schema";
 
 import { Header } from "./common";
 import { Message } from "./Message";
@@ -44,14 +45,11 @@ function Channel({ channelName, channel }) {
 }
 
 function Parameters({ parameters }) {
-  const params = Object.entries(parameters).map(([paramName, param]) => (
-    <Schema schema={param.schema()} schemaName={paramName} description={param.description()} hideTitle={true} />
-  ));
-
+  const parametersSchema = SchemaHelpers.parametersToSchema(parameters);
   return (
     <Text>
       <Header type={4}>Channel Parameters</Header>
-      {params}
+      <Schema schema={parametersSchema} hideTitle={true} />
     </Text>
   );
 }
