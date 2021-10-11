@@ -75,7 +75,9 @@ function slugify(str) {
  * @return {String}
  */
 function getTitle(str) {
+  // check if in `str` is "title" from a markdown link (use `(` char at the end for easy markdown link checking)
   if (/^\[[^\]]+\]\(/.test(str)) {
+    // retrieve "title" from a markdown link
     var m = /^\[([^\]]+)\]/.exec(str);
     if (m) return m[1];
   }
