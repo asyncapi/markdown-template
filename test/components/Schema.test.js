@@ -351,7 +351,7 @@ describe('Schema component', () => {
     const schema = new SchemaModel({
       "allOf": [
         { "type": "string" },
-        { "maxLength": 5 }
+        { "type": "string", "maxLength": 5 }
       ],
       "anyOf": [
         { "type": "string", "maxLength": 5 },
@@ -368,13 +368,13 @@ describe('Schema component', () => {
 
 | Name | Type | Description | Value | Constraints | Notes |
 |---|---|---|---|---|---|
-| (root) | any | - | - | - | - |
+| (root) | any | - | - | - | **additional properties are allowed** |
 | 0 (oneOf item) | number | - | - | multiple of 5 | - |
 | 1 (oneOf item) | number | - | - | multiple of 3 | - |
 | 0 (anyOf item) | string | - | - | <= 5 characters | - |
 | 1 (anyOf item) | number | - | - | >= 0 | - |
 | 0 (allOf item) | string | - | - | - | - |
-| 1 (allOf item) | - | - | - | <= 5 characters | - |
+| 1 (allOf item) | string | - | - | <= 5 characters | - |
 | (not) | string | - | - | - | - |
 `;
 
@@ -399,10 +399,69 @@ describe('Schema component', () => {
 
 | Name | Type | Description | Value | Constraints | Notes |
 |---|---|---|---|---|---|
-| (root) | any | - | - | - | - |
+| (root) | any | - | - | - | **additional properties are allowed** |
 | (if) | string | - | - | - | - |
 | (then) | - | - | - | non-empty | - |
 | (else) | - | - | - | <= 5 | - |
+`;
+
+    const result = render(<Schema schema={schema} schemaName="Test schema" />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
+  it('should render appropriate notes for any type', () => {
+    const schema = new SchemaModel({
+      properties: {
+        firstName: {
+          type: "string",
+          description: "The person's first name."
+        },
+      },
+      items: [
+        {
+          type: "string",
+          format: "email",
+          maxLength: 26,
+          minLength: 3,
+        }
+      ],
+    });
+    const expected = `
+#### Test schema
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | - | - | - | - | **additional properties are allowed**, **additional items are allowed** |
+| firstName | string | The person's first name. | - | - | - |
+| 0 (index) | string | - | - | format (\`email\`), [ 3 .. 26 ] characters | - |
+`;
+
+    const result = render(<Schema schema={schema} schemaName="Test schema" />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
+  it('should render circular schemas', () => {
+    let schema = {
+      properties: {
+        firstName: {
+          type: "string",
+          description: "The person's first name."
+        },
+        circular: {}
+      },
+      'x-parser-circular-props': ['circular']
+    };
+    schema.properties.circular = schema;
+
+    schema = new SchemaModel(schema);
+    const expected = `
+#### Test schema
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | - | - | - | - | **additional properties are allowed** |
+| firstName | string | The person's first name. | - | - | - |
+| circular | - | - | - | - | **circular**, **additional properties are allowed** |
 `;
 
     const result = render(<Schema schema={schema} schemaName="Test schema" />);

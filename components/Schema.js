@@ -38,22 +38,22 @@ function SchemaContent({ schema, schemaName, path = '' }) {
         <SchemaPropRow schema={s} schemaName={idx} path={buildPath(path || schemaName, idx)} nameNote='allOf item' key={idx} />
       ))}
       {schema.not() && (
-        <SchemaPropRow schema={schema.not()} path={path} nameNote='not' />
+        <SchemaPropRow schema={schema.not()} path={path} nameNote='not' omitAdditionalNotes={false} />
       )}
       {schema.propertyNames() && (
-        <SchemaPropRow schema={schema.propertyNames()} path={path} nameNote='property names' />
+        <SchemaPropRow schema={schema.propertyNames()} path={path} nameNote='property names' omitAdditionalNotes={false} />
       )}
       {schema.contains() && (
-        <SchemaPropRow schema={schema.contains()} path={path} nameNote='contains' />
+        <SchemaPropRow schema={schema.contains()} path={path} nameNote='contains' omitAdditionalNotes={false} />
       )}
       {schema.if() && (
-        <SchemaPropRow schema={schema.if()} path={path} nameNote='if' />
+        <SchemaPropRow schema={schema.if()} path={path} nameNote='if' omitAdditionalNotes={false} />
       )}
       {schema.then() && (
-        <SchemaPropRow schema={schema.then()} path={path} nameNote='then' />
+        <SchemaPropRow schema={schema.then()} path={path} nameNote='then' omitAdditionalNotes={false} />
       )}
       {schema.else() && (
-        <SchemaPropRow schema={schema.else()} path={path} nameNote='else' />
+        <SchemaPropRow schema={schema.else()} path={path} nameNote='else' omitAdditionalNotes={false} />
       )}
       {dependentSchemas && (
         <SchemaPropRow schema={dependentSchemas} path={path} nameNote='dependant schemas' />
@@ -114,9 +114,9 @@ function SchemaAdditionalProperties({ schema, path }) {
     return null;
   }
 
-  let type = schema.type();
-  type = Array.isArray(type) ? type : [type];
-  if (!type.includes('object')) {
+  const type = schema.type();
+  const types = Array.isArray(type) ? type : [type];
+  if (type !== undefined && !types.includes('object')) {
     return null;
   }
 
@@ -126,14 +126,14 @@ function SchemaAdditionalProperties({ schema, path }) {
   }
 
   return (
-    <SchemaPropRow schema={additionalProperties} path={path} nameNote='additional properties' />
+    <SchemaPropRow schema={additionalProperties} path={path} nameNote='additional properties' omitAdditionalNotes={false} />
   );
 }
 
 function SchemaItems({ schema, schemaName, path }) {
-  let type = schema.type();
-  type = Array.isArray(type) ? type : [type];
-  if (!type.includes('array')) {
+  const type = schema.type();
+  const types = Array.isArray(type) ? type : [type];
+  if (type !== undefined && !types.includes('array')) {
     return null;
   }
   const items = schema.items();
@@ -167,9 +167,9 @@ function SchemaAdditionalItems({ schema, path }) {
     return null;
   }
 
-  let type = schema.type();
-  type = Array.isArray(type) ? type : [type];
-  if (!type.includes('array')) {
+  const type = schema.type();
+  const types = Array.isArray(type) ? type : [type];
+  if (type !== undefined && !types.includes('array')) {
     return null;
   }
   if (!Array.isArray(schema.items())) {
@@ -182,7 +182,7 @@ function SchemaAdditionalItems({ schema, path }) {
   }
 
   return (
-    <SchemaPropRow schema={additionalItems} path={path} nameNote='additional items' />
+    <SchemaPropRow schema={additionalItems} path={path} nameNote='additional items' omitAdditionalNotes={false} />
   );
 }
 
@@ -194,6 +194,7 @@ function SchemaPropRow({
   path = '', 
   isCircular = false,
   nameNote = '',
+  omitAdditionalNotes = true,
 }) {
   if (
     !schema ||
@@ -218,7 +219,7 @@ function SchemaPropRow({
 
   const values = rawValue ? `\`${SchemaHelpers.prettifyValue(schema.const())}\`` : schemaValues(schema);
   const constraints = schemaConstraints(schema);
-  const notes = schemaNotes(schema, required, dependentRequired, isCircular);
+  const notes = schemaNotes({ schema, required, dependentRequired, isCircular, omitAdditionalNotes });
 
   const rowRenderer = () => [
     nameNote ? name ? `${name} (${nameNote})` : `(${nameNote})` : name,
@@ -243,7 +244,7 @@ function SchemaPropRow({
   return (
     <>
       <TableRow rowRenderer={rowRenderer} entry={schema} />
-      {nameNote !== 'root' && <SchemaContent schema={schema} schemaName={schemaName} path={path} />}
+      {isCircular === false && nameNote !== 'root' && <SchemaContent schema={schema} schemaName={schemaName} path={path} />}
     </>
   )
 }
@@ -289,7 +290,7 @@ function schemaConstraints(schema) {
   return constraints.concat(SchemaHelpers.humanizeConstraints(schema)).join(', ');
 }
 
-function schemaNotes(schema, required = false, dependentRequired = [], isCircular = false) {
+function schemaNotes({ schema, required = false, dependentRequired = [], isCircular = false, omitAdditionalNotes }) {
   if (!schema) return null;
   const notes = [];
 
@@ -300,17 +301,20 @@ function schemaNotes(schema, required = false, dependentRequired = [], isCircula
     notes.push(`**required when defined (${dependentRequired.map(v => `\`${v}\``).join(', ')})**`);
   }
 
-  if (isCircular) notes.push('**[CIRCULAR]**');
+  if (isCircular) notes.push('**circular**');
   if (schema.writeOnly()) notes.push('**write-only**');
   if (schema.readOnly()) notes.push('**read-only**');
 
   // additional properties/items
   if (schema.ext(SchemaHelpers.extRenderAdditionalInfo) !== false) {
-    let type = schema.type();
-    type = Array.isArray(type) ? type : [type];
+    const type = schema.type();
+    const types = Array.isArray(type) ? type : [type];
 
     // additional properties
-    if (type.includes('object')) {
+    if (
+      (type === undefined && omitAdditionalNotes) ||
+      types.includes('object')
+    ) {
       const additionalProperties = schema.additionalProperties();
       if (additionalProperties === true || additionalProperties === undefined) {
         notes.push('**additional properties are allowed**');
@@ -320,7 +324,13 @@ function schemaNotes(schema, required = false, dependentRequired = [], isCircula
     }
 
     // additional items
-    if (type.includes('array') && Array.isArray(schema.items())) {
+    if (
+      (
+        (type === undefined && omitAdditionalNotes) ||
+        types.includes('array')
+      ) && 
+      Array.isArray(schema.items())
+    ) {
       const additionalItems = schema.additionalItems();
       if (additionalItems === true || additionalItems === undefined) {
         notes.push('**additional items are allowed**');
