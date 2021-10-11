@@ -77,14 +77,19 @@ The Smartylighting Streetlights API allows you to remotely manage the city light
 * Receive real-time information about environmental lighting conditions 📈
 
 * root-tag1
+
   [External docs description 1](https://www.asyncapi.com/)
 * root-tag2
+
   Description 2
   [Find more info here.](https://www.asyncapi.com/)
 * root-tag3
+
 * root-tag4
+
   Description 4
 * root-tag5
+
   [Find more info here.](https://www.asyncapi.com/)
 `;
 
