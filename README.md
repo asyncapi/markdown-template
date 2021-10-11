@@ -52,6 +52,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://mermade.github.io"><img src="https://avatars.githubusercontent.com/u/21603?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mike Ralphson</b></sub></a><br /><a href="https://github.com/asyncapi/markdown-template/commits?author=MikeRalphson" title="Code">💻</a></td>
   </tr>
   <tr>
+    <td align="center"><a href="https://github.com/stuartforrest-infinity"><img src="https://avatars.githubusercontent.com/u/49638642?v=4?s=100" width="100px;" alt=""/><br /><sub><b>stuartforrest-infinity</b></sub></a><br /><a href="https://github.com/asyncapi/markdown-template/issues?q=author%3Astuartforrest-infinity" title="Bug reports">🐛</a> <a href="https://github.com/asyncapi/markdown-template/commits?author=stuartforrest-infinity" title="Code">💻</a></td>
     <td align="center"><a href="http://dalelane.co.uk/"><img src="https://avatars.githubusercontent.com/u/1444788?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Dale Lane</b></sub></a><br /><a href="https://github.com/asyncapi/markdown-template/commits?author=dalelane" title="Code">💻</a> <a href="#ideas-dalelane" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
