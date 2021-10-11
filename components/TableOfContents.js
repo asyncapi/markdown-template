@@ -43,6 +43,12 @@ export function TableOfContents({ asyncapi }) {
   );
 }
 
+/**
+ * Slugify the url part of a markdown link.
+ *
+ * @param  {String} `str` The string to slugify
+ * @return {String}
+ */
 function slugify(str) {
   str = getTitle(str);
   str = str.toLowerCase();
@@ -56,6 +62,12 @@ function slugify(str) {
   return str;
 }
 
+/**
+ * Get the "title" from a markdown link
+ *
+ * @param  {String} `str` The string to retrieve title
+ * @return {String}
+ */
 function getTitle(str) {
   if (/^\[[^\]]+\]\(/.test(str)) {
     var m = /^\[([^\]]+)\]/.exec(str);
