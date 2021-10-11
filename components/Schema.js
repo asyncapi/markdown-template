@@ -38,22 +38,22 @@ function SchemaContent({ schema, schemaName, path = '' }) {
         <SchemaPropRow schema={s} schemaName={idx} path={buildPath(path || schemaName, idx)} nameNote='allOf item' key={idx} />
       ))}
       {schema.not() && (
-        <SchemaPropRow schema={schema.not()} path={path} nameNote='not' omitAdditionalNotes={false} />
+        <SchemaPropRow schema={schema.not()} path={path} nameNote='not' tryRenderAdditionalNotes={false} />
       )}
       {schema.propertyNames() && (
-        <SchemaPropRow schema={schema.propertyNames()} path={path} nameNote='property names' omitAdditionalNotes={false} />
+        <SchemaPropRow schema={schema.propertyNames()} path={path} nameNote='property names' tryRenderAdditionalNotes={false} />
       )}
       {schema.contains() && (
-        <SchemaPropRow schema={schema.contains()} path={path} nameNote='contains' omitAdditionalNotes={false} />
+        <SchemaPropRow schema={schema.contains()} path={path} nameNote='contains' tryRenderAdditionalNotes={false} />
       )}
       {schema.if() && (
-        <SchemaPropRow schema={schema.if()} path={path} nameNote='if' omitAdditionalNotes={false} />
+        <SchemaPropRow schema={schema.if()} path={path} nameNote='if' tryRenderAdditionalNotes={false} />
       )}
       {schema.then() && (
-        <SchemaPropRow schema={schema.then()} path={path} nameNote='then' omitAdditionalNotes={false} />
+        <SchemaPropRow schema={schema.then()} path={path} nameNote='then' tryRenderAdditionalNotes={false} />
       )}
       {schema.else() && (
-        <SchemaPropRow schema={schema.else()} path={path} nameNote='else' omitAdditionalNotes={false} />
+        <SchemaPropRow schema={schema.else()} path={path} nameNote='else' tryRenderAdditionalNotes={false} />
       )}
       {dependentSchemas && (
         <SchemaPropRow schema={dependentSchemas} path={path} nameNote='dependant schemas' />
@@ -126,7 +126,7 @@ function SchemaAdditionalProperties({ schema, path }) {
   }
 
   return (
-    <SchemaPropRow schema={additionalProperties} path={path} nameNote='additional properties' omitAdditionalNotes={false} />
+    <SchemaPropRow schema={additionalProperties} path={path} nameNote='additional properties' tryRenderAdditionalNotes={false} />
   );
 }
 
@@ -182,7 +182,7 @@ function SchemaAdditionalItems({ schema, path }) {
   }
 
   return (
-    <SchemaPropRow schema={additionalItems} path={path} nameNote='additional items' omitAdditionalNotes={false} />
+    <SchemaPropRow schema={additionalItems} path={path} nameNote='additional items' tryRenderAdditionalNotes={false} />
   );
 }
 
@@ -194,7 +194,7 @@ function SchemaPropRow({
   path = '', 
   isCircular = false,
   nameNote = '',
-  omitAdditionalNotes = true,
+  tryRenderAdditionalNotes = true,
 }) {
   if (
     !schema ||
@@ -219,7 +219,7 @@ function SchemaPropRow({
 
   const values = rawValue ? `\`${SchemaHelpers.prettifyValue(schema.const())}\`` : schemaValues(schema);
   const constraints = schemaConstraints(schema);
-  const notes = schemaNotes({ schema, required, dependentRequired, isCircular, omitAdditionalNotes });
+  const notes = schemaNotes({ schema, required, dependentRequired, isCircular, tryRenderAdditionalNotes });
 
   const rowRenderer = () => [
     nameNote ? name ? `${name} (${nameNote})` : `(${nameNote})` : name,
@@ -290,7 +290,7 @@ function schemaConstraints(schema) {
   return constraints.concat(SchemaHelpers.humanizeConstraints(schema)).join(', ');
 }
 
-function schemaNotes({ schema, required = false, dependentRequired = [], isCircular = false, omitAdditionalNotes }) {
+function schemaNotes({ schema, required = false, dependentRequired = [], isCircular = false, tryRenderAdditionalNotes }) {
   if (!schema) return null;
   const notes = [];
 
@@ -312,7 +312,7 @@ function schemaNotes({ schema, required = false, dependentRequired = [], isCircu
 
     // additional properties
     if (
-      (type === undefined && omitAdditionalNotes) ||
+      (type === undefined && tryRenderAdditionalNotes) ||
       types.includes('object')
     ) {
       const additionalProperties = schema.additionalProperties();
@@ -326,7 +326,7 @@ function schemaNotes({ schema, required = false, dependentRequired = [], isCircu
     // additional items
     if (
       (
-        (type === undefined && omitAdditionalNotes) ||
+        (type === undefined && tryRenderAdditionalNotes) ||
         types.includes('array')
       ) && 
       Array.isArray(schema.items())
