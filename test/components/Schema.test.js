@@ -347,4 +347,66 @@ describe('Schema component', () => {
     const result = render(<Schema schema={schema} schemaName="Test schema" />);
     expect(result.trim()).toEqual(expected.trim());
   });
+
+  it('should render combined schemas', () => {
+    const schema = new SchemaModel({
+      "allOf": [
+        { "type": "string" },
+        { "maxLength": 5 }
+      ],
+      "anyOf": [
+        { "type": "string", "maxLength": 5 },
+        { "type": "number", "minimum": 0 }
+      ],
+      "oneOf": [
+        { "type": "number", "multipleOf": 5 },
+        { "type": "number", "multipleOf": 3 }
+      ],
+      "not": { "type": "string" },
+    });
+    const expected = `
+#### Test schema
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | any | - | - | - | - |
+| 0 (oneOf item) | number | - | - | multiple of 5 | - |
+| 1 (oneOf item) | number | - | - | multiple of 3 | - |
+| 0 (anyOf item) | string | - | - | <= 5 characters | - |
+| 1 (anyOf item) | number | - | - | >= 0 | - |
+| 0 (allOf item) | string | - | - | - | - |
+| 1 (allOf item) | - | - | - | <= 5 characters | - |
+| (not) | string | - | - | - | - |
+`;
+
+    const result = render(<Schema schema={schema} schemaName="Test schema" />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
+  it('should render conditional schemas', () => {
+    const schema = new SchemaModel({
+      "if": {
+        "type": "string",
+      },
+      "then": {
+        "minLength": 1,
+      },
+      "else": {
+        "maximum": 5,
+      }
+    });
+    const expected = `
+#### Test schema
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | any | - | - | - | - |
+| (if) | string | - | - | - | - |
+| (then) | - | - | - | non-empty | - |
+| (else) | - | - | - | <= 5 | - |
+`;
+
+    const result = render(<Schema schema={schema} schemaName="Test schema" />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
 });

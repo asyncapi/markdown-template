@@ -118,17 +118,20 @@ export class SchemaHelpers {
   }
 
   static toCombinedType(schema) {
-    const oneOf = schema.oneOf();
-    if (oneOf) {
-      return 'oneOf';
+    const t = [];
+    if (schema.oneOf()) {
+      t.push('oneOf');
     }
     if (schema.anyOf()) {
-      return 'anyOf';
+      t.push('anyOf');
     }
     if (schema.allOf()) {
-      return 'allOf';
+      t.push('allOf');
     }
-    return;
+    if (t.length === 0 || t.length > 1) {
+      return undefined;
+    }
+    return t[0];
   }
 
   static inferType(schema) {

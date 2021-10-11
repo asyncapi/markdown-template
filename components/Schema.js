@@ -29,13 +29,13 @@ function SchemaContent({ schema, schemaName, path = '' }) {
       <SchemaItems schema={schema} schemaName={schemaName} path={path} />
 
       {schema.oneOf() && schema.oneOf().map((s, idx) => (
-        <SchemaPropRow schema={s} schemaName={idx} path={buildPath(path || schemaName, idx)} nameNote='oneOf item' />
+        <SchemaPropRow schema={s} schemaName={idx} path={buildPath(path || schemaName, idx)} nameNote='oneOf item' key={idx} />
       ))}
       {schema.anyOf() && schema.anyOf().map((s, idx) => (
-        <SchemaPropRow schema={s} schemaName={idx} path={buildPath(path || schemaName, idx)} nameNote='anyOf item' />
+        <SchemaPropRow schema={s} schemaName={idx} path={buildPath(path || schemaName, idx)} nameNote='anyOf item' key={idx} />
       ))}
       {schema.allOf() && schema.allOf().map((s, idx) => (
-        <SchemaPropRow schema={s} schemaName={idx} path={buildPath(path || schemaName, idx)} nameNote='allOf item' />
+        <SchemaPropRow schema={s} schemaName={idx} path={buildPath(path || schemaName, idx)} nameNote='allOf item' key={idx} />
       ))}
       {schema.not() && (
         <SchemaPropRow schema={schema.not()} path={path} nameNote='not' />
