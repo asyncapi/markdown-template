@@ -1,6 +1,6 @@
 # Markdown template for the AsyncAPI Generator
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Usage
@@ -50,6 +50,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/magicmatatjahu"><img src="https://avatars2.githubusercontent.com/u/20404945?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Maciej Urbańczyk</b></sub></a><br /><a href="https://github.com/asyncapi/markdown-template/commits?author=magicmatatjahu" title="Documentation">📖</a> <a href="https://github.com/asyncapi/markdown-template/commits?author=magicmatatjahu" title="Code">💻</a></td>
     <td align="center"><a href="http://blog.ineat-conseil.fr/"><img src="https://avatars.githubusercontent.com/u/5501911?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ludovic Dussart</b></sub></a><br /><a href="https://github.com/asyncapi/markdown-template/commits?author=M3lkior" title="Code">💻</a></td>
     <td align="center"><a href="http://mermade.github.io"><img src="https://avatars.githubusercontent.com/u/21603?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mike Ralphson</b></sub></a><br /><a href="https://github.com/asyncapi/markdown-template/commits?author=MikeRalphson" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/stuartforrest-infinity"><img src="https://avatars.githubusercontent.com/u/49638642?v=4?s=100" width="100px;" alt=""/><br /><sub><b>stuartforrest-infinity</b></sub></a><br /><a href="https://github.com/asyncapi/markdown-template/issues?q=author%3Astuartforrest-infinity" title="Bug reports">🐛</a> <a href="https://github.com/asyncapi/markdown-template/commits?author=stuartforrest-infinity" title="Code">💻</a></td>
+    <td align="center"><a href="http://dalelane.co.uk/"><img src="https://avatars.githubusercontent.com/u/1444788?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Dale Lane</b></sub></a><br /><a href="https://github.com/asyncapi/markdown-template/commits?author=dalelane" title="Code">💻</a> <a href="#ideas-dalelane" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
