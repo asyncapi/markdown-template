@@ -37,14 +37,15 @@
   },
   "devDependencies": {
     "@asyncapi/generator": "^1.8.14",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-react": "^7.14.5",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/github": "^7.0.4",
     "@semantic-release/npm": "^7.0.3",
     "@semantic-release/release-notes-generator": "^9.0.1",
     "conventional-changelog-conventionalcommits": "^4.2.3",
-    "semantic-release": "^17.0.4",
     "jest": "^27.2.5",
-    "jest-esm-transformer": "^1.0.0"
+    "semantic-release": "^17.0.4"
   },
   "release": {
     "branches": [
@@ -91,9 +92,22 @@
       }
     }
   },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      [
+        "@babel/preset-react",
+        {
+          "runtime": "automatic"
+        }
+      ]
+    ]
+  },
   "jest": {
-    "transform": {
-      "\\.m?jsx?$": "jest-esm-transformer"
-    }
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "jsx"
+    ]
   }
 }

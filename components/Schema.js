@@ -145,7 +145,7 @@ function SchemaItems({ schema, schemaName, path }) {
     Object.keys(items.properties() || {}).length
   ) {
     return (
-      <SchemaProperties schema={items} path={path} />
+      <SchemaProperties schema={items} path={path} nameNote='single item' />
     );
   } else if (Array.isArray(items)) {
     return items.map((item, idx) => (
@@ -153,6 +153,7 @@ function SchemaItems({ schema, schemaName, path }) {
         schema={item} 
         path={buildPath(path || schemaName, idx)}
         key={idx}
+        nameNote='index'
       />
     ));
   }
@@ -248,6 +249,7 @@ function SchemaPropRow({
 }
 
 function tree(path = '') {
+  path = String(path);
   const filteredPaths = path.split('.').filter(Boolean);
   return filteredPaths.join('.');
 }
@@ -295,7 +297,7 @@ function schemaNotes(schema, required = false, dependentRequired = [], isCircula
 
   if (required) notes.push('**required**');
   if (dependentRequired.length) {
-    notes.push(`**required when defined (${dependentRequired.join(', ')})**`);
+    notes.push(`**required when defined (${dependentRequired.map(v => `\`${v}\``).join(', ')})**`);
   }
 
   if (isCircular) notes.push('**[CIRCULAR]**');
@@ -318,7 +320,7 @@ function schemaNotes(schema, required = false, dependentRequired = [], isCircula
     }
 
     // additional items
-    if (type.includes('array') || Array.isArray(schema.items())) {
+    if (type.includes('array') && Array.isArray(schema.items())) {
       const additionalItems = schema.additionalItems();
       if (additionalItems === true || additionalItems === undefined) {
         notes.push('**additional items are allowed**');

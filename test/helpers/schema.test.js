@@ -1,7 +1,7 @@
-import { SchemaHelpers, SchemaCustomTypes } from '../../helpers/schema';
-
 import Schema from '@asyncapi/parser/lib/models/schema';
 import ChannelParameter from '@asyncapi/parser/lib/models/channel-parameter';
+
+import { SchemaHelpers, SchemaCustomTypes } from '../../helpers/schema';
 
 describe('SchemaHelpers', () => {
   describe('.toSchemaType', () => {
