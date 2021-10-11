@@ -44,7 +44,7 @@ export function TableOfContents({ asyncapi }) {
 }
 
 /**
- * Slugify the url part of a markdown link.
+ * Slugify (change value to appropriate hash) the url part of a markdown link.
  *
  * @param  {String} `str` The string to slugify
  * @return {String}
@@ -53,10 +53,16 @@ function slugify(str) {
   str = getTitle(str);
   str = str.toLowerCase();
 
+  // `split(...).join(...)` is faster than `replace(..., ...)`
+  // for spaces
   str = str.split(' ').join('-');
+  // for tabs
   str = str.split(/\t/).join('--');
+  // for html tags
   str = str.split(/<\/?[^>]{1,100}>/).join('');
+  // for special characters from ASCII (part 1)
   str = str.split(/[|$&`~=\\\/@+*!?({[\]})<>.,;:'"^]/).join('');
+  // for special characters from ASCII (part 2)
   str = str.split(/[。？！，、；：【】（）〔〕［］﹃﹄“ ”‘’﹁﹂—…－～《》〈〉「」]/).join('');
 
   return str;
