@@ -1,8 +1,9 @@
 import { Text } from "@asyncapi/generator-react-sdk";
 import { generateExample, getPayloadExamples, getHeadersExamples } from "@asyncapi/generator-filters";
 
-import { Header, CodeBlock, BlockQuote, Tags } from "./common";
 import { Schema } from "./Schema";
+import { Tags } from "./Tags";
+import { Header, CodeBlock, BlockQuote } from "./common";
 
 export function Message({ message, title = 'Message' }) {
   return (
