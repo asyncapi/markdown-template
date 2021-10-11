@@ -12,15 +12,15 @@ describe('Info component', () => {
         "title": "Streetlights API",
         "version": "1.0.0",
         "description": "The Smartylighting Streetlights API allows you to remotely manage the city lights.\n### Check out its awesome features:\n* Turn a specific streetlight on/off 🌃\n* Dim a specific streetlight 😎\n* Receive real-time information about environmental lighting conditions 📈\n",
-        "termsOfService": "http://asyncapi.org/terms/",
+        "termsOfService": "https://asyncapi.org/terms/",
         "contact": {
           "name": "API Support",
-          "url": "http://www.asyncapi.org/support",
+          "url": "https://www.asyncapi.org/support",
           "email": "support@asyncapi.org"
         },
         "license": {
           "name": "Apache 2.0",
-          "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+          "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
         }
       },
       "tags": [
@@ -62,10 +62,10 @@ describe('Info component', () => {
 # Streetlights API 1.0.0 documentation
 
 * Specification ID: \`urn:com:smartylighting:streetlights:server\`
-* License: [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-* Terms of service: [http://asyncapi.org/terms/](http://asyncapi.org/terms/)
+* License: [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
+* Terms of service: [https://asyncapi.org/terms/](https://asyncapi.org/terms/)
 * Default content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
-* Support: [API Support](http://www.asyncapi.org/support)
+* Support: [API Support](https://www.asyncapi.org/support)
 * Email support: [support@asyncapi.org](mailto:support@asyncapi.org)
 
 [More info here](https://example.com)

@@ -49,12 +49,12 @@ function slugify(str) {
 
   str = str.split(' ').join('-');
   str = str.split(/\t/).join('--');
-  str = str.split(/<\/?[^>]+>/).join('');
-  str = str.split(/[|$&`~=\\\/@+*!?({[\]})<>=.,;:'"^]/).join('');
-  str = str.split(/[。？！，、；：“”【】（）〔〕［］﹃﹄“ ”‘’﹁﹂—…－～《》〈〉「」]/).join('');
+  str = str.split(/<\/?[^>]{1,100}>/).join('');
+  str = str.split(/[|$&`~=\\\/@+*!?({[\]})<>.,;:'"^]/).join('');
+  str = str.split(/[。？！，、；：【】（）〔〕［］﹃﹄“ ”‘’﹁﹂—…－～《》〈〉「」]/).join('');
 
   return str;
-};
+}
 
 function getTitle(str) {
   if (/^\[[^\]]+\]\(/.test(str)) {
@@ -62,4 +62,4 @@ function getTitle(str) {
     if (m) return m[1];
   }
   return str;
-};
+}
