@@ -76,7 +76,6 @@ describe('Schema component', () => {
     const schema = new SchemaModel({
       type: "integer",
       description: "Age in years which must be equal to or greater than zero.",
-      type: "integer",
       minimum: 0
     });
     const expected = `
