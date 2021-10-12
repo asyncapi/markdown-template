@@ -104,7 +104,7 @@ The production API server
     expect(result.trim()).toEqual(expected.trim());
   });
 
-  it('should render server security', () => {
+  it('should render server security - all cases', () => {
     const asyncapi = new AsyncAPIDocument({
       "servers": {
         "production": {
@@ -263,32 +263,66 @@ The production API server
 
 #### Security
 
+##### Security Requirement 1
+
 * Type: \`User/Password\`
+
+
+
+##### Security Requirement 2
 
 * Type: \`API key\`
   * In: user
 
   Provide your API key as the user and leave the password empty.
 
+
+
+##### Security Requirement 3
+
 * Type: \`X509\`
+
+
+
+##### Security Requirement 4
 
 * Type: \`Symmetric Encription\`
 
+
+
+##### Security Requirement 5
+
 * Type: \`Asymmetric Encription\`
+
+
+
+##### Security Requirement 6
 
 * Type: \`HTTP\`
   * Scheme: basic
 
+
+
+
+##### Security Requirement 7
 
 * Type: \`HTTP API key\`
   * Name: api_key
   * In: header
 
 
+
+
+##### Security Requirement 8
+
 * Type: \`HTTP\`
   * Scheme: bearer
   * Bearer format: JWT
 
+
+
+
+##### Security Requirement 9
 
 * Type: \`OAuth2\`
   * Flows:
@@ -306,13 +340,33 @@ The production API server
 
   Flows to support OAuth 2.0
 
+
+
+##### Security Requirement 10
+
 * Type: \`ScramSha256\`
+
+
+
+##### Security Requirement 11
 
 * Type: \`ScramSha512\`
 
+
+
+##### Security Requirement 12
+
 * Type: \`GSSAPI\`
 
+
+
+##### Security Requirement 13
+
 * Type: \`PLAIN\`
+
+
+
+##### Security Requirement 14
 
 * Type: \`Open ID\`
   * OpenID Connect URL: [https://authserver.example/.well-known](https://authserver.example/.well-known)
@@ -322,7 +376,102 @@ The production API server
     expect(result.trim()).toEqual(expected.trim());
   });
 
-  it('should render server security for kafka protocols', () => {
+  it('should render server security for kafka protocols - multiple requirements case', () => {
+    const asyncapi = new AsyncAPIDocument({
+      "servers": {
+        "production": {
+          "url": "some.url",
+          "protocol": "mqtt",
+          "security": [
+            {
+              "userPassword": [],
+              "apiKey": []
+            },
+            {
+              "apiKey": []
+            },
+          ]
+        }
+      },
+      "components": {
+        "securitySchemes": {
+          "userPassword": {
+            "type": "userPassword"
+          },
+          "apiKey": {
+            "type": "apiKey",
+            "in": "user",
+            "description": "Provide your API key as the user and leave the password empty."
+          },
+        }
+      }
+    });
+    const expected = `
+## Servers
+
+### \`production\` Server
+
+* URL: \`some.url\`
+* Protocol: \`mqtt\`
+
+
+#### Security
+
+##### Security Requirement 1
+
+* Type: \`User/Password\`
+
+* Type: \`API key\`
+  * In: user
+
+  Provide your API key as the user and leave the password empty.
+
+
+
+##### Security Requirement 2
+
+* Type: \`API key\`
+  * In: user
+
+  Provide your API key as the user and leave the password empty.
+`;
+
+    const result = render(<Servers asyncapi={asyncapi} />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
+  it('should render server security for kafka protocols - without security schema', () => {
+    const asyncapi = new AsyncAPIDocument({
+      "servers": {
+        "test": {
+          "url": "test.mykafkacluster.org:8092",
+          "protocol": "kafka-secure",
+          "description": "Test broker",
+        }
+      }
+    });
+    const expected = `
+## Servers
+
+### \`test\` Server
+
+* URL: \`test.mykafkacluster.org:8092\`
+* Protocol: \`kafka-secure\`
+
+Test broker
+
+#### Security
+
+##### Security Requirement 1
+
+  * security.protocol: SSL
+`;
+
+    const result = render(<Servers asyncapi={asyncapi} />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
+  it('should render server security for kafka protocols - with security schema', () => {
     const asyncapi = new AsyncAPIDocument({
       "servers": {
         "test": {
@@ -356,6 +505,8 @@ The production API server
 Test broker
 
 #### Security
+
+##### Security Requirement 1
 
 * Type: \`ScramSha512\`
   * security.protocol: SASL_SSL

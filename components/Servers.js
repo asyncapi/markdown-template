@@ -75,7 +75,7 @@ function ServerSecurity({ protocol, security, asyncapi }) {
   const securitySchemes =
     asyncapi.hasComponents() && asyncapi.components().securitySchemes();
 
-  let renderedServerSecurities;
+  let renderedRequirements;
   if (
     !security ||
     !security.length ||
@@ -83,34 +83,64 @@ function ServerSecurity({ protocol, security, asyncapi }) {
     !Object.keys(securitySchemes).length
   ) {
     if (protocol === 'kafka' || protocol === 'kafka-secure') {
-      renderedServerSecurities = (
-        <ServerSecurityItem protocol={protocol} securitySchema={null} />
+      renderedRequirements = (
+        <SecurityRequirementItem protocol={protocol} requirement={null} />
       );
     }
   } else {
-    renderedServerSecurities = security
-      .map(requirement => {
-        const defKey = Object.keys(requirement.json())[0];
-        const requiredScopes = requirement.json()[defKey];
-        const def = securitySchemes[defKey];
-        if (!def) {
-          return null;
+    renderedRequirements = security
+      .map((requirement, idx) => (
+        <SecurityRequirementItem protocol={protocol} requirement={requirement} securitySchemes={securitySchemes} index={idx} key={idx} />
+      ))
+      .filter(Boolean);
+
+    if (renderedRequirements.length === 0) {
+      return null;
+    }
+  }
+
+  if (!renderedRequirements) {
+    return null;
+  }
+
+  return (
+    <Text>
+      <Header type={4}>Security</Header>
+      <Text>
+        {renderedRequirements}
+      </Text>
+    </Text>
+  );
+}
+
+function SecurityRequirementItem({ protocol, requirement, securitySchemes, index = 0 }) {
+  let renderedServerSecurities;
+  if (requirement === null && (protocol === 'kafka' || protocol === 'kafka-secure')) {
+    renderedServerSecurities = (
+      <ServerSecurityItem protocol={protocol} securitySchema={null} />
+    );
+  } else if (requirement) {
+    renderedServerSecurities = Object.entries(requirement.json())
+      .map(([requiredKey, requiredScopes]) => {
+        const securitySchema = securitySchemes[requiredKey];
+        if (!securitySchema) {
+          return;
         }
         return (
           <ServerSecurityItem
             protocol={protocol}
-            securitySchema={def}
+            securitySchema={securitySchema}
             requiredScopes={requiredScopes}
-            key={def.type() || protocol}
+            key={securitySchema.type() || protocol}
           />
         );
       })
       .filter(Boolean);
 
-    if (renderedServerSecurities.length === 0) {
+    if (!renderedServerSecurities.length) {
       return null;
     }
-  }
+  } 
 
   if (!renderedServerSecurities) {
     return null;
@@ -118,7 +148,7 @@ function ServerSecurity({ protocol, security, asyncapi }) {
 
   return (
     <Text>
-      <Header type={4}>Security</Header>
+      <Header type={5}>Security Requirement {`${index + 1}`}</Header>
       <Text>
         {renderedServerSecurities}
       </Text>
