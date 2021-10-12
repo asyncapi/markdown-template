@@ -2,6 +2,7 @@ import { IndentationTypes, Text } from "@asyncapi/generator-react-sdk";
 
 import { Header, ListItem, Link, Table, NewLine } from "./common";
 import { ServerHelpers } from "../helpers/server";
+import { FormatHelpers } from "../helpers/format";
 
 export function Servers({ asyncapi }) {
   if (!asyncapi.hasServers()) {
@@ -57,8 +58,8 @@ function ServerVariables({ variables }) {
   const variableRenderer = ([variableName, variable]) => [
     variableName || '-',
     variable.description() || '-',
-    variable.hasDefaultValue() ? `\`${variable.defaultValue()}\`` : '_None_',
-    variable.hasAllowedValues() ? `${variable.allowedValues().map(v => `\`${v}\``).join(', ')}` : '_Any_',
+    variable.hasDefaultValue() ? FormatHelpers.inlineCode(variable.defaultValue()) : '_None_',
+    variable.hasAllowedValues() ? `${variable.allowedValues().map(FormatHelpers.inlineCode).join(', ')}` : '_Any_',
   ];
   const variablesData = Object.entries(variables);
 
@@ -127,44 +128,9 @@ function ServerSecurity({ protocol, security, asyncapi }) {
 
 function ServerSecurityItem({ protocol, securitySchema, requiredScopes = [] }) {
   let schemas = [];
-  if (securitySchema) {
-    if (securitySchema.name()) {
-      schemas.push(<ListItem>Name: {securitySchema.name()}</ListItem>);
-    }
-    if (securitySchema.in()) {
-      schemas.push(<ListItem>In: {securitySchema.in()}</ListItem>);
-    }
-    if (securitySchema.scheme()) {
-      schemas.push(<ListItem>Scheme: {securitySchema.scheme()}</ListItem>);
-    }
-    if (securitySchema.bearerFormat()) {
-      schemas.push(<ListItem>Bearer format: {securitySchema.bearerFormat()}</ListItem>);
-    }
-    if (securitySchema.openIdConnectUrl()) {
-      schemas.push(
-        <ListItem>
-          OpenID Connect URL:{' '}
-          <Link href={securitySchema.openIdConnectUrl()}>
-            {securitySchema.openIdConnectUrl()}
-          </Link>
-        </ListItem>
-      );
-    }
-  }
-  if (protocol === 'kafka' || protocol === 'kafka-secure') {
-    const { securityProtocol, saslMechanism } = ServerHelpers.getKafkaSecurity(
-      protocol,
-      securitySchema,
-    );
-
-    if (securityProtocol) {
-      schemas.push(<ListItem>security.protocol: {securityProtocol}</ListItem>);
-    }
-    if (saslMechanism) {
-      schemas.push(<ListItem>sasl.mechanism: {saslMechanism}</ListItem>);
-    }
-  }
-  schemas.push(<ServerSecurityItemFlows securitySchema={securitySchema} requiredScopes={requiredScopes} />);
+  renderServerSecuritySchemasBasic({ securitySchema, schemas });
+  renderServerSecuritySchemasKafka({ protocol, securitySchema, schemas });
+  renderServerSecuritySchemasFlows({ securitySchema, requiredScopes, schemas })
 
   schemas = schemas.filter(Boolean);
   if (schemas.length === 0) {
@@ -189,10 +155,56 @@ function ServerSecurityItem({ protocol, securitySchema, requiredScopes = [] }) {
   );
 }
 
-function ServerSecurityItemFlows({ securitySchema, requiredScopes }) {
-  const render = securitySchema && securitySchema.flows() && Object.keys(securitySchema.flows()).length;
-  if (!render) {
-    return null;
+function renderServerSecuritySchemasBasic({ securitySchema, schemas }) {
+  if (securitySchema) {
+    if (securitySchema.name()) {
+      schemas.push(<ListItem>Name: {securitySchema.name()}</ListItem>);
+    }
+    if (securitySchema.in()) {
+      schemas.push(<ListItem>In: {securitySchema.in()}</ListItem>);
+    }
+    if (securitySchema.scheme()) {
+      schemas.push(<ListItem>Scheme: {securitySchema.scheme()}</ListItem>);
+    }
+    if (securitySchema.bearerFormat()) {
+      schemas.push(<ListItem>Bearer format: {securitySchema.bearerFormat()}</ListItem>);
+    }
+    if (securitySchema.openIdConnectUrl()) {
+      schemas.push(
+        <ListItem>
+          OpenID Connect URL:{' '}
+          <Link href={securitySchema.openIdConnectUrl()}>
+            {securitySchema.openIdConnectUrl()}
+          </Link>
+        </ListItem>
+      );
+    }
+  }
+}
+
+function renderServerSecuritySchemasKafka({ protocol, securitySchema, schemas }) {
+  const isKafkaProtocol = protocol === 'kafka' || protocol === 'kafka-secure';
+  if (!isKafkaProtocol) {
+    return;
+  }
+
+  const { securityProtocol, saslMechanism } = ServerHelpers.getKafkaSecurity(
+    protocol,
+    securitySchema,
+  );
+
+  if (securityProtocol) {
+    schemas.push(<ListItem>security.protocol: {securityProtocol}</ListItem>);
+  }
+  if (saslMechanism) {
+    schemas.push(<ListItem>sasl.mechanism: {saslMechanism}</ListItem>);
+  }
+}
+
+function renderServerSecuritySchemasFlows({ securitySchema, requiredScopes, schemas }) {
+  const hasFlows = securitySchema && securitySchema.flows() && Object.keys(securitySchema.flows()).length;
+  if (!hasFlows) {
+    return;
   }
 
   const flowsHeader = ['Flow', 'Auth URL', 'Token URL', 'Refresh URL', 'Scopes'];
@@ -205,7 +217,7 @@ function ServerSecurityItemFlows({ securitySchema, requiredScopes }) {
   ];
   const flowsData = Object.entries(securitySchema.flows());
 
-  return (
+  schemas.push(
     <ListItem>
       Flows:
       <NewLine numbers={2} />
