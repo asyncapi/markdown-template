@@ -25,11 +25,11 @@ export function ListItem({ type = "*", childrenContent = "" }) {
 }
 
 export function Table({ headers = [], rowRenderer = () => [], data = [] }) {
-  const row = entry => <Text>{`| ${rowRenderer(entry).join(' | ')} |`}</Text>;
+  const row = (entry, idx) => <Text key={idx}>{`| ${rowRenderer(entry).join(' | ')} |`}</Text>;
   return (
     <>
       <TableHead headers={headers} />
-      {data.map(entry => row(entry))}
+      {data.map((entry, idx) => row(entry, idx))}
     </>
   );
 }
@@ -64,12 +64,6 @@ export function BlockQuote({ childrenContent = "" }) {
   return <Text newLines={2}>{`> ${childrenContent}`}</Text>
 }
 
-export function Tags({ tags = [] }) {
-  return (
-    <Text>
-      {tags.map(tag => (
-        <ListItem>{tag.name()}</ListItem>
-      ))}
-    </Text>
-  );
+export function NewLine({ numbers = 1 }) {
+  return Array(numbers).fill('\n').join('');
 }

@@ -4,7 +4,7 @@ import { Tags } from "../../components/Tags";
 import TagModel from '@asyncapi/parser/lib/models/tag';
 
 describe('Tags component', () => {
-  it('should render logo from an extension', () => {
+  it('should render list of tags', () => {
     const tags = [
       {
         "name": "root-tag1",
