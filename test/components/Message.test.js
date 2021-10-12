@@ -144,8 +144,9 @@ describe('Message component', () => {
 *Action to sign a user up.*
 
 * Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
-* Correlation ID: \`$message.header#/correlationId\`  Default Correlation ID
+* Correlation ID: \`$message.header#/correlationId\`
 
+  Default Correlation ID
 
 A longer description
 

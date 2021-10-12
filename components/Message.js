@@ -3,7 +3,7 @@ import { generateExample, getPayloadExamples, getHeadersExamples } from "@asynca
 
 import { Schema } from "./Schema";
 import { Tags } from "./Tags";
-import { Header, ListItem, Link, BlockQuote, CodeBlock } from "./common";
+import { Header, ListItem, Link, BlockQuote, CodeBlock, NewLine } from "./common";
 
 export function Message({ message }) {
   if (!message) {
@@ -48,14 +48,19 @@ export function Message({ message }) {
             </ListItem>
           )}
           {correlationId && (
-            <ListItem>
-              Correlation ID: `{correlationId.location()}`
+            <>
+              <ListItem>
+                Correlation ID: `{correlationId.location()}`
+              </ListItem>
               {correlationId.hasDescription() && (
-                <Text indent={2} type={IndentationTypes.SPACES}>
-                  {correlationId.description()}
-                </Text>
+                <>
+                  <NewLine />
+                  <Text indent={2} type={IndentationTypes.SPACES}>
+                    {correlationId.description()}
+                  </Text>
+                </>
               )}
-            </ListItem>
+            </>
           )}
         </Text>
       ) : null}
