@@ -51,7 +51,7 @@ describe('Operations component', () => {
 *A user signed up.*
 
 * Operation ID: \`signedupuser\`
-* Available only on servers: \`rabbitmqBrokerInProd\`, \`rabbitmqBrokerInStaging\`
+* Available only on servers: [rabbitmqBrokerInProd](#rabbitmqbrokerinprod-server), [rabbitmqBrokerInStaging](#rabbitmqbrokerinstaging-server)
 
 This channel is used to exchange messages about users signing up
 

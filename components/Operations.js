@@ -1,11 +1,12 @@
 import { Text } from "@asyncapi/generator-react-sdk";
 
-import { Message } from "./NewMessage";
+import { Message } from "./Message";
 import { Schema } from "./Schema";
 import { Tags } from "./Tags";
 import { Header, ListItem, Link } from "./common";
 
 import { SchemaHelpers } from "../helpers/schema";
+import { FormatHelpers } from "../helpers/format";
 
 export function Operations({ asyncapi }) {
   const channels = asyncapi.channels();
@@ -76,8 +77,15 @@ function Operation({ type, operation, channelName, channel }) {
       {showInfoList ? (
         <Text>
           {operationId && <ListItem>Operation ID: `{operationId}`</ListItem>}
-          {/* make link to server and reuse FormatHelpers */}
-          {servers && servers.length && <ListItem>Available only on servers: {servers.map(s => `\`${s}\``).join(', ')}</ListItem>}
+          {servers && servers.length && (
+            <ListItem>
+              Available only on servers:{' '}
+              {servers.map(s => {
+                const slug = FormatHelpers.slugify(s);
+                return `[${s}](#${slug}-server)`;
+              }).join(', ')}
+            </ListItem>
+          )}
         </Text>
       ) : null}
 

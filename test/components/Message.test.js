@@ -1,6 +1,6 @@
 import { render } from '@asyncapi/generator-react-sdk';
 
-import { Message } from "../../components/NewMessage";
+import { Message } from "../../components/Message";
 import MessageModel from '@asyncapi/parser/lib/models/message';
 
 describe('Message component', () => {
