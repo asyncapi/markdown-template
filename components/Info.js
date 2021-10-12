@@ -1,7 +1,7 @@
 import { Text } from "@asyncapi/generator-react-sdk";
 
 import { Tags } from "./Tags";
-import { Header, Link, Image, List } from "./common";
+import { Header, Link, Image, List, NewLine } from "./common";
 
 export function Info({ asyncapi, params = {} }) {
   const info = asyncapi.info();
@@ -91,7 +91,7 @@ export function Info({ asyncapi, params = {} }) {
       {infoList.length && (
         <>
           <List list={infoList} />
-          <Text />
+          <NewLine />
         </>
       )}
 

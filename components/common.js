@@ -64,12 +64,6 @@ export function BlockQuote({ childrenContent = "" }) {
   return <Text newLines={2}>{`> ${childrenContent}`}</Text>
 }
 
-export function Tags({ tags = [] }) {
-  return (
-    <Text>
-      {tags.map(tag => (
-        <ListItem>{tag.name()}</ListItem>
-      ))}
-    </Text>
-  );
+export function NewLine({ numbers = 1 }) {
+  return Array(numbers).fill('\n').join('');
 }
