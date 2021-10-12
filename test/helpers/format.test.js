@@ -33,7 +33,9 @@ describe('FormatHelpers', () => {
     });
 
     test('should not return inlined md code - function case', () => {
-      const result = FormatHelpers.inlineCode(() => {});
+      const result = FormatHelpers.inlineCode(() => {
+        // This is intentional
+      });
       expect(result).toEqual('');
     });
 
