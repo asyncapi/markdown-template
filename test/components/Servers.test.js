@@ -30,21 +30,21 @@ describe('Servers component', () => {
     const expected = `
 ## Servers
 
-### **development** Server
+### \`development\` Server
 
 * URL: \`development.gigantic-server.com\`
 * Protocol: \`amqp 0.9.1\`
 
 Development server
 
-### **staging** Server
+### \`staging\` Server
 
 * URL: \`staging.gigantic-server.com\`
 * Protocol: \`amqp 0.9.1\`
 
 Staging server
 
-### **production** Server
+### \`production\` Server
 
 * URL: \`api.gigantic-server.com\`
 * Protocol: \`amqp 0.9.1\`
@@ -84,7 +84,7 @@ Production server
     const expected = `
 ## Servers
 
-### **production** Server
+### \`production\` Server
 
 * URL: \`{username}.gigantic-server.com:{port}/{basePath}\`
 * Protocol: \`secure-mqtt\`
@@ -255,7 +255,7 @@ The production API server
     const expected = `
 ## Servers
 
-### **production** Server
+### \`production\` Server
 
 * URL: \`some.url\`
 * Protocol: \`mqtt\`
@@ -348,7 +348,7 @@ The production API server
     const expected = `
 ## Servers
 
-### **test** Server
+### \`test\` Server
 
 * URL: \`test.mykafkacluster.org:8092\`
 * Protocol: \`kafka-secure\`

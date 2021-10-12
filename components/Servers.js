@@ -25,7 +25,7 @@ export function Servers({ asyncapi }) {
 function Server({ serverName, server, asyncapi }) {
   return (
     <>
-      <Header type={3}>{`**${serverName}** Server`}</Header>
+      <Header type={3}>{`\`${serverName}\` Server`}</Header>
       <ServerInfo server={server} />
       <ServerVariables variables={server.variables()} />
       <ServerSecurity protocol={server.protocol()} security={server.security()} asyncapi={asyncapi} />
