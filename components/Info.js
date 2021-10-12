@@ -112,9 +112,10 @@ export function Info({ asyncapi, params = {} }) {
       )}
 
       {asyncapi.hasTags() && (
-        <Text>
+        <>
+          <Header type={6}>Specification tags</Header>
           <Tags tags={asyncapi.tags()} />
-        </Text>
+        </>
       )}
     </Text>
   );

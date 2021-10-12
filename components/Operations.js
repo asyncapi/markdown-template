@@ -1,6 +1,9 @@
 import { Text } from "@asyncapi/generator-react-sdk";
 
-import { Header, ListItem } from "./common";
+import { Message } from "./NewMessage";
+import { Schema } from "./Schema";
+import { Tags } from "./Tags";
+import { Header, ListItem, Link } from "./common";
 
 import { SchemaHelpers } from "../helpers/schema";
 
@@ -41,7 +44,7 @@ export function Operations({ asyncapi }) {
       <Header type={2}>
         Operations
       </Header>
-      {channels}
+      {operationsList}
     </>
   );
 }
@@ -56,6 +59,7 @@ function Operation({ type, operation, channelName, channel }) {
   // check typeof as fallback for older version than `2.2.0`
   const servers = typeof channel.servers === 'function' && channel.servers();
   const renderedType = type === 'publish' ? 'PUB' : 'SUB';
+  const showInfoList = operationId || (servers && servers.length);
 
   return (
     <Text>
@@ -63,22 +67,23 @@ function Operation({ type, operation, channelName, channel }) {
         {`${renderedType} \`${channelName}\` Operation`}
       </Header>
 
-      {operationId || (servers && servers.length) ? (
+      {operation.summary() && (
+        <Text newLines={2}>
+          *{operation.summary()}*
+        </Text>
+      )}
+
+      {showInfoList ? (
         <Text>
           {operationId && <ListItem>Operation ID: `{operationId}`</ListItem>}
           {/* make link to server and reuse FormatHelpers */}
-          {servers && servers.length && <ListItem>Available only on servers: {servers.map(s => `\`${s}\``)}</ListItem>}
+          {servers && servers.length && <ListItem>Available only on servers: {servers.map(s => `\`${s}\``).join(', ')}</ListItem>}
         </Text>
       ) : null}
 
       {channel.hasDescription() && (
         <Text newLines={2}>
           {channel.description()}
-        </Text>
-      )}
-      {operation.summary() && (
-        <Text newLines={2}>
-          *{operation.summary()}*
         </Text>
       )}
       {operation.hasDescription() && (
@@ -99,7 +104,7 @@ function Operation({ type, operation, channelName, channel }) {
 
       {operation.hasTags() && (
         <>
-          <Header type={6}>Tags</Header>
+          <Header type={6}>Operation tags</Header>
           <Tags tags={operation.tags()} />
         </>
       )}
@@ -133,15 +138,14 @@ function OperationMessages({ operation }) {
 
   return (
     <>
-      {messages.length > 1 && 
+      {messages.length > 1 && (
         <Text newLines={2}>
           Accepts **one of** the following messages:
         </Text>
-      }
+      )}
       {messages.map(msg => (
-        <Message title={`Message \`${msg.uid()}\``} message={msg} />
-      ))
-      }
+        <Message title={`Message \`${msg.uid()}\``} message={msg} key={msg.uid()} />
+      ))}
     </>
   );
 }

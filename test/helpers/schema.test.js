@@ -325,10 +325,12 @@ describe('SchemaHelpers', () => {
           foo: {
             type: 'string',
             description: undefined,
+            "x-schema-private-parameter-location": undefined
           },
           bar: {
             type: 'string',
             description: 'Some description',
+            "x-schema-private-parameter-location": "$message.payload#/user/id"
           },
         },
         required: ['foo', 'bar'],

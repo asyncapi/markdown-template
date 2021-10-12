@@ -8,7 +8,7 @@ export function Schema({ schema, schemaName, hideTitle = false }) {
   const headers = ['Name', 'Type', 'Description', 'Value', 'Constraints', 'Notes'];
   return (
     <Text>
-      {hideTitle === false ? <Header type={4}>{schemaName}</Header> : null}
+      {schemaName && hideTitle === false ? <Header type={4}>{schemaName}</Header> : null}
       <TableHead headers={headers} />
       <SchemaPropRow schema={schema} path='' nameNote='root' />
       <SchemaContent schema={schema} schemaName='' />
@@ -299,6 +299,12 @@ function schemaNotes({ schema, required = false, dependentRequired = [], isCircu
   if (required) notes.push('**required**');
   if (dependentRequired.length) {
     notes.push(`**required when defined (${dependentRequired.map(v => `\`${v}\``).join(', ')})**`);
+  }
+
+  // location for channel parameter
+  const parameterLocation = schema.ext(SchemaHelpers.extParameterLocation);
+  if (parameterLocation) {
+    notes.push(`**parameter location (${parameterLocation})**`);
   }
 
   if (isCircular) notes.push('**circular**');
