@@ -12,7 +12,7 @@ export class ServerHelpers {
       case 'userPassword':
         return 'User/Password';
       case 'X509':
-        return 'X509:';
+        return 'X509';
       case 'symmetricEncryption':
         return 'Symmetric Encription';
       case 'asymmetricEncryption':
