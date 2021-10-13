@@ -1,6 +1,6 @@
 import { Text } from "@asyncapi/generator-react-sdk";
 
-import { Header, Table, ListItem, Link } from "./common";
+import { Header, Table } from "./common";
 
 export function Tags({ name = 'Tags', tags = [] }) {
   if (tags.length === 0) {
@@ -10,14 +10,11 @@ export function Tags({ name = 'Tags', tags = [] }) {
   const tagsHeader = ['Name', 'Description', 'Documentation'];
   const tagsRenderer = (tag) => {
     const externalDocs = tag.externalDocs();
+    const externalDocsDescription = externalDocs && externalDocs.hasDescription() ? externalDocs.description() : 'Find more info here';
     return [
       tag.name() || '-',
       tag.description() || '-',
-      externalDocs 
-        ? externalDocs.hasDescription() 
-          ? `[${externalDocs.description()}](${externalDocs.url()})`
-          : `[Find more info here](${externalDocs.url()})`
-        : '-',
+      externalDocs ? `[${externalDocsDescription}](${externalDocs.url()})` : '-',
     ];
   }
 
