@@ -216,6 +216,81 @@ A longer description of the message
     expect(result.trim()).toEqual(expected.trim());
   });
 
+  it('should render bindings', () => {
+    const asyncapi = new AsyncAPIDocument({
+      "channels": {
+        "user/{userId}/signup/{foobar}": {
+          "bindings": {
+            "http": {
+              "type": "request",
+              "method": "GET",
+              "query": {
+                "type": "object",
+                "required": [
+                  "companyId"
+                ],
+                "properties": {
+                  "companyId": {
+                    "type": "number",
+                    "minimum": 1,
+                    "description": "The Id of the company."
+                  }
+                },
+                "additionalProperties": false
+              },
+              "bindingVersion": "0.1.0"
+            },
+          },
+          "publish": {
+            "bindings": {
+              "kafka": {
+                "groupId": {
+                  "type": "string",
+                  "enum": [
+                    "myGroupId"
+                  ]
+                },
+                "clientId": {
+                  "type": "string",
+                  "enum": [
+                    "myClientId"
+                  ]
+                },
+                "bindingVersion": "0.1.0"
+              }
+            },
+          }
+        }
+      },
+    });
+    const expected = `
+## Operations
+
+### PUB \`user/{userId}/signup/{foobar}\` Operation
+
+#### \`http\` Channel specific information
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| type | - | - | \`"request"\` | - | - |
+| method | - | - | \`"GET"\` | - | - |
+| query | object | - | - | - | **additional properties are NOT allowed** |
+| query.companyId | number | The Id of the company. | - | >= 1 | **required** |
+| bindingVersion | - | - | \`"0.1.0"\` | - | - |
+
+#### \`kafka\` Operation specific information
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| groupId | string | - | allowed (\`"myGroupId"\`) | - | - |
+| clientId | string | - | allowed (\`"myClientId"\`) | - | - |
+| bindingVersion | - | - | \`"0.1.0"\` | - | - |
+`;
+
+    const result = render(<Operations asyncapi={asyncapi} />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
   it('should render nothing if operations prop is undefined', () => {
     const asyncapi = new AsyncAPIDocument({});
 

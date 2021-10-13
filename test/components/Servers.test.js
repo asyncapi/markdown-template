@@ -521,6 +521,57 @@ Test broker
     expect(result.trim()).toEqual(expected.trim());
   });
 
+  it('should render bindings', () => {
+    const asyncapi = new AsyncAPIDocument({
+      "servers": {
+        "development": {
+          "url": "development.gigantic-server.com",
+          "description": "Development server",
+          "protocol": "amqp",
+          "protocolVersion": "0.9.1",
+          "bindings": {
+            "kafka": {
+              "groupId": {
+                "type": "string",
+                "enum": [
+                  "myGroupId"
+                ]
+              },
+              "clientId": {
+                "type": "string",
+                "enum": [
+                  "myClientId"
+                ]
+              },
+              "bindingVersion": "0.1.0"
+            }
+          }
+        },
+      },
+    });
+    const expected = `
+## Servers
+
+### \`development\` Server
+
+* URL: \`development.gigantic-server.com\`
+* Protocol: \`amqp 0.9.1\`
+
+Development server
+
+#### \`kafka\` Server specific information
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| groupId | string | - | allowed (\`"myGroupId"\`) | - | - |
+| clientId | string | - | allowed (\`"myClientId"\`) | - | - |
+| bindingVersion | - | - | \`"0.1.0"\` | - | - |
+`;
+
+    const result = render(<Servers asyncapi={asyncapi} />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
   it('should render nothing if servers are undefined', () => {
     const asyncapi = new AsyncAPIDocument({
       "channels": {},

@@ -333,6 +333,47 @@ A simple ExtendedSimpleSignup example message
     expect(result.trim()).toEqual(expected.trim());
   });
 
+  it('should render bindings', () => {
+    const message = new MessageModel({
+      "title": "User signup",
+      "name": "UserSignup",
+      "summary": "Action to sign a user up.",
+      "bindings": {
+        "kafka": {
+          "groupId": {
+            "type": "string",
+            "enum": [
+              "myGroupId"
+            ]
+          },
+          "clientId": {
+            "type": "string",
+            "enum": [
+              "myClientId"
+            ]
+          },
+          "bindingVersion": "0.1.0"
+        }
+      },
+    });
+    const expected = `
+#### Message User signup \`UserSignup\`
+
+*Action to sign a user up.*
+
+#### \`kafka\` Message specific information
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| groupId | string | - | allowed (\`"myGroupId"\`) | - | - |
+| clientId | string | - | allowed (\`"myClientId"\`) | - | - |
+| bindingVersion | - | - | \`"0.1.0"\` | - | - |
+`;
+
+    const result = render(<Message message={message} />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
   it('should render nothing if message prop is undefined', () => {
     const result = render(<Message />);
     expect(result).toEqual('');

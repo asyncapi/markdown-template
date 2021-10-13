@@ -9,7 +9,7 @@ export function Bindings({ name = 'Binding specific information', item }) {
     return null;
   }
 
-  return Object.entries(bindings).map(
+  const renderBindings = Object.entries(bindings).map(
     ([bindingName, binding]) => {
       const schema = SchemaHelpers.jsonToSchema(binding);
       const schemaName = `${FormatHelpers.inlineCode(bindingName)} ${name}`;
@@ -17,5 +17,11 @@ export function Bindings({ name = 'Binding specific information', item }) {
         <Schema schemaName={schemaName} schema={schema} key={bindingName} />
       );
     },
+  );
+
+  return (
+    <>
+      {renderBindings}
+    </>
   );
 }
