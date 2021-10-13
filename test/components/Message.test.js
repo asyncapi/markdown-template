@@ -198,13 +198,13 @@ A simple UserSignup example message
 \`\`\`
 
 
-###### Message tags
+##### Message tags
 
-* user
-
-* signup
-
-* register
+| Name | Description | Documentation |
+|---|---|---|
+| user | - | - |
+| signup | - | - |
+| register | - | - |
 `;
 
     const result = render(<Message message={message} />);

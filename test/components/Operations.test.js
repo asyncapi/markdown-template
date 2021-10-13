@@ -57,13 +57,13 @@ This channel is used to exchange messages about users signing up
 
 [More info here](https://example.com)
 
-###### Operation tags
+##### Operation tags
 
-* user
-
-* signup
-
-* register
+| Name | Description | Documentation |
+|---|---|---|
+| user | - | - |
+| signup | - | - |
+| register | - | - |
 
 #### Message \`<anonymous-message-1>\`
 

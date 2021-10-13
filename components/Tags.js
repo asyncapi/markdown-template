@@ -1,44 +1,30 @@
-import { IndentationTypes, Text } from "@asyncapi/generator-react-sdk";
+import { Text } from "@asyncapi/generator-react-sdk";
 
-import { ListItem, Link } from "./common";
+import { Header, Table, ListItem, Link } from "./common";
 
-export function Tags({ tags = [] }) {
+export function Tags({ name = 'Tags', tags = [] }) {
   if (tags.length === 0) {
     return null
   }
 
-  return (
-    <>
-      {tags.map(tag => (
-        <Tag tag={tag} key={tag.name()} />
-      ))}
-    </>
-  );
-}
+  const tagsHeader = ['Name', 'Description', 'Documentation'];
+  const tagsRenderer = (tag) => {
+    const externalDocs = tag.externalDocs();
+    return [
+      tag.name() || '-',
+      tag.description() || '-',
+      externalDocs 
+        ? externalDocs.hasDescription() 
+          ? `[${externalDocs.description()}](${externalDocs.url()})`
+          : `[Find more info here](${externalDocs.url()})`
+        : '-',
+    ];
+  }
 
-function Tag({ tag }) {
-  const description = tag.description();
-  const externalDocs = tag.externalDocs();
-
   return (
-    <>
-      <Text>
-        <ListItem>{tag.name()}</ListItem>
-      </Text>
-      {description && (
-        <Text indent={2} type={IndentationTypes.SPACES}>
-          {description}
-        </Text>
-      )}
-      {externalDocs && (
-        <Text indent={2} type={IndentationTypes.SPACES}>
-          <Link
-            href={externalDocs.url()}
-          >
-            {externalDocs.hasDescription() ? externalDocs.description() : 'Find more info here.'}
-          </Link>
-        </Text>
-      )}
-    </>
+    <Text>
+      <Header type={5}>{name}</Header>
+      <Table headers={tagsHeader} rowRenderer={tagsRenderer} data={tags} />
+    </Text>
   );
 }

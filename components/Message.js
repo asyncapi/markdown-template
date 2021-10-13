@@ -1,6 +1,8 @@
 import { IndentationTypes, Text } from "@asyncapi/generator-react-sdk";
 import { generateExample, getPayloadExamples, getHeadersExamples } from "@asyncapi/generator-filters";
 
+import { Bindings } from "./Bindings";
+import { Extensions } from "./Extensions";
 import { Schema } from "./Schema";
 import { Tags } from "./Tags";
 import { Header, ListItem, Link, BlockQuote, CodeBlock, NewLine } from "./common";
@@ -97,11 +99,14 @@ export function Message({ message }) {
         </>
       )}
 
+      <Bindings
+        name="Message specific information"
+        item={message}
+      />
+      <Extensions name="Message Extensions" item={message} />
+
       {message.hasTags() && (
-        <>
-          <Header type={6}>Message tags</Header>
-          <Tags tags={message.tags()} />
-        </>
+        <Tags name="Message tags" tags={message.tags()} />
       )}
     </>
   )

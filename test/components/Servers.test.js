@@ -37,12 +37,14 @@ describe('Servers component', () => {
 
 Development server
 
+
 ### \`staging\` Server
 
 * URL: \`staging.gigantic-server.com\`
 * Protocol: \`amqp 0.9.1\`
 
 Staging server
+
 
 ### \`production\` Server
 

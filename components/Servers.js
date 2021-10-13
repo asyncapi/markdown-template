@@ -1,6 +1,9 @@
 import { IndentationTypes, Text } from "@asyncapi/generator-react-sdk";
 
+import { Bindings } from "./Bindings";
+import { Extensions } from "./Extensions";
 import { Header, ListItem, Link, Table, NewLine } from "./common";
+
 import { ServerHelpers } from "../helpers/server";
 import { FormatHelpers } from "../helpers/format";
 
@@ -24,12 +27,18 @@ export function Servers({ asyncapi }) {
 
 function Server({ serverName, server, asyncapi }) {
   return (
-    <>
+    <Text>
       <Header type={3}>{`\`${serverName}\` Server`}</Header>
       <ServerInfo server={server} />
       <ServerVariables variables={server.variables()} />
       <ServerSecurity protocol={server.protocol()} security={server.security()} asyncapi={asyncapi} />
-    </>
+
+      <Bindings
+        name="Server specific information"
+        item={server}
+      />
+      <Extensions name="Server Extensions" item={server} />
+    </Text>
   );
 }
 

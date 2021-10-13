@@ -35,21 +35,15 @@ describe('Tags component', () => {
       }
     ].map(t => new TagModel(t));
     const expected = `
-* root-tag1
+##### Tags
 
-  [External docs description 1](https://www.asyncapi.com/)
-* root-tag2
-
-  Description 2
-  [Find more info here.](https://www.asyncapi.com/)
-* root-tag3
-
-* root-tag4
-
-  Description 4
-* root-tag5
-
-  [Find more info here.](https://www.asyncapi.com/)
+| Name | Description | Documentation |
+|---|---|---|
+| root-tag1 | - | [External docs description 1](https://www.asyncapi.com/) |
+| root-tag2 | Description 2 | [Find more info here](https://www.asyncapi.com/) |
+| root-tag3 | - | - |
+| root-tag4 | Description 4 | - |
+| root-tag5 | - | [Find more info here](https://www.asyncapi.com/) |
 `;
     
     const result = render(<Tags tags={tags} />);
