@@ -103,7 +103,7 @@ export function Message({ message }) {
         name="Message specific information"
         item={message}
       />
-      <Extensions name="Message Extensions" item={message} />
+      <Extensions name="Message extensions" item={message} />
 
       {message.hasTags() && (
         <Tags name="Message tags" tags={message.tags()} />

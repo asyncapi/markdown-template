@@ -374,6 +374,51 @@ A simple ExtendedSimpleSignup example message
     expect(result.trim()).toEqual(expected.trim());
   });
 
+  it('should render extensions', () => {
+    const message = new MessageModel({
+      "title": "User signup",
+      "name": "UserSignup",
+      "summary": "Action to sign a user up.",
+      "x-schema-extensions-as-object": {
+        "type": "object",
+        "properties": {
+          "prop1": {
+            "type": "string"
+          },
+          "prop2": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "x-schema-extensions-as-primitive": "dummy",
+      "x-schema-extensions-as-array": [
+        "item1",
+        "item2"
+      ]
+    });
+    const expected = `
+#### Message User signup \`UserSignup\`
+
+*Action to sign a user up.*
+
+#### Message extensions
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| x-schema-extensions-as-object | object | - | - | - | **additional properties are allowed** |
+| x-schema-extensions-as-object.prop1 | string | - | - | - | - |
+| x-schema-extensions-as-object.prop2 | integer | - | - | >= 0 | - |
+| x-schema-extensions-as-primitive | - | - | \`"dummy"\` | - | - |
+| x-schema-extensions-as-array | - | - | - | - | - |
+| x-schema-extensions-as-array.0 (index) | - | - | \`"item1"\` | - | - |
+| x-schema-extensions-as-array.1 (index) | - | - | \`"item2"\` | - | - |
+`;
+
+    const result = render(<Message message={message} />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
   it('should render nothing if message prop is undefined', () => {
     const result = render(<Message />);
     expect(result).toEqual('');

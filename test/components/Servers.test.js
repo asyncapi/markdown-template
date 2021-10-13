@@ -572,6 +572,61 @@ Development server
     expect(result.trim()).toEqual(expected.trim());
   });
 
+  it('should render extensions', () => {
+    const asyncapi = new AsyncAPIDocument({
+      "servers": {
+        "development": {
+          "url": "development.gigantic-server.com",
+          "description": "Development server",
+          "protocol": "amqp",
+          "protocolVersion": "0.9.1",
+          "x-schema-extensions-as-object": {
+            "type": "object",
+            "properties": {
+              "prop1": {
+                "type": "string"
+              },
+              "prop2": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "x-schema-extensions-as-primitive": "dummy",
+          "x-schema-extensions-as-array": [
+            "item1",
+            "item2"
+          ],
+        },
+      },
+    });
+    const expected = `
+## Servers
+
+### \`development\` Server
+
+* URL: \`development.gigantic-server.com\`
+* Protocol: \`amqp 0.9.1\`
+
+Development server
+
+#### Server extensions
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| x-schema-extensions-as-object | object | - | - | - | **additional properties are allowed** |
+| x-schema-extensions-as-object.prop1 | string | - | - | - | - |
+| x-schema-extensions-as-object.prop2 | integer | - | - | >= 0 | - |
+| x-schema-extensions-as-primitive | - | - | \`"dummy"\` | - | - |
+| x-schema-extensions-as-array | - | - | - | - | - |
+| x-schema-extensions-as-array.0 (index) | - | - | \`"item1"\` | - | - |
+| x-schema-extensions-as-array.1 (index) | - | - | \`"item2"\` | - | - |
+`;
+
+    const result = render(<Servers asyncapi={asyncapi} />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
   it('should render nothing if servers are undefined', () => {
     const asyncapi = new AsyncAPIDocument({
       "channels": {},

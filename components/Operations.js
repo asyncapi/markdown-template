@@ -127,8 +127,8 @@ function Operation({ type, operation, channelName, channel }) {
         item={operation}
       />
 
-      <Extensions name="Channel Extensions" item={channel} />
-      <Extensions name="Operation Extensions" item={operation} />
+      <Extensions name="Channel extensions" item={channel} />
+      <Extensions name="Operation extensions" item={operation} />
 
       <OperationMessages operation={operation} />
     </Text>

@@ -291,6 +291,83 @@ A longer description of the message
     expect(result.trim()).toEqual(expected.trim());
   });
 
+  it('should render extensions', () => {
+    const asyncapi = new AsyncAPIDocument({
+      "channels": {
+        "user/{userId}/signup/{foobar}": {
+          "x-schema-extensions-as-object": {
+            "type": "object",
+            "properties": {
+              "prop1": {
+                "type": "string"
+              },
+              "prop2": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "x-schema-extensions-as-primitive": "dummy",
+          "x-schema-extensions-as-array": [
+            "item1",
+            "item2"
+          ],
+          "publish": {
+            "x-schema-extensions-as-object": {
+              "type": "object",
+              "properties": {
+                "prop1": {
+                  "type": "string"
+                },
+                "prop2": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
+            "x-schema-extensions-as-primitive": "dummy",
+            "x-schema-extensions-as-array": [
+              "item1",
+              "item2"
+            ]
+          }
+        }
+      },
+    });
+    const expected = `
+## Operations
+
+### PUB \`user/{userId}/signup/{foobar}\` Operation
+
+#### Channel extensions
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| x-schema-extensions-as-object | object | - | - | - | **additional properties are allowed** |
+| x-schema-extensions-as-object.prop1 | string | - | - | - | - |
+| x-schema-extensions-as-object.prop2 | integer | - | - | >= 0 | - |
+| x-schema-extensions-as-primitive | - | - | \`"dummy"\` | - | - |
+| x-schema-extensions-as-array | - | - | - | - | - |
+| x-schema-extensions-as-array.0 (index) | - | - | \`"item1"\` | - | - |
+| x-schema-extensions-as-array.1 (index) | - | - | \`"item2"\` | - | - |
+
+#### Operation extensions
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| x-schema-extensions-as-object | object | - | - | - | **additional properties are allowed** |
+| x-schema-extensions-as-object.prop1 | string | - | - | - | - |
+| x-schema-extensions-as-object.prop2 | integer | - | - | >= 0 | - |
+| x-schema-extensions-as-primitive | - | - | \`"dummy"\` | - | - |
+| x-schema-extensions-as-array | - | - | - | - | - |
+| x-schema-extensions-as-array.0 (index) | - | - | \`"item1"\` | - | - |
+| x-schema-extensions-as-array.1 (index) | - | - | \`"item2"\` | - | - |
+`;
+
+    const result = render(<Operations asyncapi={asyncapi} />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
   it('should render nothing if operations prop is undefined', () => {
     const asyncapi = new AsyncAPIDocument({});
 

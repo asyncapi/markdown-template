@@ -37,7 +37,7 @@ function Server({ serverName, server, asyncapi }) {
         name="Server specific information"
         item={server}
       />
-      <Extensions name="Server Extensions" item={server} />
+      <Extensions name="Server extensions" item={server} />
     </Text>
   );
 }
