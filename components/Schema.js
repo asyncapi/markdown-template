@@ -77,7 +77,6 @@ function SchemaProperties({ schema, schemaName, path }) {
 
   const required = schema.required() || [];
   const patternProperties = schema.patternProperties();
-  const circularProps = schema.circularProps() || [];
 
   return (
     <>
@@ -87,7 +86,6 @@ function SchemaProperties({ schema, schemaName, path }) {
           schemaName={propertyName}
           path={buildPath(path || schemaName, propertyName)}
           required={required.includes(propertyName)}
-          isCircular={circularProps.includes(propertyName)}
           dependentRequired={SchemaHelpers.getDependentRequired(
             propertyName,
             schema,
@@ -100,7 +98,6 @@ function SchemaProperties({ schema, schemaName, path }) {
           schema={property}
           schemaName={propertyName}
           path={buildPath(path || schemaName, propertyName)}
-          isCircular={circularProps.includes(propertyName)}
           nameNote='pattern property'
           key={propertyName}
         />
@@ -192,7 +189,6 @@ function SchemaPropRow({
   required = false, 
   dependentRequired = [],
   path = '', 
-  isCircular = false,
   nameNote = '',
   tryRenderAdditionalNotes = true,
 }) {
@@ -205,7 +201,7 @@ function SchemaPropRow({
     return null;
   }
 
-  isCircular = isCircular || schema.ext('x-parser-circular') || false;
+  const isCircular = schema.isCircular() || false;
   const renderType = schema.ext(SchemaHelpers.extRenderType) !== false;
   const rawValue = schema.ext(SchemaHelpers.extRawValue) === true;
 
