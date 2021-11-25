@@ -36,7 +36,7 @@
     "yaml": "^1.10.0"
   },
   "devDependencies": {
-    "@asyncapi/generator": "^1.8.24",
+    "@asyncapi/generator": "^1.8.25",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
     "@semantic-release/commit-analyzer": "^8.0.1",
