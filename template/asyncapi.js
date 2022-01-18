@@ -6,7 +6,7 @@ import { Operations } from '../components/Operations';
 import { FrontMatter } from '../components/FrontMatter';
 import { TableOfContents } from '../components/TableOfContents';
 
-export default function Template({ asyncapi, params = {} }) {
+export default function({ asyncapi, params = {} }) {
   return (
     <File name={params.outFilename || 'asyncapi.md'}>
       {params.frontMatter && <FrontMatter asyncapi={asyncapi} params={params} />}

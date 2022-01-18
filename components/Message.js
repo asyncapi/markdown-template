@@ -114,12 +114,12 @@ export function Message({ message }) {
 
 function Examples({ type = 'headers', message }) {
   if (type === 'headers') {
-    const examples = getHeadersExamples(message);
-    if (examples) {
+    const ex = getHeadersExamples(message);
+    if (ex) {
       return (
         <>
           <BlockQuote>Examples of headers</BlockQuote>
-          <Example examples={examples} />
+          <Example examples={ex} />
         </>
       );
     }
@@ -133,6 +133,7 @@ function Examples({ type = 'headers', message }) {
       </>
     );
   } 
+  
   const examples = getPayloadExamples(message);
   if (examples) {
     return (
