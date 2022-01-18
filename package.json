@@ -32,8 +32,8 @@
   "dependencies": {
     "@asyncapi/generator-filters": "^2.1.0",
     "@asyncapi/generator-react-sdk": "^0.2.23",
-    "@asyncapi/parser": "^1.11.0",
-    "yaml": "^1.10.0"
+    "@asyncapi/parser": "^1.13.2",
+    "yaml": "^1.10.2"
   },
   "devDependencies": {
     "@asyncapi/generator": "^1.8.25",
