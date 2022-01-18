@@ -442,16 +442,114 @@ describe('Schema component', () => {
 
   it('should render circular schemas', () => {
     let schema = {
+      type: 'object',
       properties: {
-        firstName: {
-          type: "string",
-          description: "The person's first name."
+        "RecursiveSelf": {
+          "type": "object",
+          "properties": {
+            "selfChildren": {
+              "type": "array",
+              "items": {
+                "$ref": "#/RecursiveSelf"
+              }
+            },
+            "selfObjectChildren": {
+              "type": "object",
+              "properties": {
+                "test": {
+                  "$ref": "#/RecursiveSelf"
+                },
+                "nonRecursive": {
+                  "type": "string"
+                }
+              }
+            },
+            "selfSomething": {
+              "type": "object",
+              "properties": {
+                "test": {
+                  "$ref": "#/RecursiveAncestor"
+                }
+              }
+            }
+          }
         },
-        circular: {}
-      },
-      'x-parser-circular-props': ['circular']
+        "RecursiveAncestor": {
+          "type": "object",
+          "properties": {
+            "ancestorChildren": {
+              "type": "array",
+              "items": {
+                "$ref": "#/RecursiveSelf"
+              }
+            },
+            "ancestorSomething": {
+              "type": "string"
+            }
+          }
+        },
+        "NormalSchemaA": {
+          "type": "string",
+        },
+        "NestedAllOfSchema": {
+          "allOf": [
+            {
+              "$ref": "#/NormalSchemaA"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "parent": {
+                  "allOf": [
+                    {
+                      "$ref": "#/NestedAllOfSchema"
+                    },
+                    {
+                      "$ref": "#/NormalSchemaA"
+                    }
+                  ]
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          ]
+        },
+        "OneOf": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "oneOf": [
+                {
+                  "$ref": "#/OneOf"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "boolean",
+                    "string"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     };
-    schema.properties.circular = schema;
+    schema.properties.RecursiveSelf.properties.selfChildren.items = schema.properties.RecursiveSelf;
+    schema.properties.RecursiveSelf.properties.selfObjectChildren.properties.test = schema.properties.RecursiveSelf;
+    schema.properties.RecursiveSelf.properties.selfSomething.properties.test = schema.properties.RecursiveAncestor;
+    schema.properties.RecursiveAncestor.properties.ancestorChildren.items = schema.properties.RecursiveSelf;
+    schema.properties.NestedAllOfSchema.allOf[0] = schema.properties.NormalSchemaA;
+    schema.properties.NestedAllOfSchema.allOf[1].properties.parent.allOf[0] = schema.properties.NestedAllOfSchema;
+    schema.properties.NestedAllOfSchema.allOf[1].properties.parent.allOf[1] = schema.properties.NormalSchemaA;
+    schema.properties.OneOf.properties.kind.oneOf[0] = schema.properties.OneOf;
 
     schema = new SchemaModel(schema);
     const expected = `
@@ -459,9 +557,67 @@ describe('Schema component', () => {
 
 | Name | Type | Description | Value | Constraints | Notes |
 |---|---|---|---|---|---|
-| (root) | - | - | - | - | **additional properties are allowed** |
-| firstName | string | The person's first name. | - | - | - |
-| circular | - | - | - | - | **circular**, **additional properties are allowed** |
+| (root) | object | - | - | - | **additional properties are allowed** |
+| RecursiveSelf | object | - | - | - | **additional properties are allowed** |
+| RecursiveSelf.selfChildren | array<object> | - | - | - | - |
+| RecursiveSelf.selfChildren.selfChildren | array<object> | - | - | - | **circular** |
+| RecursiveSelf.selfChildren.selfObjectChildren | object | - | - | - | **additional properties are allowed** |
+| RecursiveSelf.selfChildren.selfObjectChildren.test | object | - | - | - | **circular**, **additional properties are allowed** |
+| RecursiveSelf.selfChildren.selfObjectChildren.nonRecursive | string | - | - | - | - |
+| RecursiveSelf.selfChildren.selfSomething | object | - | - | - | **additional properties are allowed** |
+| RecursiveSelf.selfChildren.selfSomething.test | object | - | - | - | **additional properties are allowed** |
+| RecursiveSelf.selfChildren.selfSomething.test.ancestorChildren | array<object> | - | - | - | - |
+| RecursiveSelf.selfChildren.selfSomething.test.ancestorChildren.selfChildren | array<object> | - | - | - | **circular** |
+| RecursiveSelf.selfChildren.selfSomething.test.ancestorChildren.selfObjectChildren | object | - | - | - | **additional properties are allowed** |
+| RecursiveSelf.selfChildren.selfSomething.test.ancestorChildren.selfObjectChildren.test | object | - | - | - | **circular**, **additional properties are allowed** |
+| RecursiveSelf.selfChildren.selfSomething.test.ancestorChildren.selfObjectChildren.nonRecursive | string | - | - | - | - |
+| RecursiveSelf.selfChildren.selfSomething.test.ancestorChildren.selfSomething | object | - | - | - | **circular**, **additional properties are allowed** |
+| RecursiveSelf.selfChildren.selfSomething.test.ancestorSomething | string | - | - | - | - |
+| RecursiveSelf.selfObjectChildren | object | - | - | - | **additional properties are allowed** |
+| RecursiveSelf.selfObjectChildren.test | object | - | - | - | **circular**, **additional properties are allowed** |
+| RecursiveSelf.selfObjectChildren.nonRecursive | string | - | - | - | - |
+| RecursiveSelf.selfSomething | object | - | - | - | **additional properties are allowed** |
+| RecursiveSelf.selfSomething.test | object | - | - | - | **additional properties are allowed** |
+| RecursiveSelf.selfSomething.test.ancestorChildren | array<object> | - | - | - | - |
+| RecursiveSelf.selfSomething.test.ancestorChildren.selfChildren | array<object> | - | - | - | - |
+| RecursiveSelf.selfSomething.test.ancestorChildren.selfChildren.selfChildren | array<object> | - | - | - | **circular** |
+| RecursiveSelf.selfSomething.test.ancestorChildren.selfChildren.selfObjectChildren | object | - | - | - | **additional properties are allowed** |
+| RecursiveSelf.selfSomething.test.ancestorChildren.selfChildren.selfObjectChildren.test | object | - | - | - | **circular**, **additional properties are allowed** |
+| RecursiveSelf.selfSomething.test.ancestorChildren.selfChildren.selfObjectChildren.nonRecursive | string | - | - | - | - |
+| RecursiveSelf.selfSomething.test.ancestorChildren.selfChildren.selfSomething | object | - | - | - | **circular**, **additional properties are allowed** |
+| RecursiveSelf.selfSomething.test.ancestorChildren.selfObjectChildren | object | - | - | - | **additional properties are allowed** |
+| RecursiveSelf.selfSomething.test.ancestorChildren.selfObjectChildren.test | object | - | - | - | **circular**, **additional properties are allowed** |
+| RecursiveSelf.selfSomething.test.ancestorChildren.selfObjectChildren.nonRecursive | string | - | - | - | - |
+| RecursiveSelf.selfSomething.test.ancestorChildren.selfSomething | object | - | - | - | **circular**, **additional properties are allowed** |
+| RecursiveSelf.selfSomething.test.ancestorSomething | string | - | - | - | - |
+| RecursiveAncestor | object | - | - | - | **additional properties are allowed** |
+| RecursiveAncestor.ancestorChildren | array<object> | - | - | - | - |
+| RecursiveAncestor.ancestorChildren.selfChildren | array<object> | - | - | - | - |
+| RecursiveAncestor.ancestorChildren.selfChildren.selfChildren | array<object> | - | - | - | **circular** |
+| RecursiveAncestor.ancestorChildren.selfChildren.selfObjectChildren | object | - | - | - | **additional properties are allowed** |
+| RecursiveAncestor.ancestorChildren.selfChildren.selfObjectChildren.test | object | - | - | - | **circular**, **additional properties are allowed** |
+| RecursiveAncestor.ancestorChildren.selfChildren.selfObjectChildren.nonRecursive | string | - | - | - | - |
+| RecursiveAncestor.ancestorChildren.selfChildren.selfSomething | object | - | - | - | **additional properties are allowed** |
+| RecursiveAncestor.ancestorChildren.selfChildren.selfSomething.test | object | - | - | - | **circular**, **additional properties are allowed** |
+| RecursiveAncestor.ancestorChildren.selfObjectChildren | object | - | - | - | **additional properties are allowed** |
+| RecursiveAncestor.ancestorChildren.selfObjectChildren.test | object | - | - | - | **circular**, **additional properties are allowed** |
+| RecursiveAncestor.ancestorChildren.selfObjectChildren.nonRecursive | string | - | - | - | - |
+| RecursiveAncestor.ancestorChildren.selfSomething | object | - | - | - | **additional properties are allowed** |
+| RecursiveAncestor.ancestorChildren.selfSomething.test | object | - | - | - | **circular**, **additional properties are allowed** |
+| RecursiveAncestor.ancestorSomething | string | - | - | - | - |
+| NormalSchemaA | string | - | - | - | - |
+| NestedAllOfSchema | allOf | - | - | - | **additional properties are allowed** |
+| NestedAllOfSchema.0 (allOf item) | string | - | - | - | - |
+| NestedAllOfSchema.1 (allOf item) | object | - | - | - | **additional properties are allowed** |
+| NestedAllOfSchema.1.parent | allOf | - | - | - | **additional properties are allowed** |
+| NestedAllOfSchema.1.parent.0 (allOf item) | allOf | - | - | - | **circular**, **additional properties are allowed** |
+| NestedAllOfSchema.1.parent.1 (allOf item) | string | - | - | - | - |
+| NestedAllOfSchema.1.name | string | - | - | - | **required** |
+| OneOf | object | - | - | - | **additional properties are allowed** |
+| OneOf.kind | oneOf | - | - | - | **additional properties are allowed** |
+| OneOf.kind.0 (oneOf item) | object | - | - | - | **circular**, **additional properties are allowed** |
+| OneOf.kind.1 (oneOf item) | string | - | - | - | - |
+| OneOf.kind.2 (oneOf item) | string | - | allowed (\`"boolean"\`, \`"string"\`) | - | **additional properties are allowed** |
 `;
 
     const result = render(<Schema schema={schema} schemaName="Test schema" />);

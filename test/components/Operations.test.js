@@ -57,13 +57,13 @@ This channel is used to exchange messages about users signing up
 
 [More info here](https://example.com)
 
-###### Operation tags
+##### Operation tags
 
-* user
-
-* signup
-
-* register
+| Name | Description | Documentation |
+|---|---|---|
+| user | - | - |
+| signup | - | - |
+| register | - | - |
 
 #### Message \`<anonymous-message-1>\`
 
@@ -210,6 +210,158 @@ A longer description of the message
   "user": "string"
 }
 \`\`\`
+`;
+
+    const result = render(<Operations asyncapi={asyncapi} />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
+  it('should render bindings', () => {
+    const asyncapi = new AsyncAPIDocument({
+      "channels": {
+        "user/{userId}/signup/{foobar}": {
+          "bindings": {
+            "http": {
+              "type": "request",
+              "method": "GET",
+              "query": {
+                "type": "object",
+                "required": [
+                  "companyId"
+                ],
+                "properties": {
+                  "companyId": {
+                    "type": "number",
+                    "minimum": 1,
+                    "description": "The Id of the company."
+                  }
+                },
+                "additionalProperties": false
+              },
+              "bindingVersion": "0.1.0"
+            },
+          },
+          "publish": {
+            "bindings": {
+              "kafka": {
+                "groupId": {
+                  "type": "string",
+                  "enum": [
+                    "myGroupId"
+                  ]
+                },
+                "clientId": {
+                  "type": "string",
+                  "enum": [
+                    "myClientId"
+                  ]
+                },
+                "bindingVersion": "0.1.0"
+              }
+            },
+          }
+        }
+      },
+    });
+    const expected = `
+## Operations
+
+### PUB \`user/{userId}/signup/{foobar}\` Operation
+
+#### \`http\` Channel specific information
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| type | - | - | \`"request"\` | - | - |
+| method | - | - | \`"GET"\` | - | - |
+| query | object | - | - | - | **additional properties are NOT allowed** |
+| query.companyId | number | The Id of the company. | - | >= 1 | **required** |
+| bindingVersion | - | - | \`"0.1.0"\` | - | - |
+
+#### \`kafka\` Operation specific information
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| groupId | string | - | allowed (\`"myGroupId"\`) | - | - |
+| clientId | string | - | allowed (\`"myClientId"\`) | - | - |
+| bindingVersion | - | - | \`"0.1.0"\` | - | - |
+`;
+
+    const result = render(<Operations asyncapi={asyncapi} />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
+  it('should render extensions', () => {
+    const asyncapi = new AsyncAPIDocument({
+      "channels": {
+        "user/{userId}/signup/{foobar}": {
+          "x-schema-extensions-as-object": {
+            "type": "object",
+            "properties": {
+              "prop1": {
+                "type": "string"
+              },
+              "prop2": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "x-schema-extensions-as-primitive": "dummy",
+          "x-schema-extensions-as-array": [
+            "item1",
+            "item2"
+          ],
+          "publish": {
+            "x-schema-extensions-as-object": {
+              "type": "object",
+              "properties": {
+                "prop1": {
+                  "type": "string"
+                },
+                "prop2": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
+            "x-schema-extensions-as-primitive": "dummy",
+            "x-schema-extensions-as-array": [
+              "item1",
+              "item2"
+            ]
+          }
+        }
+      },
+    });
+    const expected = `
+## Operations
+
+### PUB \`user/{userId}/signup/{foobar}\` Operation
+
+#### Channel extensions
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| x-schema-extensions-as-object | object | - | - | - | **additional properties are allowed** |
+| x-schema-extensions-as-object.prop1 | string | - | - | - | - |
+| x-schema-extensions-as-object.prop2 | integer | - | - | >= 0 | - |
+| x-schema-extensions-as-primitive | - | - | \`"dummy"\` | - | - |
+| x-schema-extensions-as-array | - | - | - | - | - |
+| x-schema-extensions-as-array.0 (index) | - | - | \`"item1"\` | - | - |
+| x-schema-extensions-as-array.1 (index) | - | - | \`"item2"\` | - | - |
+
+#### Operation extensions
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| x-schema-extensions-as-object | object | - | - | - | **additional properties are allowed** |
+| x-schema-extensions-as-object.prop1 | string | - | - | - | - |
+| x-schema-extensions-as-object.prop2 | integer | - | - | >= 0 | - |
+| x-schema-extensions-as-primitive | - | - | \`"dummy"\` | - | - |
+| x-schema-extensions-as-array | - | - | - | - | - |
+| x-schema-extensions-as-array.0 (index) | - | - | \`"item1"\` | - | - |
+| x-schema-extensions-as-array.1 (index) | - | - | \`"item2"\` | - | - |
 `;
 
     const result = render(<Operations asyncapi={asyncapi} />);

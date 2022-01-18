@@ -1,5 +1,7 @@
 import { Text } from "@asyncapi/generator-react-sdk";
 
+import { Bindings } from "./Bindings";
+import { Extensions } from "./Extensions";
 import { Message } from "./Message";
 import { Schema } from "./Schema";
 import { Tags } from "./Tags";
@@ -111,13 +113,23 @@ function Operation({ type, operation, channelName, channel }) {
       )}
 
       {operation.hasTags() && (
-        <>
-          <Header type={6}>Operation tags</Header>
-          <Tags tags={operation.tags()} />
-        </>
+        <Tags name="Operation tags" tags={operation.tags()} />
       )}
 
       <OperationParameters channel={channel} />
+
+      <Bindings
+        name="Channel specific information"
+        item={channel}
+      />
+      <Bindings
+        name="Operation specific information"
+        item={operation}
+      />
+
+      <Extensions name="Channel extensions" item={channel} />
+      <Extensions name="Operation extensions" item={operation} />
+
       <OperationMessages operation={operation} />
     </Text>
   );
