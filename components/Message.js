@@ -1,11 +1,11 @@
-import { IndentationTypes, Text } from "@asyncapi/generator-react-sdk";
-import { generateExample, getPayloadExamples, getHeadersExamples } from "@asyncapi/generator-filters";
+import { IndentationTypes, Text } from '@asyncapi/generator-react-sdk';
+import { generateExample, getPayloadExamples, getHeadersExamples } from '@asyncapi/generator-filters';
 
-import { Bindings } from "./Bindings";
-import { Extensions } from "./Extensions";
-import { Schema } from "./Schema";
-import { Tags } from "./Tags";
-import { Header, ListItem, Link, BlockQuote, CodeBlock, NewLine } from "./common";
+import { Bindings } from './Bindings';
+import { Extensions } from './Extensions';
+import { Schema } from './Schema';
+import { Tags } from './Tags';
+import { Header, ListItem, Link, BlockQuote, CodeBlock, NewLine } from './common';
 
 export function Message({ message }) {
   if (!message) {
@@ -19,12 +19,12 @@ export function Message({ message }) {
   const externalDocs = message.externalDocs();
   const showInfoList = contentType || externalDocs;
 
-  let header = `Message`;
+  let header = 'Message';
   if (message.title()) {
-    header += ` ${message.title()}`
+    header += ` ${message.title()}`;
   }
   if (message.uid()) {
-    header += ` \`${message.uid()}\``
+    header += ` \`${message.uid()}\``;
   }
 
   return (
@@ -109,7 +109,7 @@ export function Message({ message }) {
         <Tags name="Message tags" tags={message.tags()} />
       )}
     </>
-  )
+  );
 }
 
 function Examples({ type = 'headers', message }) {
@@ -132,26 +132,25 @@ function Examples({ type = 'headers', message }) {
         </Text>
       </>
     );
-  } else {
-    const examples = getPayloadExamples(message);
-    if (examples) {
-      return (
-        <>
-          <BlockQuote>Examples of payload</BlockQuote>
-          <Example examples={examples} />
-        </>
-      );
-    }
-
+  } 
+  const examples = getPayloadExamples(message);
+  if (examples) {
     return (
       <>
-        <BlockQuote>Examples of payload _(generated)_</BlockQuote>
-        <Text newLines={2}>
-          <CodeBlock language='json'>{generateExample(message.payload().json())}</CodeBlock>
-        </Text>
+        <BlockQuote>Examples of payload</BlockQuote>
+        <Example examples={examples} />
       </>
     );
   }
+
+  return (
+    <>
+      <BlockQuote>Examples of payload _(generated)_</BlockQuote>
+      <Text newLines={2}>
+        <CodeBlock language='json'>{generateExample(message.payload().json())}</CodeBlock>
+      </Text>
+    </>
+  );
 }
 
 function Example({ examples = [] }) {
@@ -159,11 +158,11 @@ function Example({ examples = [] }) {
     return null;
   }
   
-  return examples.map(ex => (
-    <Text newLines={2}>
+  return examples.map((ex, idx) => (
+    <Text newLines={2} key={idx}>
       {ex.name && <Text newLines={2}>_{ex.name}_</Text>}
       {ex.summary && <Text newLines={2}>{ex.summary}</Text>}
       <CodeBlock language='json'>{JSON.stringify(ex.example, null, 2)}</CodeBlock>
     </Text>
-  ))
+  ));
 }

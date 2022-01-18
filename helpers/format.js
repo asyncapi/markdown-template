@@ -34,6 +34,7 @@ export class FormatHelpers {
     // for html tags
     str = str.split(/<\/?[^>]{1,100}>/).join('');
     // for special characters from ASCII (part 1)
+    // eslint-disable-next-line no-useless-escape
     str = str.split(/[|$&`~=\\\/@+*!?({[\]})<>.,;:'"^]/).join('');
     // for special characters from ASCII (part 2)
     str = str.split(/[。？！，、；：【】（）〔〕［］﹃﹄“ ”‘’﹁﹂—…－～《》〈〉「」]/).join('');
@@ -49,9 +50,9 @@ export class FormatHelpers {
    */
   static getTitle(str) {
     // check if in `str` is "title" from a markdown link (use `(` char at the end for easy markdown link checking)
-    if (/^\[[^\]]+\]\(/.test(str)) {
+    if ((/^\[[^\]]+\]\(/).test(str)) {
       // retrieve "title" from a markdown link
-      var m = /^\[([^\]]+)\]/.exec(str);
+      const m = (/^\[([^\]]+)\]/).exec(str);
       if (m) return m[1];
     }
     return str;

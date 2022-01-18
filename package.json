@@ -20,11 +20,12 @@
   "homepage": "https://github.com/asyncapi/markdown-template#readme",
   "scripts": {
     "test": "jest --coverage",
-    "lint": "echo \"No linter specified yet\"",
-    "release": "semantic-release",
+    "lint": "eslint --max-warnings 0 --config \".eslintrc\" \".\"",
+    "lint:fix": "eslint --max-warnings 0 --config \".eslintrc\" \".\" --fix",
     "dev": "ag test/spec/asyncapi.yml ./ -o test/output --force-write --watch-template",
     "generate:assets": "echo 'No additional assets need to be generated at the moment'",
-    "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION"
+    "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION",
+    "release": "semantic-release"
   },
   "publishConfig": {
     "access": "public"
@@ -43,6 +44,11 @@
     "@semantic-release/github": "^7.0.4",
     "@semantic-release/npm": "^7.0.3",
     "@semantic-release/release-notes-generator": "^9.0.1",
+    "eslint": "^8.7.0",
+    "eslint-plugin-jest": "^25.7.0",
+    "eslint-plugin-react": "7.28.0",
+    "eslint-plugin-security": "^1.4.0",
+    "eslint-plugin-sonarjs": "^0.11.0",
     "conventional-changelog-conventionalcommits": "^4.2.3",
     "jest": "^27.2.5",
     "semantic-release": "^17.0.4"

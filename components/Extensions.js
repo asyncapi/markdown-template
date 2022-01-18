@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Schema } from './Schema';
 
 import { SchemaHelpers } from '../helpers/schema';

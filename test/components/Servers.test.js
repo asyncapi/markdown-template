@@ -1,29 +1,29 @@
 import { render } from '@asyncapi/generator-react-sdk';
 
-import { Servers } from "../../components/Servers";
+import { Servers } from '../../components/Servers';
 import AsyncAPIDocument from '@asyncapi/parser/lib/models/asyncapi';
 
 describe('Servers component', () => {
   it('should render simple list of servers', () => {
     const asyncapi = new AsyncAPIDocument({
-      "servers": {
-        "development": {
-          "url": "development.gigantic-server.com",
-          "description": "Development server",
-          "protocol": "amqp",
-          "protocolVersion": "0.9.1"
+      servers: {
+        development: {
+          url: 'development.gigantic-server.com',
+          description: 'Development server',
+          protocol: 'amqp',
+          protocolVersion: '0.9.1'
         },
-        "staging": {
-          "url": "staging.gigantic-server.com",
-          "description": "Staging server",
-          "protocol": "amqp",
-          "protocolVersion": "0.9.1"
+        staging: {
+          url: 'staging.gigantic-server.com',
+          description: 'Staging server',
+          protocol: 'amqp',
+          protocolVersion: '0.9.1'
         },
-        "production": {
-          "url": "api.gigantic-server.com",
-          "description": "Production server",
-          "protocol": "amqp",
-          "protocolVersion": "0.9.1"
+        production: {
+          url: 'api.gigantic-server.com',
+          description: 'Production server',
+          protocol: 'amqp',
+          protocolVersion: '0.9.1'
         }
       }
     });
@@ -60,24 +60,24 @@ Production server
 
   it('should render server variables', () => {
     const asyncapi = new AsyncAPIDocument({
-      "servers": {
-        "production": {
-          "url": "{username}.gigantic-server.com:{port}/{basePath}",
-          "description": "The production API server",
-          "protocol": "secure-mqtt",
-          "variables": {
-            "username": {
-              "description": "This value is assigned by the service provider, in this example `gigantic-server.com`"
+      servers: {
+        production: {
+          url: '{username}.gigantic-server.com:{port}/{basePath}',
+          description: 'The production API server',
+          protocol: 'secure-mqtt',
+          variables: {
+            username: {
+              description: 'This value is assigned by the service provider, in this example `gigantic-server.com`'
             },
-            "port": {
-              "enum": [
-                "8883",
-                "8884"
+            port: {
+              enum: [
+                '8883',
+                '8884'
               ],
-              "default": "8883"
+              default: '8883'
             },
-            "basePath": {
-              "default": "v2"
+            basePath: {
+              default: 'v2'
             }
           }
         }
@@ -108,148 +108,148 @@ The production API server
 
   it('should render server security - all cases', () => {
     const asyncapi = new AsyncAPIDocument({
-      "servers": {
-        "production": {
-          "url": "some.url",
-          "protocol": "mqtt",
-          "security": [
+      servers: {
+        production: {
+          url: 'some.url',
+          protocol: 'mqtt',
+          security: [
             {
-              "userPassword": []
+              userPassword: []
             },
             {
-              "apiKey": []
+              apiKey: []
             },
             {
-              "X509": []
+              X509: []
             },
             {
-              "symmetricEncryption": []
+              symmetricEncryption: []
             },
             {
-              "asymmetricEncryption": []
+              asymmetricEncryption: []
             },
             {
-              "httpBasic": []
+              httpBasic: []
             },
             {
-              "httpApiKey": []
+              httpApiKey: []
             },
             {
-              "httpBearer": []
+              httpBearer: []
             },
             {
-              "supportedOauthFlows": [
-                "streetlights:on",
-                "streetlights:off",
-                "streetlights:dim"
+              supportedOauthFlows: [
+                'streetlights:on',
+                'streetlights:off',
+                'streetlights:dim'
               ]
             },
             {
-              "scramSha256": []
+              scramSha256: []
             },
             {
-              "scramSha512": []
+              scramSha512: []
             },
             {
-              "gssapi": []
+              gssapi: []
             },
             {
-              "plain": []
+              plain: []
             },
             {
-              "openIdConnectWellKnown": []
+              openIdConnectWellKnown: []
             }
           ]
         }
       },
-      "components": {
-        "securitySchemes": {
-          "userPassword": {
-            "type": "userPassword"
+      components: {
+        securitySchemes: {
+          userPassword: {
+            type: 'userPassword'
           },
-          "apiKey": {
-            "type": "apiKey",
-            "in": "user",
-            "description": "Provide your API key as the user and leave the password empty."
+          apiKey: {
+            type: 'apiKey',
+            in: 'user',
+            description: 'Provide your API key as the user and leave the password empty.'
           },
-          "X509": {
-            "type": "X509"
+          X509: {
+            type: 'X509'
           },
-          "symmetricEncryption": {
-            "type": "symmetricEncryption"
+          symmetricEncryption: {
+            type: 'symmetricEncryption'
           },
-          "asymmetricEncryption": {
-            "type": "asymmetricEncryption"
+          asymmetricEncryption: {
+            type: 'asymmetricEncryption'
           },
-          "httpBasic": {
-            "type": "http",
-            "scheme": "basic"
+          httpBasic: {
+            type: 'http',
+            scheme: 'basic'
           },
-          "httpApiKey": {
-            "type": "httpApiKey",
-            "name": "api_key",
-            "in": "header"
+          httpApiKey: {
+            type: 'httpApiKey',
+            name: 'api_key',
+            in: 'header'
           },
-          "httpBearer": {
-            "type": "http",
-            "scheme": "bearer",
-            "bearerFormat": "JWT"
+          httpBearer: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT'
           },
-          "supportedOauthFlows": {
-            "type": "oauth2",
-            "description": "Flows to support OAuth 2.0",
-            "flows": {
-              "implicit": {
-                "authorizationUrl": "https://authserver.example/auth",
-                "scopes": {
-                  "streetlights:on": "Ability to switch lights on",
-                  "streetlights:off": "Ability to switch lights off",
-                  "streetlights:dim": "Ability to dim the lights"
+          supportedOauthFlows: {
+            type: 'oauth2',
+            description: 'Flows to support OAuth 2.0',
+            flows: {
+              implicit: {
+                authorizationUrl: 'https://authserver.example/auth',
+                scopes: {
+                  'streetlights:on': 'Ability to switch lights on',
+                  'streetlights:off': 'Ability to switch lights off',
+                  'streetlights:dim': 'Ability to dim the lights'
                 }
               },
-              "password": {
-                "tokenUrl": "https://authserver.example/token",
-                "scopes": {
-                  "streetlights:on": "Ability to switch lights on",
-                  "streetlights:off": "Ability to switch lights off",
-                  "streetlights:dim": "Ability to dim the lights"
+              password: {
+                tokenUrl: 'https://authserver.example/token',
+                scopes: {
+                  'streetlights:on': 'Ability to switch lights on',
+                  'streetlights:off': 'Ability to switch lights off',
+                  'streetlights:dim': 'Ability to dim the lights'
                 }
               },
-              "clientCredentials": {
-                "tokenUrl": "https://authserver.example/token",
-                "scopes": {
-                  "streetlights:on": "Ability to switch lights on",
-                  "streetlights:off": "Ability to switch lights off",
-                  "streetlights:dim": "Ability to dim the lights"
+              clientCredentials: {
+                tokenUrl: 'https://authserver.example/token',
+                scopes: {
+                  'streetlights:on': 'Ability to switch lights on',
+                  'streetlights:off': 'Ability to switch lights off',
+                  'streetlights:dim': 'Ability to dim the lights'
                 }
               },
-              "authorizationCode": {
-                "authorizationUrl": "https://authserver.example/auth",
-                "tokenUrl": "https://authserver.example/token",
-                "refreshUrl": "https://authserver.example/refresh",
-                "scopes": {
-                  "streetlights:on": "Ability to switch lights on",
-                  "streetlights:off": "Ability to switch lights off",
-                  "streetlights:dim": "Ability to dim the lights"
+              authorizationCode: {
+                authorizationUrl: 'https://authserver.example/auth',
+                tokenUrl: 'https://authserver.example/token',
+                refreshUrl: 'https://authserver.example/refresh',
+                scopes: {
+                  'streetlights:on': 'Ability to switch lights on',
+                  'streetlights:off': 'Ability to switch lights off',
+                  'streetlights:dim': 'Ability to dim the lights'
                 }
               }
             }
           },
-          "scramSha256": {
-            "type": "scramSha256"
+          scramSha256: {
+            type: 'scramSha256'
           },
-          "scramSha512": {
-            "type": "scramSha512"
+          scramSha512: {
+            type: 'scramSha512'
           },
-          "gssapi": {
-            "type": "gssapi"
+          gssapi: {
+            type: 'gssapi'
           },
-          "plain": {
-            "type": "plain"
+          plain: {
+            type: 'plain'
           },
-          "openIdConnectWellKnown": {
-            "type": "openIdConnect",
-            "openIdConnectUrl": "https://authserver.example/.well-known"
+          openIdConnectWellKnown: {
+            type: 'openIdConnect',
+            openIdConnectUrl: 'https://authserver.example/.well-known'
           }
         }
       }
@@ -380,30 +380,30 @@ The production API server
 
   it('should render server security for kafka protocols - multiple requirements case', () => {
     const asyncapi = new AsyncAPIDocument({
-      "servers": {
-        "production": {
-          "url": "some.url",
-          "protocol": "mqtt",
-          "security": [
+      servers: {
+        production: {
+          url: 'some.url',
+          protocol: 'mqtt',
+          security: [
             {
-              "userPassword": [],
-              "apiKey": []
+              userPassword: [],
+              apiKey: []
             },
             {
-              "apiKey": []
+              apiKey: []
             },
           ]
         }
       },
-      "components": {
-        "securitySchemes": {
-          "userPassword": {
-            "type": "userPassword"
+      components: {
+        securitySchemes: {
+          userPassword: {
+            type: 'userPassword'
           },
-          "apiKey": {
-            "type": "apiKey",
-            "in": "user",
-            "description": "Provide your API key as the user and leave the password empty."
+          apiKey: {
+            type: 'apiKey',
+            in: 'user',
+            description: 'Provide your API key as the user and leave the password empty.'
           },
         }
       }
@@ -444,11 +444,11 @@ The production API server
 
   it('should render server security for kafka protocols - without security schema', () => {
     const asyncapi = new AsyncAPIDocument({
-      "servers": {
-        "test": {
-          "url": "test.mykafkacluster.org:8092",
-          "protocol": "kafka-secure",
-          "description": "Test broker",
+      servers: {
+        test: {
+          url: 'test.mykafkacluster.org:8092',
+          protocol: 'kafka-secure',
+          description: 'Test broker',
         }
       }
     });
@@ -475,23 +475,23 @@ Test broker
 
   it('should render server security for kafka protocols - with security schema', () => {
     const asyncapi = new AsyncAPIDocument({
-      "servers": {
-        "test": {
-          "url": "test.mykafkacluster.org:8092",
-          "protocol": "kafka-secure",
-          "description": "Test broker",
-          "security": [
+      servers: {
+        test: {
+          url: 'test.mykafkacluster.org:8092',
+          protocol: 'kafka-secure',
+          description: 'Test broker',
+          security: [
             {
-              "saslScram": []
+              saslScram: []
             }
           ]
         }
       },
-      "components": {
-        "securitySchemes": {
-          "saslScram": {
-            "type": "scramSha512",
-            "description": "Create credentials in the dev portal."
+      components: {
+        securitySchemes: {
+          saslScram: {
+            type: 'scramSha512',
+            description: 'Create credentials in the dev portal.'
           }
         }
       }
@@ -523,27 +523,27 @@ Test broker
 
   it('should render bindings', () => {
     const asyncapi = new AsyncAPIDocument({
-      "servers": {
-        "development": {
-          "url": "development.gigantic-server.com",
-          "description": "Development server",
-          "protocol": "amqp",
-          "protocolVersion": "0.9.1",
-          "bindings": {
-            "kafka": {
-              "groupId": {
-                "type": "string",
-                "enum": [
-                  "myGroupId"
+      servers: {
+        development: {
+          url: 'development.gigantic-server.com',
+          description: 'Development server',
+          protocol: 'amqp',
+          protocolVersion: '0.9.1',
+          bindings: {
+            kafka: {
+              groupId: {
+                type: 'string',
+                enum: [
+                  'myGroupId'
                 ]
               },
-              "clientId": {
-                "type": "string",
-                "enum": [
-                  "myClientId"
+              clientId: {
+                type: 'string',
+                enum: [
+                  'myClientId'
                 ]
               },
-              "bindingVersion": "0.1.0"
+              bindingVersion: '0.1.0'
             }
           }
         },
@@ -574,28 +574,28 @@ Development server
 
   it('should render extensions', () => {
     const asyncapi = new AsyncAPIDocument({
-      "servers": {
-        "development": {
-          "url": "development.gigantic-server.com",
-          "description": "Development server",
-          "protocol": "amqp",
-          "protocolVersion": "0.9.1",
-          "x-schema-extensions-as-object": {
-            "type": "object",
-            "properties": {
-              "prop1": {
-                "type": "string"
+      servers: {
+        development: {
+          url: 'development.gigantic-server.com',
+          description: 'Development server',
+          protocol: 'amqp',
+          protocolVersion: '0.9.1',
+          'x-schema-extensions-as-object': {
+            type: 'object',
+            properties: {
+              prop1: {
+                type: 'string'
               },
-              "prop2": {
-                "type": "integer",
-                "minimum": 0
+              prop2: {
+                type: 'integer',
+                minimum: 0
               }
             }
           },
-          "x-schema-extensions-as-primitive": "dummy",
-          "x-schema-extensions-as-array": [
-            "item1",
-            "item2"
+          'x-schema-extensions-as-primitive': 'dummy',
+          'x-schema-extensions-as-array': [
+            'item1',
+            'item2'
           ],
         },
       },
@@ -629,7 +629,7 @@ Development server
 
   it('should render nothing if servers are undefined', () => {
     const asyncapi = new AsyncAPIDocument({
-      "channels": {},
+      channels: {},
     });
 
     const result = render(<Servers asyncapi={asyncapi} />);

@@ -1,40 +1,40 @@
 import { render } from '@asyncapi/generator-react-sdk';
 
-import { Operations } from "../../components/Operations";
+import { Operations } from '../../components/Operations';
 import AsyncAPIDocument from '@asyncapi/parser/lib/models/asyncapi';
 
 describe('Operations component', () => {
   it('should render operation', () => {
     const asyncapi = new AsyncAPIDocument({
-      "channels": {
-        "user/signedup": {
-          "description": "This channel is used to exchange messages about users signing up",
-          "servers": [
-            "rabbitmqBrokerInProd",
-            "rabbitmqBrokerInStaging",
+      channels: {
+        'user/signedup': {
+          description: 'This channel is used to exchange messages about users signing up',
+          servers: [
+            'rabbitmqBrokerInProd',
+            'rabbitmqBrokerInStaging',
           ],
-          "subscribe": {
-            "operationId": "signedupuser",
-            "externalDocs": {
-              "description": "More info here",
-              "url": "https://example.com"
+          subscribe: {
+            operationId: 'signedupuser',
+            externalDocs: {
+              description: 'More info here',
+              url: 'https://example.com'
             },
-            "tags": [
-              { "name": "user" },
-              { "name": "signup" },
-              { "name": "register" }
+            tags: [
+              { name: 'user' },
+              { name: 'signup' },
+              { name: 'register' }
             ],
-            "summary": "A user signed up.",
-            "message": {
-              "description": "A longer description of the message",
-              "payload": {
-                "type": "object",
-                "properties": {
-                  "user": {
-                    "type": "string"
+            summary: 'A user signed up.',
+            message: {
+              description: 'A longer description of the message',
+              payload: {
+                type: 'object',
+                properties: {
+                  user: {
+                    type: 'string'
                   },
-                  "signup": {
-                    "type": "number"
+                  signup: {
+                    type: 'number'
                   }
                 }
               }
@@ -93,23 +93,23 @@ A longer description of the message
 
   it('should render parameters for operation', () => {
     const asyncapi = new AsyncAPIDocument({
-      "channels": {
-        "user/{userId}/signup/{foobar}": {
-          "parameters": {
-            "userId": {
-              "description": "Id of the user.",
-              "schema": {
-                "type": "string"
+      channels: {
+        'user/{userId}/signup/{foobar}': {
+          parameters: {
+            userId: {
+              description: 'Id of the user.',
+              schema: {
+                type: 'string'
               },
-              "location": "$message.payload#/user/id"
+              location: '$message.payload#/user/id'
             },
-            "foobar": {
-              "schema": {
-                "type": "string"
+            foobar: {
+              schema: {
+                type: 'string'
               },
             }
           },
-          "publish": {}
+          publish: {}
         }
       },
     });
@@ -132,29 +132,29 @@ A longer description of the message
 
   it('should render multiple messages', () => {
     const asyncapi = new AsyncAPIDocument({
-      "channels": {
-        "user/{userId}/signup/{foobar}": {
-          "publish": {
-            "message": {
-              "oneOf": [
+      channels: {
+        'user/{userId}/signup/{foobar}': {
+          publish: {
+            message: {
+              oneOf: [
                 {
-                  "description": "A longer description of the message",
-                  "payload": {
-                    "type": "object",
-                    "properties": {
-                      "signup": {
-                        "type": "number"
+                  description: 'A longer description of the message',
+                  payload: {
+                    type: 'object',
+                    properties: {
+                      signup: {
+                        type: 'number'
                       }
                     }
                   }
                 },
                 {
-                  "description": "A longer description of the message",
-                  "payload": {
-                    "type": "object",
-                    "properties": {
-                      "user": {
-                        "type": "string"
+                  description: 'A longer description of the message',
+                  payload: {
+                    type: 'object',
+                    properties: {
+                      user: {
+                        type: 'string'
                       },
                     }
                   }
@@ -218,45 +218,45 @@ A longer description of the message
 
   it('should render bindings', () => {
     const asyncapi = new AsyncAPIDocument({
-      "channels": {
-        "user/{userId}/signup/{foobar}": {
-          "bindings": {
-            "http": {
-              "type": "request",
-              "method": "GET",
-              "query": {
-                "type": "object",
-                "required": [
-                  "companyId"
+      channels: {
+        'user/{userId}/signup/{foobar}': {
+          bindings: {
+            http: {
+              type: 'request',
+              method: 'GET',
+              query: {
+                type: 'object',
+                required: [
+                  'companyId'
                 ],
-                "properties": {
-                  "companyId": {
-                    "type": "number",
-                    "minimum": 1,
-                    "description": "The Id of the company."
+                properties: {
+                  companyId: {
+                    type: 'number',
+                    minimum: 1,
+                    description: 'The Id of the company.'
                   }
                 },
-                "additionalProperties": false
+                additionalProperties: false
               },
-              "bindingVersion": "0.1.0"
+              bindingVersion: '0.1.0'
             },
           },
-          "publish": {
-            "bindings": {
-              "kafka": {
-                "groupId": {
-                  "type": "string",
-                  "enum": [
-                    "myGroupId"
+          publish: {
+            bindings: {
+              kafka: {
+                groupId: {
+                  type: 'string',
+                  enum: [
+                    'myGroupId'
                   ]
                 },
-                "clientId": {
-                  "type": "string",
-                  "enum": [
-                    "myClientId"
+                clientId: {
+                  type: 'string',
+                  enum: [
+                    'myClientId'
                   ]
                 },
-                "bindingVersion": "0.1.0"
+                bindingVersion: '0.1.0'
               }
             },
           }
@@ -293,42 +293,42 @@ A longer description of the message
 
   it('should render extensions', () => {
     const asyncapi = new AsyncAPIDocument({
-      "channels": {
-        "user/{userId}/signup/{foobar}": {
-          "x-schema-extensions-as-object": {
-            "type": "object",
-            "properties": {
-              "prop1": {
-                "type": "string"
+      channels: {
+        'user/{userId}/signup/{foobar}': {
+          'x-schema-extensions-as-object': {
+            type: 'object',
+            properties: {
+              prop1: {
+                type: 'string'
               },
-              "prop2": {
-                "type": "integer",
-                "minimum": 0
+              prop2: {
+                type: 'integer',
+                minimum: 0
               }
             }
           },
-          "x-schema-extensions-as-primitive": "dummy",
-          "x-schema-extensions-as-array": [
-            "item1",
-            "item2"
+          'x-schema-extensions-as-primitive': 'dummy',
+          'x-schema-extensions-as-array': [
+            'item1',
+            'item2'
           ],
-          "publish": {
-            "x-schema-extensions-as-object": {
-              "type": "object",
-              "properties": {
-                "prop1": {
-                  "type": "string"
+          publish: {
+            'x-schema-extensions-as-object': {
+              type: 'object',
+              properties: {
+                prop1: {
+                  type: 'string'
                 },
-                "prop2": {
-                  "type": "integer",
-                  "minimum": 0
+                prop2: {
+                  type: 'integer',
+                  minimum: 0
                 }
               }
             },
-            "x-schema-extensions-as-primitive": "dummy",
-            "x-schema-extensions-as-array": [
-              "item1",
-              "item2"
+            'x-schema-extensions-as-primitive': 'dummy',
+            'x-schema-extensions-as-array': [
+              'item1',
+              'item2'
             ]
           }
         }

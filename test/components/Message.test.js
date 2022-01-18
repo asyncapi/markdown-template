@@ -1,35 +1,35 @@
 import { render } from '@asyncapi/generator-react-sdk';
 
-import { Message } from "../../components/Message";
+import { Message } from '../../components/Message';
 import MessageModel from '@asyncapi/parser/lib/models/message';
 
 describe('Message component', () => {
   it('should render simple message', () => {
     const message = new MessageModel({
-      "title": "User signup",
-      "name": "UserSignup",
-      "summary": "Action to sign a user up.",
-      "headers": {
-        "type": "object",
-        "properties": {
-          "correlationId": {
-            "description": "Correlation ID set by application",
-            "type": "string"
+      title: 'User signup',
+      name: 'UserSignup',
+      summary: 'Action to sign a user up.',
+      headers: {
+        type: 'object',
+        properties: {
+          correlationId: {
+            description: 'Correlation ID set by application',
+            type: 'string'
           },
-          "applicationInstanceId": {
-            "description": "Unique identifier for a given instance of the publishing application",
-            "type": "string"
+          applicationInstanceId: {
+            description: 'Unique identifier for a given instance of the publishing application',
+            type: 'string'
           }
         }
       },
-      "payload": {
-        "type": "object",
-        "properties": {
-          "user": {
-            "type": "string"
+      payload: {
+        type: 'object',
+        properties: {
+          user: {
+            type: 'string'
           },
-          "signup": {
-            "type": "string"
+          signup: {
+            type: 'string'
           }
         }
       },
@@ -81,58 +81,58 @@ describe('Message component', () => {
 
   it('should render complete message', () => {
     const message = new MessageModel({
-      "name": "UserSignup",
-      "title": "User signup",
-      "summary": "Action to sign a user up.",
-      "description": "A longer description",
-      "contentType": "application/json",
-      "tags": [
-        { "name": "user" },
-        { "name": "signup" },
-        { "name": "register" }
+      name: 'UserSignup',
+      title: 'User signup',
+      summary: 'Action to sign a user up.',
+      description: 'A longer description',
+      contentType: 'application/json',
+      tags: [
+        { name: 'user' },
+        { name: 'signup' },
+        { name: 'register' }
       ],
-      "headers": {
-        "type": "object",
-        "properties": {
-          "correlationId": {
-            "description": "Correlation ID set by application",
-            "type": "string"
+      headers: {
+        type: 'object',
+        properties: {
+          correlationId: {
+            description: 'Correlation ID set by application',
+            type: 'string'
           },
-          "applicationInstanceId": {
-            "description": "Unique identifier for a given instance of the publishing application",
-            "type": "string"
+          applicationInstanceId: {
+            description: 'Unique identifier for a given instance of the publishing application',
+            type: 'string'
           }
         }
       },
-      "payload": {
-        "type": "object",
-        "properties": {
-          "user": {
-            "type": "string"
+      payload: {
+        type: 'object',
+        properties: {
+          user: {
+            type: 'string'
           },
-          "signup": {
-            "type": "string"
+          signup: {
+            type: 'string'
           }
         }
       },
-      "correlationId": {
-        "description": "Default Correlation ID",
-        "location": "$message.header#/correlationId"
+      correlationId: {
+        description: 'Default Correlation ID',
+        location: '$message.header#/correlationId'
       },
-      "examples": [
+      examples: [
         {
-          "name": "SimpleSignup",
-          "summary": "A simple UserSignup example message",
-          "headers": {
-            "correlationId": "my-correlation-id",
-            "applicationInstanceId": "myInstanceId"
+          name: 'SimpleSignup',
+          summary: 'A simple UserSignup example message',
+          headers: {
+            correlationId: 'my-correlation-id',
+            applicationInstanceId: 'myInstanceId'
           },
-          "payload": {
-            "user": {
-              "someUserKey": "someUserValue"
+          payload: {
+            user: {
+              someUserKey: 'someUserValue'
             },
-            "signup": {
-              "someSignupKey": "someSignupValue"
+            signup: {
+              someSignupKey: 'someSignupValue'
             }
           }
         }
@@ -213,43 +213,43 @@ A simple UserSignup example message
 
   it('should render multiple messages', () => {
     const message = new MessageModel({
-      "name": "UserSignup",
-      "title": "User signup",
-      "headers": {
-        "type": "object",
+      name: 'UserSignup',
+      title: 'User signup',
+      headers: {
+        type: 'object',
       },
-      "payload": {
-        "type": "object",
+      payload: {
+        type: 'object',
       },
-      "examples": [
+      examples: [
         {
-          "name": "SimpleSignup",
-          "summary": "A simple UserSignup example message",
-          "headers": {
-            "correlationId": "my-correlation-id",
-            "applicationInstanceId": "myInstanceId"
+          name: 'SimpleSignup',
+          summary: 'A simple UserSignup example message',
+          headers: {
+            correlationId: 'my-correlation-id',
+            applicationInstanceId: 'myInstanceId'
           },
-          "payload": {
-            "user": {
-              "someUserKey": "someUserValue"
+          payload: {
+            user: {
+              someUserKey: 'someUserValue'
             },
-            "signup": {
-              "someSignupKey": "someSignupValue"
+            signup: {
+              someSignupKey: 'someSignupValue'
             }
           }
         },
         {
-          "name": "ExtendedSimpleSignup",
-          "summary": "A simple ExtendedSimpleSignup example message",
-          "headers": {
-            "correlationId": "my-correlation-id",
+          name: 'ExtendedSimpleSignup',
+          summary: 'A simple ExtendedSimpleSignup example message',
+          headers: {
+            correlationId: 'my-correlation-id',
           },
-          "payload": {
-            "user": {
-              "someUserKey": "foobar"
+          payload: {
+            user: {
+              someUserKey: 'foobar'
             },
-            "signup": {
-              "someSignupKey": "barfoo"
+            signup: {
+              someSignupKey: 'barfoo'
             }
           }
         }
@@ -335,24 +335,24 @@ A simple ExtendedSimpleSignup example message
 
   it('should render bindings', () => {
     const message = new MessageModel({
-      "title": "User signup",
-      "name": "UserSignup",
-      "summary": "Action to sign a user up.",
-      "bindings": {
-        "kafka": {
-          "groupId": {
-            "type": "string",
-            "enum": [
-              "myGroupId"
+      title: 'User signup',
+      name: 'UserSignup',
+      summary: 'Action to sign a user up.',
+      bindings: {
+        kafka: {
+          groupId: {
+            type: 'string',
+            enum: [
+              'myGroupId'
             ]
           },
-          "clientId": {
-            "type": "string",
-            "enum": [
-              "myClientId"
+          clientId: {
+            type: 'string',
+            enum: [
+              'myClientId'
             ]
           },
-          "bindingVersion": "0.1.0"
+          bindingVersion: '0.1.0'
         }
       },
     });
@@ -376,25 +376,25 @@ A simple ExtendedSimpleSignup example message
 
   it('should render extensions', () => {
     const message = new MessageModel({
-      "title": "User signup",
-      "name": "UserSignup",
-      "summary": "Action to sign a user up.",
-      "x-schema-extensions-as-object": {
-        "type": "object",
-        "properties": {
-          "prop1": {
-            "type": "string"
+      title: 'User signup',
+      name: 'UserSignup',
+      summary: 'Action to sign a user up.',
+      'x-schema-extensions-as-object': {
+        type: 'object',
+        properties: {
+          prop1: {
+            type: 'string'
           },
-          "prop2": {
-            "type": "integer",
-            "minimum": 0
+          prop2: {
+            type: 'integer',
+            minimum: 0
           }
         }
       },
-      "x-schema-extensions-as-primitive": "dummy",
-      "x-schema-extensions-as-array": [
-        "item1",
-        "item2"
+      'x-schema-extensions-as-primitive': 'dummy',
+      'x-schema-extensions-as-array': [
+        'item1',
+        'item2'
       ]
     });
     const expected = `

@@ -1,7 +1,7 @@
-import { Text } from "@asyncapi/generator-react-sdk";
+import { Text } from '@asyncapi/generator-react-sdk';
 
-import { Tags } from "./Tags";
-import { Header, Link, Image, List, NewLine } from "./common";
+import { Tags } from './Tags';
+import { Header, Link, Image, List, NewLine } from './common';
 
 export function Info({ asyncapi, params = {} }) {
   const info = asyncapi.info();
@@ -54,26 +54,30 @@ export function Info({ asyncapi, params = {} }) {
     );
   }
   if (contact) {
-    contact.url() && infoList.push(
-      <>
-        Support:{' '}
-        <Link
-          href={contact.url()}
-        >
-          {contact.name() || 'Link'}
-        </Link>
-      </>
-    );
-    contact.email() && infoList.push(
-      <>
-        Email support:{' '}
-        <Link
-          href={`mailto:${contact.email()}`}
-        >
-          {contact.email()}
-        </Link>
-      </>
-    );
+    if (contact.url()) {
+      infoList.push(
+        <>
+          Support:{' '}
+          <Link
+            href={contact.url()}
+          >
+            {contact.name() || 'Link'}
+          </Link>
+        </>
+      );
+    }
+    if (contact.email()) {
+      infoList.push(
+        <>
+          Email support:{' '}
+          <Link
+            href={`mailto:${contact.email()}`}
+          >
+            {contact.email()}
+          </Link>
+        </>
+      );
+    }
   }
 
   return (

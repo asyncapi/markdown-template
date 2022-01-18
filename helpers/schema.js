@@ -9,7 +9,7 @@ export const SchemaCustomTypes = {
   NEVER: 'never',
   // for types that we cannot infer
   UNKNOWN: 'unknown',
-}
+};
 
 export class SchemaHelpers {
   static jsonSchemaTypes = [
@@ -64,9 +64,8 @@ export class SchemaHelpers {
     if (schema.isBooleanSchema()) {
       if (schema.json() === true) {
         return SchemaCustomTypes.ANY;
-      } else {
-        return SchemaCustomTypes.NEVER;
-      }
+      } 
+      return SchemaCustomTypes.NEVER;
     }
     // handle case with `{}` schemas
     if (Object.keys(schema.json()).length === 0) {
@@ -205,10 +204,10 @@ export class SchemaHelpers {
       type: 'object',
       properties: Object.entries(parameters).reduce(
         (obj, [paramaterName, parameter]) => {
-          obj[paramaterName] = Object.assign({}, parameter.schema().json());
-          obj[paramaterName].description =
-            parameter.description() || obj[paramaterName].description;
-          obj[paramaterName][this.extParameterLocation] = parameter.location();
+          obj[String(paramaterName)] = Object.assign({}, parameter.schema().json());
+          obj[String(paramaterName)].description =
+            parameter.description() || obj[String(paramaterName)].description;
+          obj[String(paramaterName)][this.extParameterLocation] = parameter.location();
           return obj;
         },
         {},
@@ -309,7 +308,7 @@ export class SchemaHelpers {
       return;
     }
     const strigifiedMultipleOf = multipleOf.toString(10);
-    if (!/^0\.0*1$/.test(strigifiedMultipleOf)) {
+    if (!(/^0\.0*1$/).test(strigifiedMultipleOf)) {
       return `multiple of ${strigifiedMultipleOf}`;
     }
     return `decimal places <= ${strigifiedMultipleOf.split('.')[1].length}`;
@@ -374,7 +373,7 @@ export class SchemaHelpers {
     const records = {};
     for (const [prop, propSchema] of Object.entries(dependencies)) {
       if (typeof propSchema === 'object' && !Array.isArray(propSchema)) {
-        records[prop] = propSchema;
+        records[String(prop)] = propSchema;
       }
     }
     if (!Object.keys(records).length) {
@@ -385,7 +384,7 @@ export class SchemaHelpers {
       type: 'object',
       properties: Object.entries(records).reduce(
         (obj, [propertyName, propertySchema]) => {
-          obj[propertyName] = Object.assign({}, propertySchema.json());
+          obj[String(propertyName)] = Object.assign({}, propertySchema.json());
           return obj;
         },
         {},
@@ -426,7 +425,7 @@ export class SchemaHelpers {
     return {
       type: 'object',
       properties: Object.entries(value).reduce((obj, [k, v]) => {
-        obj[k] = this.jsonFieldToSchema(v);
+        obj[String(k)] = this.jsonFieldToSchema(v);
         return obj;
       }, {}),
       [this.extRenderType]: false,
@@ -457,7 +456,7 @@ export class SchemaHelpers {
           !extName.startsWith('x-parser-') &&
           !extName.startsWith('x-schema-private-')
         ) {
-          obj[extName] = ext;
+          obj[String(extName)] = ext;
         }
         return obj;
       },

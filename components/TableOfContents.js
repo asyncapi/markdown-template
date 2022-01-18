@@ -1,8 +1,8 @@
-import { Text, Indent, IndentationTypes } from "@asyncapi/generator-react-sdk";
+import { Text, Indent, IndentationTypes } from '@asyncapi/generator-react-sdk';
 
-import { Header, Link, ListItem } from "../components/common";
+import { Header, Link, ListItem } from '../components/common';
 
-import { FormatHelpers } from "../helpers/format";
+import { FormatHelpers } from '../helpers/format';
 
 export function TableOfContents({ asyncapi }) {
   const serversList = Object.keys(asyncapi.servers()).map(serverName => {

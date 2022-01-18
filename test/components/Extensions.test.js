@@ -1,34 +1,34 @@
 import { render } from '@asyncapi/generator-react-sdk';
 
-import { Extensions } from "../../components/Extensions";
+import { Extensions } from '../../components/Extensions';
 
 function createExtensionsMock(extensions) {
   return {
     extensions() {
       return extensions;
     }
-  }
+  };
 }
 
 describe('Extensions component', () => {
   it('should render extensions', () => {
     const extensions = {
-      "x-schema-extensions-as-object": {
-        "type": "object",
-        "properties": {
-          "prop1": {
-            "type": "string"
+      'x-schema-extensions-as-object': {
+        type: 'object',
+        properties: {
+          prop1: {
+            type: 'string'
           },
-          "prop2": {
-            "type": "integer",
-            "minimum": 0
+          prop2: {
+            type: 'integer',
+            minimum: 0
           }
         }
       },
-      "x-schema-extensions-as-primitive": "dummy",
-      "x-schema-extensions-as-array": [
-        "item1",
-        "item2"
+      'x-schema-extensions-as-primitive': 'dummy',
+      'x-schema-extensions-as-array': [
+        'item1',
+        'item2'
       ]
     };
     const expected = `

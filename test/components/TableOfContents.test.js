@@ -1,6 +1,6 @@
 import { render } from '@asyncapi/generator-react-sdk';
 
-import { TableOfContents } from "../../components/TableOfContents";
+import { TableOfContents } from '../../components/TableOfContents';
 import AsyncAPIDocument from '@asyncapi/parser/lib/models/asyncapi';
 
 describe('TableOfContents component', () => {

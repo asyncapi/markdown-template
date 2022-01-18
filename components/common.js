@@ -1,26 +1,26 @@
-import { Text } from "@asyncapi/generator-react-sdk";
+import { Text } from '@asyncapi/generator-react-sdk';
 
-export function Header({ type = 1, childrenContent = "" }) {
-  const hashes = Array(type).fill("#").join("");
-  return <Text newLines={2}>{`${hashes} ${childrenContent}`}</Text>
+export function Header({ type = 1, childrenContent = '' }) {
+  const hashes = Array(type).fill('#').join('');
+  return <Text newLines={2}>{`${hashes} ${childrenContent}`}</Text>;
 }
 
-export function Link({ href = "", childrenContent = "" }) {
+export function Link({ href = '', childrenContent = '' }) {
   return `[${childrenContent}](${href})`;
 }
 
-export function Image({ src = "", desc = "", childrenContent = "" }) {
+export function Image({ src = '', desc = '', childrenContent = '' }) {
   return `![${desc || childrenContent}](${src})`;
 }
 
 export function List({ list = [] }) {
   if (list.length === 0) return null;
-  return list.map(item => (
-    <ListItem>{item}</ListItem>
+  return list.map((item, idx) => (
+    <ListItem key={idx}>{item}</ListItem>
   ));
 }
 
-export function ListItem({ type = "*", childrenContent = "" }) {
+export function ListItem({ type = '*', childrenContent = '' }) {
   return <Text>{`${type} ${childrenContent}`}</Text>;
 }
 
@@ -60,8 +60,8 @@ export function CodeBlock({ language = 'json', childrenContent = '' }) {
   );
 }
 
-export function BlockQuote({ childrenContent = "" }) {
-  return <Text newLines={2}>{`> ${childrenContent}`}</Text>
+export function BlockQuote({ childrenContent = '' }) {
+  return <Text newLines={2}>{`> ${childrenContent}`}</Text>;
 }
 
 export function NewLine({ numbers = 1 }) {
