@@ -27,7 +27,7 @@ describe('SchemaHelpers', () => {
       expect(result).toEqual(SchemaCustomTypes.ANY);
     });
 
-    test('should handle schema with non JSON Schema keywords ', () => {
+    test('should handle schema with non JSON Schema keywords', () => {
       const schema = new Schema({ foo: 'bar', 'x-ext': 'someExt' });
       const result = SchemaHelpers.toSchemaType(schema);
       expect(result).toEqual(SchemaCustomTypes.ANY);
@@ -54,13 +54,13 @@ describe('SchemaHelpers', () => {
     test('should handle flat types', () => {
       const schema = new Schema({ type: 'string' });
       const result = SchemaHelpers.toSchemaType(schema);
-      expect(result).toEqual(`string`);
+      expect(result).toEqual('string');
     });
 
     test('should handle union types', () => {
       const schema = new Schema({ type: ['string', 'boolean', 'number'] });
       const result = SchemaHelpers.toSchemaType(schema);
-      expect(result).toEqual(`string | boolean | number`);
+      expect(result).toEqual('string | boolean | number');
     });
 
     test('should return an empty string if the type is too hard to infer', () => {
@@ -79,7 +79,7 @@ describe('SchemaHelpers', () => {
         items: { type: ['string', 'number'] },
       });
       const result = SchemaHelpers.toSchemaType(schema);
-      expect(result).toEqual(`array<string | number>`);
+      expect(result).toEqual('array<string | number>');
     });
 
     test('should handle empty array type', () => {
@@ -138,38 +138,38 @@ describe('SchemaHelpers', () => {
     test('should handle combined types', () => {
       const schema = new Schema({ type: 'string', oneOf: [] });
       const result = SchemaHelpers.toSchemaType(schema);
-      expect(result).toEqual(`string oneOf`);
+      expect(result).toEqual('string oneOf');
     });
 
     test('should handle combined types without type', () => {
       const schema = new Schema({ oneOf: [] });
       const result = SchemaHelpers.toSchemaType(schema);
-      expect(result).toEqual(`oneOf`);
+      expect(result).toEqual('oneOf');
     });
 
-    test(`should handle integer and number types together`, () => {
+    test('should handle integer and number types together', () => {
       const schema = new Schema({ type: ['integer', 'number'] });
       const result = SchemaHelpers.toSchemaType(schema);
-      expect(result).toEqual(`number`);
+      expect(result).toEqual('number');
     });
 
-    test(`should handle const`, () => {
+    test('should handle const', () => {
       const schema = new Schema({ const: 'foobar' });
       const result = SchemaHelpers.toSchemaType(schema);
-      expect(result).toEqual(`string`);
+      expect(result).toEqual('string');
     });
 
-    test(`should handle enum`, () => {
+    test('should handle enum', () => {
       const schema = new Schema({ enum: [1.5, 'foobar', true] });
       const result = SchemaHelpers.toSchemaType(schema);
-      expect(result).toEqual(`number | string | boolean`);
+      expect(result).toEqual('number | string | boolean');
     });
   });
 
   describe('.prettifyValue', () => {
     test('should handle string', () => {
       const result = SchemaHelpers.prettifyValue('foobar');
-      expect(result).toEqual(`"foobar"`);
+      expect(result).toEqual('"foobar"');
     });
 
     test('should handle number', () => {
@@ -189,7 +189,7 @@ describe('SchemaHelpers', () => {
 
     test('should handle object', () => {
       const result = SchemaHelpers.prettifyValue({ str: 'foobar' });
-      expect(result).toEqual(`{"str":"foobar"}`);
+      expect(result).toEqual('{"str":"foobar"}');
     });
   });
 
@@ -325,12 +325,12 @@ describe('SchemaHelpers', () => {
           foo: {
             type: 'string',
             description: undefined,
-            "x-schema-private-parameter-location": undefined
+            'x-schema-private-parameter-location': undefined
           },
           bar: {
             type: 'string',
             description: 'Some description',
-            "x-schema-private-parameter-location": "$message.payload#/user/id"
+            'x-schema-private-parameter-location': '$message.payload#/user/id'
           },
         },
         required: ['foo', 'bar'],

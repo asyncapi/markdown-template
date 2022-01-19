@@ -1,36 +1,36 @@
 import { render } from '@asyncapi/generator-react-sdk';
 
-import { Tags } from "../../components/Tags";
+import { Tags } from '../../components/Tags';
 import TagModel from '@asyncapi/parser/lib/models/tag';
 
 describe('Tags component', () => {
   it('should render list of tags', () => {
     const tags = [
       {
-        "name": "root-tag1",
-        "externalDocs": {
-          "description": "External docs description 1",
-          "url": "https://www.asyncapi.com/"
+        name: 'root-tag1',
+        externalDocs: {
+          description: 'External docs description 1',
+          url: 'https://www.asyncapi.com/'
         }
       },
       {
-        "name": "root-tag2",
-        "description": "Description 2",
-        "externalDocs": {
-          "url": "https://www.asyncapi.com/"
+        name: 'root-tag2',
+        description: 'Description 2',
+        externalDocs: {
+          url: 'https://www.asyncapi.com/'
         }
       },
       {
-        "name": "root-tag3"
+        name: 'root-tag3'
       },
       {
-        "name": "root-tag4",
-        "description": "Description 4"
+        name: 'root-tag4',
+        description: 'Description 4'
       },
       {
-        "name": "root-tag5",
-        "externalDocs": {
-          "url": "https://www.asyncapi.com/"
+        name: 'root-tag5',
+        externalDocs: {
+          url: 'https://www.asyncapi.com/'
         }
       }
     ].map(t => new TagModel(t));

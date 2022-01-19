@@ -1,36 +1,36 @@
 import { render } from '@asyncapi/generator-react-sdk';
 
-import { Bindings } from "../../components/Bindings";
+import { Bindings } from '../../components/Bindings';
 
 function createBindingMock(bindings) {
   return {
     bindings() {
       return bindings;
     }
-  }
+  };
 }
 
 describe('Bindings component', () => {
   it('should render single binding', () => {
     const bidnings = {
-      "http": {
-        "type": "request",
-        "method": "GET",
-        "query": {
-          "type": "object",
-          "required": [
-            "companyId"
+      http: {
+        type: 'request',
+        method: 'GET',
+        query: {
+          type: 'object',
+          required: [
+            'companyId'
           ],
-          "properties": {
-            "companyId": {
-              "type": "number",
-              "minimum": 1,
-              "description": "The Id of the company."
+          properties: {
+            companyId: {
+              type: 'number',
+              minimum: 1,
+              description: 'The Id of the company.'
             }
           },
-          "additionalProperties": false
+          additionalProperties: false
         },
-        "bindingVersion": "0.1.0"
+        bindingVersion: '0.1.0'
       }
     };
     const expected = `
@@ -51,39 +51,39 @@ describe('Bindings component', () => {
 
   it('should render multiple bindings', () => {
     const bidnings = {
-      "http": {
-        "type": "request",
-        "method": "GET",
-        "query": {
-          "type": "object",
-          "required": [
-            "companyId"
+      http: {
+        type: 'request',
+        method: 'GET',
+        query: {
+          type: 'object',
+          required: [
+            'companyId'
           ],
-          "properties": {
-            "companyId": {
-              "type": "number",
-              "minimum": 1,
-              "description": "The Id of the company."
+          properties: {
+            companyId: {
+              type: 'number',
+              minimum: 1,
+              description: 'The Id of the company.'
             }
           },
-          "additionalProperties": false
+          additionalProperties: false
         },
-        "bindingVersion": "0.1.0"
+        bindingVersion: '0.1.0'
       },
-      "kafka": {
-        "groupId": {
-          "type": "string",
-          "enum": [
-            "myGroupId"
+      kafka: {
+        groupId: {
+          type: 'string',
+          enum: [
+            'myGroupId'
           ]
         },
-        "clientId": {
-          "type": "string",
-          "enum": [
-            "myClientId"
+        clientId: {
+          type: 'string',
+          enum: [
+            'myClientId'
           ]
         },
-        "bindingVersion": "0.1.0"
+        bindingVersion: '0.1.0'
       }
     };
     const expected = `

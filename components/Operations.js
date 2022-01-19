@@ -1,14 +1,14 @@
-import { Text } from "@asyncapi/generator-react-sdk";
+import { Text } from '@asyncapi/generator-react-sdk';
 
-import { Bindings } from "./Bindings";
-import { Extensions } from "./Extensions";
-import { Message } from "./Message";
-import { Schema } from "./Schema";
-import { Tags } from "./Tags";
-import { Header, ListItem, Link } from "./common";
+import { Bindings } from './Bindings';
+import { Extensions } from './Extensions';
+import { Message } from './Message';
+import { Schema } from './Schema';
+import { Tags } from './Tags';
+import { Header, ListItem, Link } from './common';
 
-import { SchemaHelpers } from "../helpers/schema";
-import { FormatHelpers } from "../helpers/format";
+import { SchemaHelpers } from '../helpers/schema';
+import { FormatHelpers } from '../helpers/format';
 
 export function Operations({ asyncapi }) {
   const channels = asyncapi.channels();

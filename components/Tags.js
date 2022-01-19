@@ -1,10 +1,10 @@
-import { Text } from "@asyncapi/generator-react-sdk";
+import { Text } from '@asyncapi/generator-react-sdk';
 
-import { Header, Table } from "./common";
+import { Header, Table } from './common';
 
 export function Tags({ name = 'Tags', tags = [] }) {
   if (tags.length === 0) {
-    return null
+    return null;
   }
 
   const tagsHeader = ['Name', 'Description', 'Documentation'];
@@ -16,7 +16,7 @@ export function Tags({ name = 'Tags', tags = [] }) {
       tag.description() || '-',
       externalDocs ? `[${externalDocsDescription}](${externalDocs.url()})` : '-',
     ];
-  }
+  };
 
   return (
     <Text>

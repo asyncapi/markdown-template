@@ -1,8 +1,8 @@
-import { Text } from "@asyncapi/generator-react-sdk";
+import { Text } from '@asyncapi/generator-react-sdk';
 
-import { Header, TableHead, TableRow } from "./common";
+import { Header, TableHead, TableRow } from './common';
 
-import { SchemaHelpers } from "../helpers/schema";
+import { SchemaHelpers } from '../helpers/schema';
 
 export function Schema({ schema, schemaName, hideTitle = false }) {
   const headers = ['Name', 'Type', 'Description', 'Value', 'Constraints', 'Notes'];
@@ -183,7 +183,7 @@ function SchemaAdditionalItems({ schema, path }) {
   );
 }
 
-function SchemaPropRow({ 
+function SchemaPropRow({
   schema, 
   schemaName, 
   required = false, 
@@ -195,8 +195,8 @@ function SchemaPropRow({
   if (
     !schema ||
     (typeof schemaName === 'string' &&
-      (schemaName?.startsWith('x-parser-') ||
-        schemaName?.startsWith('x-schema-private-')))
+      (schemaName.startsWith('x-parser-') ||
+        schemaName.startsWith('x-schema-private-')))
   ) {
     return null;
   }
@@ -208,8 +208,10 @@ function SchemaPropRow({
   const name = tree(path) || schemaName;
   const schemaType = renderType && SchemaHelpers.toSchemaType(schema);
 
+  // eslint-disable-next-line no-control-regex, no-useless-escape
   let description = (schema.description() || '').replace(new RegExp('\S*\r?\n','g'), ' ');
   const externalDocs = schema.externalDocs();
+  // eslint-disable-next-line sonarjs/no-nested-template-literals
   description = externalDocs ? `${!description.endsWith('.') ? `${description}.` : description} [${externalDocs.description() || 'Documentation'}](${externalDocs.url()})` : description;
   description = description.trim();
 
@@ -217,10 +219,17 @@ function SchemaPropRow({
   const constraints = schemaConstraints(schema);
   const notes = schemaNotes({ schema, required, dependentRequired, isCircular, tryRenderAdditionalNotes });
 
+  let renderedName = '';
+  if (nameNote) {
+    renderedName = name ? `${name} (${nameNote})` : `(${nameNote})`;
+  } else {
+    renderedName = name;
+  }
+
   const rowRenderer = () => [
-    nameNote ? name ? `${name} (${nameNote})` : `(${nameNote})` : name,
+    renderedName || '-',
     schemaType || '-',
-    description.trim() || '-',
+    description || '-',
     values || '-',
     constraints || '-',
     notes || '-',
@@ -242,7 +251,7 @@ function SchemaPropRow({
       <TableRow rowRenderer={rowRenderer} entry={schema} />
       {isCircular === false && nameNote !== 'root' && <SchemaContent schema={schema} schemaName={schemaName} path={path} />}
     </>
-  )
+  );
 }
 
 function tree(path = '') {
@@ -294,7 +303,8 @@ function schemaNotes({ schema, required = false, dependentRequired = [], isCircu
 
   if (required) notes.push('**required**');
   if (dependentRequired.length) {
-    notes.push(`**required when defined (${dependentRequired.map(v => `\`${v}\``).join(', ')})**`);
+    const deps = dependentRequired.map(v => `\`${v}\``).join(', ');
+    notes.push(`**required when defined (${deps})**`);
   }
 
   // location for channel parameter

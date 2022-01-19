@@ -123,11 +123,6 @@ describe('ServerHelpers', () => {
       expect(securityProtocol).toEqual('SASL_SSL');
     });
 
-    test('should return a appropriate securityProtocol for `kafka-secure` protocol with securitySchema', () => {
-      const { securityProtocol } = ServerHelpers.getKafkaSecurity('kafka-protocol', new SecurityScheme({}));
-      expect(securityProtocol).toEqual('SASL_SSL');
-    });
-
     test('should return a appropriate saslMechanism for `plain` securitySchema', () => {
       const { saslMechanism } = ServerHelpers.getKafkaSecurity('kafka', new SecurityScheme({ type: 'plain' }));
       expect(saslMechanism).toEqual('PLAIN');

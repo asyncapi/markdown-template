@@ -1,7 +1,7 @@
-import { Schema } from "./Schema";
+import { Schema } from './Schema';
 
-import { SchemaHelpers } from "../helpers/schema"
-import { FormatHelpers } from "../helpers/format";
+import { SchemaHelpers } from '../helpers/schema';
+import { FormatHelpers } from '../helpers/format';
 
 export function Bindings({ name = 'Binding specific information', item }) {
   const bindings = item.bindings();

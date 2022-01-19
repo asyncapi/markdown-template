@@ -1,11 +1,14 @@
-import { IndentationTypes, Text } from "@asyncapi/generator-react-sdk";
+import { IndentationTypes, Text } from '@asyncapi/generator-react-sdk';
 
-import { Bindings } from "./Bindings";
-import { Extensions } from "./Extensions";
-import { Header, ListItem, Link, Table, NewLine } from "./common";
+import { Bindings } from './Bindings';
+import { Extensions } from './Extensions';
+import { Header, ListItem, Link, Table, NewLine } from './common';
 
-import { ServerHelpers } from "../helpers/server";
-import { FormatHelpers } from "../helpers/format";
+import { ServerHelpers } from '../helpers/server';
+import { FormatHelpers } from '../helpers/format';
+
+const KAFKA_PROTOCOL = 'kafka';
+const KAFKA_SECURE_PROTOCOL = 'kafka-secure';
 
 export function Servers({ asyncapi }) {
   if (!asyncapi.hasServers()) {
@@ -91,7 +94,7 @@ function ServerSecurity({ protocol, security, asyncapi }) {
     !securitySchemes ||
     !Object.keys(securitySchemes).length
   ) {
-    if (protocol === 'kafka' || protocol === 'kafka-secure') {
+    if (protocol === KAFKA_PROTOCOL || protocol === KAFKA_SECURE_PROTOCOL) {
       renderedRequirements = (
         <SecurityRequirementItem protocol={protocol} requirement={null} />
       );
@@ -124,14 +127,14 @@ function ServerSecurity({ protocol, security, asyncapi }) {
 
 function SecurityRequirementItem({ protocol, requirement, securitySchemes, index = 0 }) {
   let renderedServerSecurities;
-  if (requirement === null && (protocol === 'kafka' || protocol === 'kafka-secure')) {
+  if (requirement === null && (protocol === KAFKA_PROTOCOL || protocol === KAFKA_SECURE_PROTOCOL)) {
     renderedServerSecurities = (
       <ServerSecurityItem protocol={protocol} securitySchema={null} />
     );
   } else if (requirement) {
     renderedServerSecurities = Object.entries(requirement.json())
       .map(([requiredKey, requiredScopes]) => {
-        const securitySchema = securitySchemes[requiredKey];
+        const securitySchema = securitySchemes[String(requiredKey)];
         if (!securitySchema) {
           return;
         }
@@ -169,7 +172,7 @@ function ServerSecurityItem({ protocol, securitySchema, requiredScopes = [] }) {
   let schemas = [];
   renderServerSecuritySchemasBasic({ securitySchema, schemas });
   renderServerSecuritySchemasKafka({ protocol, securitySchema, schemas });
-  renderServerSecuritySchemasFlows({ securitySchema, requiredScopes, schemas })
+  renderServerSecuritySchemasFlows({ securitySchema, requiredScopes, schemas });
   schemas = schemas.filter(Boolean);
 
   const type = securitySchema && securitySchema.type() && ServerHelpers.securityType(securitySchema.type());
@@ -218,7 +221,7 @@ function renderServerSecuritySchemasBasic({ securitySchema, schemas }) {
 }
 
 function renderServerSecuritySchemasKafka({ protocol, securitySchema, schemas }) {
-  const isKafkaProtocol = protocol === 'kafka' || protocol === 'kafka-secure';
+  const isKafkaProtocol = protocol === KAFKA_PROTOCOL || protocol === KAFKA_SECURE_PROTOCOL;
   if (!isKafkaProtocol) {
     return;
   }

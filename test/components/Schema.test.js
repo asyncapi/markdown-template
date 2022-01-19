@@ -1,24 +1,24 @@
 import { render } from '@asyncapi/generator-react-sdk';
 
-import { Schema } from "../../components/Schema";
+import { Schema } from '../../components/Schema';
 import SchemaModel from '@asyncapi/parser/lib/models/schema';
 
 describe('Schema component', () => {
   it('should render simple object', () => {
     const schema = new SchemaModel({
-      type: "object",
+      type: 'object',
       properties: {
         firstName: {
-          type: "string",
-          description: "The person's first name."
+          type: 'string',
+          description: 'The person\'s first name.'
         },
         lastName: {
-          type: "string",
-          description: "The person's last name."
+          type: 'string',
+          description: 'The person\'s last name.'
         },
         age: {
-          description: "Age in years which must be equal to or greater than zero.",
-          type: "integer",
+          description: 'Age in years which must be equal to or greater than zero.',
+          type: 'integer',
           minimum: 0
         }
       },
@@ -40,19 +40,19 @@ describe('Schema component', () => {
 
   it('should render simple array', () => {
     const schema = new SchemaModel({
-      type: "array",
+      type: 'array',
       items: [
         {
-          type: "string",
-          description: "The person's first name."
+          type: 'string',
+          description: 'The person\'s first name.'
         },
         {
-          type: "string",
-          description: "The person's last name."
+          type: 'string',
+          description: 'The person\'s last name.'
         },
         {
-          description: "Age in years which must be equal to or greater than zero.",
-          type: "integer",
+          description: 'Age in years which must be equal to or greater than zero.',
+          type: 'integer',
           minimum: 0
         }
       ],
@@ -74,8 +74,8 @@ describe('Schema component', () => {
 
   it('should render primitive', () => {
     const schema = new SchemaModel({
-      type: "integer",
-      description: "Age in years which must be equal to or greater than zero.",
+      type: 'integer',
+      description: 'Age in years which must be equal to or greater than zero.',
       minimum: 0
     });
     const expected = `
@@ -92,8 +92,8 @@ describe('Schema component', () => {
 
   it('should render values', () => {
     const schema = new SchemaModel({
-      description: "Age in years which must be equal to or greater than zero.",
-      type: "integer",
+      description: 'Age in years which must be equal to or greater than zero.',
+      type: 'integer',
       minimum: 0,
       default: 5,
       const: 3,
@@ -114,8 +114,8 @@ describe('Schema component', () => {
 
   it('should render schema with constraints - number/integer case', () => {
     const schema = new SchemaModel({
-      description: "Age in years which must be equal to or greater than zero.",
-      type: "integer",
+      description: 'Age in years which must be equal to or greater than zero.',
+      type: 'integer',
       format: 'int32',
       minimum: 0,
       exclusiveMaximum: 10,
@@ -135,12 +135,12 @@ describe('Schema component', () => {
 
   it('should render schema with constraints - string case', () => {
     const schema = new SchemaModel({
-      type: "email",
-      description: "The person's last name.",
+      type: 'email',
+      description: 'The person\'s last name.',
       format: 'email',
       maxLength: 26,
       minLength: 3,
-      pattern: '@email\.com$',
+      pattern: '@email.com$',
       contentMediaType: 'application/json',
       contentEncoding: 'json',
     });
@@ -158,29 +158,29 @@ describe('Schema component', () => {
 
   it('should render schema with constraints - object case', () => {
     const schema = new SchemaModel({
-      type: "object",
+      type: 'object',
       properties: {
         firstName: {
-          type: "string",
-          description: "The person's first name."
+          type: 'string',
+          description: 'The person\'s first name.'
         },
         lastName: {
-          type: "string",
-          description: "The person's last name."
+          type: 'string',
+          description: 'The person\'s last name.'
         },
       },
       maxProperties: 5,
       minProperties: 1,
       required: ['firstName'],
       patternProperties: {
-        "^_S": { type: "string" },
-        "^_R": { type: "boolean" }
+        '^_S': { type: 'string' },
+        '^_R': { type: 'boolean' }
       },
       propertyNames: {
-        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+        pattern: '^[A-Za-z_][A-Za-z0-9_]*$'
       },
       dependencies: {
-        firstName: ["lastName"],
+        firstName: ['lastName'],
       },
       additionalProperties: {
         enum: ['age', 'address']
@@ -206,10 +206,10 @@ describe('Schema component', () => {
 
   it('should render schema with constraints - array case', () => {
     const schema = new SchemaModel({
-      type: "array",
+      type: 'array',
       items: {
-        type: "string",
-        format: "email",
+        type: 'string',
+        format: 'email',
         maxLength: 26,
         minLength: 3,
       },
@@ -217,7 +217,7 @@ describe('Schema component', () => {
       minItems: 1,
       uniqueItems: true,
       contains: {
-        const: "email@example.com"
+        const: 'email@example.com'
       },
     });
     const expected = `
@@ -236,17 +236,17 @@ describe('Schema component', () => {
 
   it('should render schema with constraints - tuple case', () => {
     const schema = new SchemaModel({
-      type: "array",
+      type: 'array',
       items: [
         {
-          type: "string",
-          format: "email",
+          type: 'string',
+          format: 'email',
           maxLength: 26,
           minLength: 3,
         },
         {
-          type: "string",
-          format: "email",
+          type: 'string',
+          format: 'email',
           maxLength: 26,
           minLength: 3,
         },
@@ -255,10 +255,10 @@ describe('Schema component', () => {
       minItems: 1,
       uniqueItems: true,
       contains: {
-        const: "email@example.com"
+        const: 'email@example.com'
       },
       additionalItems: {
-        type: "integer",
+        type: 'integer',
       }
     });
     const expected = `
@@ -279,51 +279,51 @@ describe('Schema component', () => {
 
   it('should render deep schema', () => {
     const schema = new SchemaModel({
-      "type": "object",
-      "properties": {
-        "productId": {
-          "description": "The unique identifier for a product",
-          "type": "integer"
+      type: 'object',
+      properties: {
+        productId: {
+          description: 'The unique identifier for a product',
+          type: 'integer'
         },
-        "productName": {
-          "description": "Name of the product",
-          "type": "string"
+        productName: {
+          description: 'Name of the product',
+          type: 'string'
         },
-        "price": {
-          "description": "The price of the product",
-          "type": "number",
-          "exclusiveMinimum": 0
+        price: {
+          description: 'The price of the product',
+          type: 'number',
+          exclusiveMinimum: 0
         },
-        "tags": {
-          "description": "Tags for the product",
-          "type": "array",
-          "items": {
-            "type": "string"
+        tags: {
+          description: 'Tags for the product',
+          type: 'array',
+          items: {
+            type: 'string'
           },
-          "minItems": 1,
-          "uniqueItems": true
+          minItems: 1,
+          uniqueItems: true
         },
-        "dimensions": {
-          "type": "object",
-          "properties": {
-            "length": {
-              "type": "number"
+        dimensions: {
+          type: 'object',
+          properties: {
+            length: {
+              type: 'number'
             },
-            "width": {
-              "type": "number"
+            width: {
+              type: 'number'
             },
-            "height": {
-              "type": "number"
+            height: {
+              type: 'number'
             }
           },
-          "required": [ "length", "width", "height" ]
+          required: ['length', 'width', 'height']
         },
-        "warehouseLocation": {
-          "type": "string",
-          "description": "Coordinates of the warehouse where the product is located.",
+        warehouseLocation: {
+          type: 'string',
+          description: 'Coordinates of the warehouse where the product is located.',
         }
       },
-      "required": [ "productId", "productName", "price" ]
+      required: ['productId', 'productName', 'price']
     });
     const expected = `
 #### Test schema
@@ -349,19 +349,19 @@ describe('Schema component', () => {
 
   it('should render combined schemas', () => {
     const schema = new SchemaModel({
-      "allOf": [
-        { "type": "string" },
-        { "type": "string", "maxLength": 5 }
+      allOf: [
+        { type: 'string' },
+        { type: 'string', maxLength: 5 }
       ],
-      "anyOf": [
-        { "type": "string", "maxLength": 5 },
-        { "type": "number", "minimum": 0 }
+      anyOf: [
+        { type: 'string', maxLength: 5 },
+        { type: 'number', minimum: 0 }
       ],
-      "oneOf": [
-        { "type": "number", "multipleOf": 5 },
-        { "type": "number", "multipleOf": 3 }
+      oneOf: [
+        { type: 'number', multipleOf: 5 },
+        { type: 'number', multipleOf: 3 }
       ],
-      "not": { "type": "string" },
+      not: { type: 'string' },
     });
     const expected = `
 #### Test schema
@@ -384,14 +384,14 @@ describe('Schema component', () => {
 
   it('should render conditional schemas', () => {
     const schema = new SchemaModel({
-      "if": {
-        "type": "string",
+      if: {
+        type: 'string',
       },
-      "then": {
-        "minLength": 1,
+      then: {
+        minLength: 1,
       },
-      "else": {
-        "maximum": 5,
+      else: {
+        maximum: 5,
       }
     });
     const expected = `
@@ -413,14 +413,14 @@ describe('Schema component', () => {
     const schema = new SchemaModel({
       properties: {
         firstName: {
-          type: "string",
-          description: "The person's first name."
+          type: 'string',
+          description: 'The person\'s first name.'
         },
       },
       items: [
         {
-          type: "string",
-          format: "email",
+          type: 'string',
+          format: 'email',
           maxLength: 26,
           minLength: 3,
         }
@@ -444,96 +444,96 @@ describe('Schema component', () => {
     let schema = {
       type: 'object',
       properties: {
-        "RecursiveSelf": {
-          "type": "object",
-          "properties": {
-            "selfChildren": {
-              "type": "array",
-              "items": {
-                "$ref": "#/RecursiveSelf"
+        RecursiveSelf: {
+          type: 'object',
+          properties: {
+            selfChildren: {
+              type: 'array',
+              items: {
+                $ref: '#/RecursiveSelf'
               }
             },
-            "selfObjectChildren": {
-              "type": "object",
-              "properties": {
-                "test": {
-                  "$ref": "#/RecursiveSelf"
+            selfObjectChildren: {
+              type: 'object',
+              properties: {
+                test: {
+                  $ref: '#/RecursiveSelf'
                 },
-                "nonRecursive": {
-                  "type": "string"
+                nonRecursive: {
+                  type: 'string'
                 }
               }
             },
-            "selfSomething": {
-              "type": "object",
-              "properties": {
-                "test": {
-                  "$ref": "#/RecursiveAncestor"
+            selfSomething: {
+              type: 'object',
+              properties: {
+                test: {
+                  $ref: '#/RecursiveAncestor'
                 }
               }
             }
           }
         },
-        "RecursiveAncestor": {
-          "type": "object",
-          "properties": {
-            "ancestorChildren": {
-              "type": "array",
-              "items": {
-                "$ref": "#/RecursiveSelf"
+        RecursiveAncestor: {
+          type: 'object',
+          properties: {
+            ancestorChildren: {
+              type: 'array',
+              items: {
+                $ref: '#/RecursiveSelf'
               }
             },
-            "ancestorSomething": {
-              "type": "string"
+            ancestorSomething: {
+              type: 'string'
             }
           }
         },
-        "NormalSchemaA": {
-          "type": "string",
+        NormalSchemaA: {
+          type: 'string',
         },
-        "NestedAllOfSchema": {
-          "allOf": [
+        NestedAllOfSchema: {
+          allOf: [
             {
-              "$ref": "#/NormalSchemaA"
+              $ref: '#/NormalSchemaA'
             },
             {
-              "type": "object",
-              "properties": {
-                "parent": {
-                  "allOf": [
+              type: 'object',
+              properties: {
+                parent: {
+                  allOf: [
                     {
-                      "$ref": "#/NestedAllOfSchema"
+                      $ref: '#/NestedAllOfSchema'
                     },
                     {
-                      "$ref": "#/NormalSchemaA"
+                      $ref: '#/NormalSchemaA'
                     }
                   ]
                 },
-                "name": {
-                  "type": "string"
+                name: {
+                  type: 'string'
                 }
               },
-              "required": [
-                "name"
+              required: [
+                'name'
               ]
             }
           ]
         },
-        "OneOf": {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "oneOf": [
+        OneOf: {
+          type: 'object',
+          properties: {
+            kind: {
+              oneOf: [
                 {
-                  "$ref": "#/OneOf"
+                  $ref: '#/OneOf'
                 },
                 {
-                  "type": "string"
+                  type: 'string'
                 },
                 {
-                  "enum": [
-                    "boolean",
-                    "string"
+                  enum: [
+                    'boolean',
+                    'string'
                   ]
                 }
               ]
