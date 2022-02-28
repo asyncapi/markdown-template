@@ -401,6 +401,14 @@ export class SchemaHelpers {
   }
 
   static jsonFieldToSchema(value) {
+    if (value === undefined || value === null) {
+      return {
+        type: 'string',
+        const: value === undefined ? '' : 'NULL',
+        [this.extRawValue]: true,
+        [this.extRenderType]: false,
+      };
+    }
     if (typeof value !== 'object') {
       const str =
         typeof value.toString === 'function' ? value.toString() : value;
