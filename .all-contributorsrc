@@ -14,7 +14,10 @@
         "code",
         "doc",
         "review",
-        "ideas"
+        "ideas",
+        "maintenance",
+        "bug",
+        "test"
       ]
     },
     {
@@ -26,7 +29,10 @@
         "code",
         "doc",
         "review",
-        "infra"
+        "infra",
+        "maintenance",
+        "bug",
+        "test"
       ]
     },
     {
@@ -55,7 +61,11 @@
       "profile": "https://github.com/magicmatatjahu",
       "contributions": [
         "doc",
-        "code"
+        "code",
+        "maintenance",
+        "bug",
+        "review",
+        "test"
       ]
     },
     {
