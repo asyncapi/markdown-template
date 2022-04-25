@@ -123,7 +123,7 @@ function Operation({ type, asyncapi, operation, channelName, channel }) {
 
       <OperationParameters channel={channel} />
 
-      <Security security={security} asyncapi={asyncapi} forServer={false} />
+      <Security security={security} asyncapi={asyncapi} header='Additional security requirements' />
 
       <Bindings
         name="Channel specific information"

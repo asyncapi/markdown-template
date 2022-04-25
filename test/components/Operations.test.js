@@ -219,12 +219,12 @@ A longer description of the message
   it('should render security', () => {
     const asyncapi = new AsyncAPIDocument({
       channels: {
-        "smartylighting.streetlights.1.0.action.{streetlightId}.turn.on": {
+        'smartylighting.streetlights.1.0.action.{streetlightId}.turn.on': {
           subscribe: {
             security: [
               {
                 streetlights_auth: [
-                  "streetlights:read"
+                  'streetlights:read'
                 ]
               }
             ]
@@ -234,18 +234,18 @@ A longer description of the message
       components: {
         securitySchemes: {
           saslScram: {
-            type: "scramSha256",
-            description: "Provide your username and password for SASL/SCRAM authentication"
+            type: 'scramSha256',
+            description: 'Provide your username and password for SASL/SCRAM authentication'
           },
           streetlights_auth: {
-            type: "oauth2",
-            description: "The oauth security descriptions",
+            type: 'oauth2',
+            description: 'The oauth security descriptions',
             flows: {
               clientCredentials: {
-                tokenUrl: "https://example.com/api/oauth/dialog",
+                tokenUrl: 'https://example.com/api/oauth/dialog',
                 scopes: {
-                  "streetlights:read": "Scope required for subscribing to channel",
-                  "streetlights:write": "Scope required for publishing to channel"
+                  'streetlights:read': 'Scope required for subscribing to channel',
+                  'streetlights:write': 'Scope required for publishing to channel'
                 }
               }
             }

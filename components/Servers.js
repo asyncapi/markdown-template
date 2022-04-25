@@ -83,7 +83,7 @@ function ServerVariables({ variables }) {
   );
 }
 
-export function Security({ protocol, security, asyncapi, forServer = true }) {
+export function Security({ protocol, security, asyncapi, header = 'Security' }) {
   const securitySchemes =
     asyncapi.hasComponents() && asyncapi.components().securitySchemes();
 
@@ -117,7 +117,7 @@ export function Security({ protocol, security, asyncapi, forServer = true }) {
 
   return (
     <Text>
-      <Header type={4}>{forServer ? 'Security' : 'Additional security requirements'}</Header>
+      <Header type={4}>{header}</Header>
       <Text>
         {renderedRequirements}
       </Text>
