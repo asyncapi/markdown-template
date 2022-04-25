@@ -216,6 +216,71 @@ A longer description of the message
     expect(result.trim()).toEqual(expected.trim());
   });
 
+  it('should render security', () => {
+    const asyncapi = new AsyncAPIDocument({
+      channels: {
+        "smartylighting.streetlights.1.0.action.{streetlightId}.turn.on": {
+          subscribe: {
+            security: [
+              {
+                streetlights_auth: [
+                  "streetlights:read"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      components: {
+        securitySchemes: {
+          saslScram: {
+            type: "scramSha256",
+            description: "Provide your username and password for SASL/SCRAM authentication"
+          },
+          streetlights_auth: {
+            type: "oauth2",
+            description: "The oauth security descriptions",
+            flows: {
+              clientCredentials: {
+                tokenUrl: "https://example.com/api/oauth/dialog",
+                scopes: {
+                  "streetlights:read": "Scope required for subscribing to channel",
+                  "streetlights:write": "Scope required for publishing to channel"
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+
+    const expected = `
+## Operations
+
+### SUB \`smartylighting.streetlights.1.0.action.{streetlightId}.turn.on\` Operation
+
+#### Additional security requirements
+
+##### Security Requirement 1
+
+* Type: \`OAuth2\`
+  * Flows:
+
+    Required scopes: \`streetlights:read\`
+
+    | Flow | Auth URL | Token URL | Refresh URL | Scopes |
+    |---|---|---|---|---|
+    | Client credentials | - | [https://example.com/api/oauth/dialog](https://example.com/api/oauth/dialog) | - | \`streetlights:read\`, \`streetlights:write\` |
+
+
+
+  The oauth security descriptions
+`;
+    
+    const result = render(<Operations asyncapi={asyncapi} />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
   it('should render bindings', () => {
     const asyncapi = new AsyncAPIDocument({
       channels: {

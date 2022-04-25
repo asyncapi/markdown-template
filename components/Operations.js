@@ -4,6 +4,7 @@ import { Bindings } from './Bindings';
 import { Extensions } from './Extensions';
 import { Message } from './Message';
 import { Schema } from './Schema';
+import { Security } from './Servers';
 import { Tags } from './Tags';
 import { Header, ListItem, Link } from './common';
 
@@ -23,6 +24,7 @@ export function Operations({ asyncapi }) {
         <Operation
           key={`pub-${channelName}`}
           type='publish'
+          asyncapi={asyncapi}
           operation={channel.publish()}
           channelName={channelName}
           channel={channel}
@@ -34,6 +36,7 @@ export function Operations({ asyncapi }) {
         <Operation
           key={`sub-${channelName}`}
           type='subscribe'
+          asyncapi={asyncapi}
           operation={channel.subscribe()}
           channelName={channelName}
           channel={channel}
@@ -52,7 +55,7 @@ export function Operations({ asyncapi }) {
   );
 }
 
-function Operation({ type, operation, channelName, channel }) {
+function Operation({ type, asyncapi, operation, channelName, channel }) {
   if (!operation || !channel) {
     return null;
   }
@@ -61,6 +64,8 @@ function Operation({ type, operation, channelName, channel }) {
   const externalDocs = operation.externalDocs();
   // check typeof as fallback for older version than `2.2.0`
   const servers = typeof channel.servers === 'function' && channel.servers();
+    // check typeof as fallback for older version than `2.4.0`
+  const security = typeof operation.security === 'function' && operation.security();
   const renderedType = type === 'publish' ? 'PUB' : 'SUB';
   const showInfoList = operationId || (servers && servers.length);
 
@@ -117,6 +122,8 @@ function Operation({ type, operation, channelName, channel }) {
       )}
 
       <OperationParameters channel={channel} />
+
+      <Security security={security} asyncapi={asyncapi} forServer={false} />
 
       <Bindings
         name="Channel specific information"

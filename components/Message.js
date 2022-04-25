@@ -12,6 +12,7 @@ export function Message({ message }) {
     return null;
   }
 
+  const messageId = message.json().messageId;
   const headers = message.headers();
   const payload = message.payload();
   const correlationId = message.correlationId();
@@ -39,6 +40,7 @@ export function Message({ message }) {
 
       {showInfoList ? (
         <Text>
+          {messageId && <ListItem>Message ID: `{messageId}`</ListItem>}
           {contentType && (
             <ListItem>
               Content type:{' '}
