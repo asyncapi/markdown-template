@@ -64,7 +64,7 @@ function Operation({ type, asyncapi, operation, channelName, channel }) {
   const externalDocs = operation.externalDocs();
   // check typeof as fallback for older version than `2.2.0`
   const servers = typeof channel.servers === 'function' && channel.servers();
-    // check typeof as fallback for older version than `2.4.0`
+  // check typeof as fallback for older version than `2.4.0`
   const security = typeof operation.security === 'function' && operation.security();
   const renderedType = type === 'publish' ? 'PUB' : 'SUB';
   const showInfoList = operationId || (servers && servers.length);

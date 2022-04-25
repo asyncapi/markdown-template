@@ -12,7 +12,8 @@ export function Message({ message }) {
     return null;
   }
 
-  const messageId = message.json().messageId;
+  // check typeof as fallback for older version than `2.4.0`
+  const messageId = typeof message.id === 'function' && message.id();
   const headers = message.headers();
   const payload = message.payload();
   const correlationId = message.correlationId();
