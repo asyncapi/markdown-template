@@ -7,11 +7,13 @@ import { Schema } from './Schema';
 import { Tags } from './Tags';
 import { Header, ListItem, Link, BlockQuote, CodeBlock, NewLine } from './common';
 
-export function Message({ message }) {
+export function Message({ message }) { // NOSONAR
   if (!message) {
     return null;
   }
 
+  // check typeof as fallback for older version than `2.4.0`
+  const messageId = typeof message.id === 'function' && message.id();
   const headers = message.headers();
   const payload = message.payload();
   const correlationId = message.correlationId();
@@ -39,6 +41,7 @@ export function Message({ message }) {
 
       {showInfoList ? (
         <Text>
+          {messageId && <ListItem>Message ID: `{messageId}`</ListItem>}
           {contentType && (
             <ListItem>
               Content type:{' '}

@@ -34,7 +34,7 @@ function Server({ serverName, server, asyncapi }) {
       <Header type={3}>{`\`${serverName}\` Server`}</Header>
       <ServerInfo server={server} />
       <ServerVariables variables={server.variables()} />
-      <ServerSecurity protocol={server.protocol()} security={server.security()} asyncapi={asyncapi} />
+      <Security protocol={server.protocol()} security={server.security()} asyncapi={asyncapi} />
 
       <Bindings
         name="Server specific information"
@@ -83,7 +83,7 @@ function ServerVariables({ variables }) {
   );
 }
 
-function ServerSecurity({ protocol, security, asyncapi }) {
+export function Security({ protocol, security, asyncapi, header = 'Security' }) {
   const securitySchemes =
     asyncapi.hasComponents() && asyncapi.components().securitySchemes();
 
@@ -117,7 +117,7 @@ function ServerSecurity({ protocol, security, asyncapi }) {
 
   return (
     <Text>
-      <Header type={4}>Security</Header>
+      <Header type={4}>{header}</Header>
       <Text>
         {renderedRequirements}
       </Text>
@@ -129,7 +129,7 @@ function SecurityRequirementItem({ protocol, requirement, securitySchemes, index
   let renderedServerSecurities;
   if (requirement === null && (protocol === KAFKA_PROTOCOL || protocol === KAFKA_SECURE_PROTOCOL)) {
     renderedServerSecurities = (
-      <ServerSecurityItem protocol={protocol} securitySchema={null} />
+      <SecurityItem protocol={protocol} securitySchema={null} />
     );
   } else if (requirement) {
     renderedServerSecurities = Object.entries(requirement.json())
@@ -139,7 +139,7 @@ function SecurityRequirementItem({ protocol, requirement, securitySchemes, index
           return;
         }
         return (
-          <ServerSecurityItem
+          <SecurityItem
             protocol={protocol}
             securitySchema={securitySchema}
             requiredScopes={requiredScopes}
@@ -168,11 +168,11 @@ function SecurityRequirementItem({ protocol, requirement, securitySchemes, index
   );
 }
 
-function ServerSecurityItem({ protocol, securitySchema, requiredScopes = [] }) {
+function SecurityItem({ protocol, securitySchema, requiredScopes = [] }) {
   let schemas = [];
-  renderServerSecuritySchemasBasic({ securitySchema, schemas });
-  renderServerSecuritySchemasKafka({ protocol, securitySchema, schemas });
-  renderServerSecuritySchemasFlows({ securitySchema, requiredScopes, schemas });
+  renderSecuritySchemasBasic({ securitySchema, schemas });
+  renderSecuritySchemasKafka({ protocol, securitySchema, schemas });
+  renderSecuritySchemasFlows({ securitySchema, requiredScopes, schemas });
   schemas = schemas.filter(Boolean);
 
   const type = securitySchema && securitySchema.type() && ServerHelpers.securityType(securitySchema.type());
@@ -193,7 +193,7 @@ function ServerSecurityItem({ protocol, securitySchema, requiredScopes = [] }) {
   );
 }
 
-function renderServerSecuritySchemasBasic({ securitySchema, schemas }) {
+function renderSecuritySchemasBasic({ securitySchema, schemas }) {
   if (securitySchema) {
     if (securitySchema.name()) {
       schemas.push(<ListItem key='name'>Name: {securitySchema.name()}</ListItem>);
@@ -220,7 +220,7 @@ function renderServerSecuritySchemasBasic({ securitySchema, schemas }) {
   }
 }
 
-function renderServerSecuritySchemasKafka({ protocol, securitySchema, schemas }) {
+function renderSecuritySchemasKafka({ protocol, securitySchema, schemas }) {
   const isKafkaProtocol = protocol === KAFKA_PROTOCOL || protocol === KAFKA_SECURE_PROTOCOL;
   if (!isKafkaProtocol) {
     return;
@@ -239,7 +239,7 @@ function renderServerSecuritySchemasKafka({ protocol, securitySchema, schemas })
   }
 }
 
-function renderServerSecuritySchemasFlows({ securitySchema, requiredScopes, schemas }) {
+function renderSecuritySchemasFlows({ securitySchema, requiredScopes, schemas }) {
   const hasFlows = securitySchema && securitySchema.flows() && Object.keys(securitySchema.flows()).length;
   if (!hasFlows) {
     return;

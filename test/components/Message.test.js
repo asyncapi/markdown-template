@@ -85,6 +85,7 @@ describe('Message component', () => {
       title: 'User signup',
       summary: 'Action to sign a user up.',
       description: 'A longer description',
+      messageId: 'UserSignup Message Id',
       contentType: 'application/json',
       tags: [
         { name: 'user' },
@@ -139,10 +140,11 @@ describe('Message component', () => {
       ]
     });
     const expected = `
-#### Message User signup \`UserSignup\`
+#### Message User signup \`UserSignup Message Id\`
 
 *Action to sign a user up.*
 
+* Message ID: \`UserSignup Message Id\`
 * Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
 * Correlation ID: \`$message.header#/correlationId\`
 
