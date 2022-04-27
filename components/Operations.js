@@ -55,7 +55,7 @@ export function Operations({ asyncapi }) {
   );
 }
 
-function Operation({ type, asyncapi, operation, channelName, channel }) {
+function Operation({ type, asyncapi, operation, channelName, channel }) { // NOSONAR
   if (!operation || !channel) {
     return null;
   }

@@ -7,7 +7,7 @@ import { Schema } from './Schema';
 import { Tags } from './Tags';
 import { Header, ListItem, Link, BlockQuote, CodeBlock, NewLine } from './common';
 
-export function Message({ message }) {
+export function Message({ message }) { // NOSONAR
   if (!message) {
     return null;
   }
