@@ -47,7 +47,8 @@ export function TableHead({ headers = [] }) {
 }
 
 export function TableRow({ rowRenderer = () => [], entry }) {
-  return <Text>{`| ${rowRenderer(entry).join(' | ')} |`}</Text>;
+  const renderedRow = rowRenderer(entry).map(it => (it || '').replace(/\|/g, '\\|')).join(' | ');
+  return <Text>{`| ${renderedRow} |`}</Text>;
 }
 
 export function CodeBlock({ language = 'json', childrenContent = '' }) {
