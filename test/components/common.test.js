@@ -27,7 +27,6 @@ describe('Table', () => {
   });
 });
 
-
 describe('Table Row', () => {
   it('should escape pipe operators in row values', () => {
     const rowRenderer = () => [
