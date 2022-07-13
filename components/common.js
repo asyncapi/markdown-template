@@ -1,4 +1,5 @@
 import { Text } from '@asyncapi/generator-react-sdk';
+import { FormatHelpers } from '../helpers/format';
 
 export function Header({ type = 1, childrenContent = '' }) {
   const hashes = Array(type).fill('#').join('');
@@ -25,7 +26,7 @@ export function ListItem({ type = '*', childrenContent = '' }) {
 }
 
 export function Table({ headers = [], rowRenderer = () => [], data = [] }) {
-  const row = (entry, idx) => <Text key={idx}>{`| ${rowRenderer(entry).join(' | ')} |`}</Text>;
+  const row = (entry, idx) => <Text key={idx}>{`| ${rowRenderer(entry).map(FormatHelpers.escapePipes).join(' | ')} |`}</Text>;
   return (
     <>
       <TableHead headers={headers} />
@@ -47,8 +48,7 @@ export function TableHead({ headers = [] }) {
 }
 
 export function TableRow({ rowRenderer = () => [], entry }) {
-  const renderedRow = rowRenderer(entry).map(it => (it || '').replace(/\|/g, '\\|')).join(' | ');
-  return <Text>{`| ${renderedRow} |`}</Text>;
+  return <Text>{`| ${rowRenderer(entry).map(FormatHelpers.escapePipes).join(' | ')} |`}</Text>;
 }
 
 export function CodeBlock({ language = 'json', childrenContent = '' }) {
