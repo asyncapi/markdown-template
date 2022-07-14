@@ -105,6 +105,17 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "GerMichael",
+      "name": "Michael Gerischer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/62344871?v=4",
+      "profile": "https://github.com/GerMichael",
+      "contributions": [
+        "code",
+        "bug",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
