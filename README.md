@@ -1,7 +1,7 @@
 # Markdown template for the AsyncAPI Generator
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <!-- toc is generated with GitHub Actions do not remove toc markers -->
@@ -66,6 +66,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/stuartforrest-infinity"><img src="https://avatars.githubusercontent.com/u/49638642?v=4?s=100" width="100px;" alt=""/><br /><sub><b>stuartforrest-infinity</b></sub></a><br /><a href="https://github.com/asyncapi/markdown-template/issues?q=author%3Astuartforrest-infinity" title="Bug reports">🐛</a> <a href="https://github.com/asyncapi/markdown-template/commits?author=stuartforrest-infinity" title="Code">💻</a></td>
     <td align="center"><a href="http://dalelane.co.uk/"><img src="https://avatars.githubusercontent.com/u/1444788?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Dale Lane</b></sub></a><br /><a href="https://github.com/asyncapi/markdown-template/commits?author=dalelane" title="Code">💻</a> <a href="#ideas-dalelane" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/GerMichael"><img src="https://avatars.githubusercontent.com/u/62344871?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Michael Gerischer</b></sub></a><br /><a href="https://github.com/asyncapi/markdown-template/commits?author=GerMichael" title="Code">💻</a> <a href="https://github.com/asyncapi/markdown-template/issues?q=author%3AGerMichael" title="Bug reports">🐛</a> <a href="https://github.com/asyncapi/markdown-template/commits?author=GerMichael" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
