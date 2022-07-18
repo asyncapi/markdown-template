@@ -44,4 +44,18 @@ describe('FormatHelpers', () => {
       expect(result).toEqual('`test`');
     });
   });
+
+  describe('.escapePipes', () => {
+    test.each`
+  input                           | expected
+  ${(/foo|bar/).toString()}       | ${'/foo\\|bar/'}
+  ${(/foo\|bar/).toString()}      | ${'/foo\\\\|bar/'}
+  ${(/foo\\|bar/).toString()}     | ${'/foo\\\\\\|bar/'}
+  ${(/foo\|bar|baz/).toString()}  | ${'/foo\\\\|bar\\|baz/'}
+  ${undefined}                    | ${''}
+  ${'allowed (`"foo|bar|baz"`)'}  | ${'allowed (`"foo\\|bar\\|baz"`)'}
+`('returns $expected when input is $input', ({input, expected}) => {
+      expect(FormatHelpers.escapePipes(input)).toBe(expected);
+    });
+  });
 });

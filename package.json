@@ -1,6 +1,6 @@
 {
   "name": "@asyncapi/markdown-template",
-  "version": "1.0.1",
+  "version": "1.1.2",
   "description": "Markdown template for the AsyncAPI generator.",
   "keywords": [
     "asyncapi",
@@ -34,11 +34,11 @@
   "dependencies": {
     "@asyncapi/generator-filters": "^2.1.0",
     "@asyncapi/generator-react-sdk": "^0.2.23",
-    "@asyncapi/parser": "^1.13.2",
+    "@asyncapi/parser": "^1.15.1",
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "@asyncapi/generator": "^1.9.2",
+    "@asyncapi/generator": "^1.9.4",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
     "@semantic-release/commit-analyzer": "^8.0.1",
@@ -53,7 +53,7 @@
     "eslint-plugin-sonarjs": "^0.11.0",
     "jest": "^27.2.5",
     "markdown-toc": "^1.2.0",
-    "semantic-release": "^17.0.4"
+    "semantic-release": "^19.0.3"
   },
   "release": {
     "branches": [

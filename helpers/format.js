@@ -57,4 +57,8 @@ export class FormatHelpers {
     }
     return str;
   }
+
+  static escapePipes(str) {
+    return (str || '').replace(/\|/g, '\\|');
+  }
 }
