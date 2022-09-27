@@ -2,6 +2,7 @@ import { IndentationTypes, Text } from '@asyncapi/generator-react-sdk';
 
 import { Bindings } from './Bindings';
 import { Extensions } from './Extensions';
+import { Tags } from './Tags';
 import { Header, ListItem, Link, Table, NewLine } from './common';
 
 import { ServerHelpers } from '../helpers/server';
@@ -35,6 +36,10 @@ function Server({ serverName, server, asyncapi }) {
       <ServerInfo server={server} />
       <ServerVariables variables={server.variables()} />
       <Security protocol={server.protocol()} security={server.security()} asyncapi={asyncapi} />
+
+      {server.hasTags() && (
+        <Tags name="Server tags" tags={server.tags()} />
+      )}
 
       <Bindings
         name="Server specific information"
