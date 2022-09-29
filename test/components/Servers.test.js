@@ -11,13 +11,20 @@ describe('Servers component', () => {
           url: 'development.gigantic-server.com',
           description: 'Development server',
           protocol: 'amqp',
-          protocolVersion: '0.9.1'
+          protocolVersion: '0.9.1',
+          tags: [
+            { name: 'env:development' },
+            { name: 'another-tag' },
+          ],
         },
         staging: {
           url: 'staging.gigantic-server.com',
           description: 'Staging server',
           protocol: 'amqp',
-          protocolVersion: '0.9.1'
+          protocolVersion: '0.9.1',
+          tags: [
+            { name: 'env:staging' },
+          ],
         },
         production: {
           url: 'api.gigantic-server.com',
@@ -37,6 +44,13 @@ describe('Servers component', () => {
 
 Development server
 
+##### Server tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| env:development | - | - |
+| another-tag | - | - |
+
 
 ### \`staging\` Server
 
@@ -44,6 +58,12 @@ Development server
 * Protocol: \`amqp 0.9.1\`
 
 Staging server
+
+##### Server tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| env:staging | - | - |
 
 
 ### \`production\` Server
