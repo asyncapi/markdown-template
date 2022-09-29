@@ -14,6 +14,7 @@ describe('Servers component', () => {
           protocolVersion: '0.9.1',
           tags: [
             { name: 'env:development' },
+            { name: 'another-tag' },
           ],
         },
         staging: {
@@ -48,6 +49,7 @@ Development server
 | Name | Description | Documentation |
 |---|---|---|
 | env:development | - | - |
+| another-tag | - | - |
 
 
 ### \`staging\` Server
