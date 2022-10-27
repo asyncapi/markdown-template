@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/asyncapi/markdown-template#readme",
   "scripts": {
+    "start": "node ./node_modules/@asyncapi/generator/cli.js ./sample.yaml ./ -o ./output --force-write",
     "test": "jest --coverage",
     "lint": "eslint --max-warnings 0 --config \".eslintrc\" \".\"",
     "lint:fix": "eslint --max-warnings 0 --config \".eslintrc\" \".\" --fix",
@@ -32,13 +33,13 @@
     "access": "public"
   },
   "dependencies": {
+    "@asyncapi/generator": "file:asyncapi-generator-1.9.12.tgz",
     "@asyncapi/generator-filters": "^2.1.0",
     "@asyncapi/generator-react-sdk": "^0.2.23",
     "@asyncapi/parser": "^1.17.1",
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "@asyncapi/generator": "^1.9.13",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
     "@semantic-release/commit-analyzer": "^8.0.1",
@@ -78,6 +79,7 @@
   },
   "generator": {
     "renderer": "react",
+    "apiVersion": "v2",
     "generator": ">=1.9.12 <2.0.0",
     "parameters": {
       "frontMatter": {
