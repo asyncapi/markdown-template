@@ -1,5 +1,7 @@
-import Schema from '@asyncapi/parser/lib/models/schema';
-import ChannelParameter from '@asyncapi/parser/lib/models/channel-parameter';
+import { 
+  SchemaV2 as Schema,
+  ChannelParameterV2 as ChannelParameter,
+} from '@asyncapi/parser';
 
 import { SchemaHelpers, SchemaCustomTypes } from '../../helpers/schema';
 

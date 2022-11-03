@@ -1,11 +1,13 @@
 import { render } from '@asyncapi/generator-react-sdk';
+import { ExtensionsV2, ExtensionV2 } from '@asyncapi/parser';
 
 import { Extensions } from '../../components/Extensions';
 
 function createExtensionsMock(extensions) {
   return {
     extensions() {
-      return extensions;
+      const extensionModels = Object.entries(extensions || {}).map(([id, ext]) => new ExtensionV2(ext, { id }));
+      return new ExtensionsV2(extensionModels);
     }
   };
 }
