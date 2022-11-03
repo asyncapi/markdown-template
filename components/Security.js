@@ -95,7 +95,7 @@ function SecurityItem({ protocol, securitySchema, requiredScopes = [] }) {
   return (
     <Text>
       {type && <ListItem>Type: `{type}`</ListItem>}
-      {schemas.length && (
+      {schemas.length > 0 && (
         <Text indent={2} type={IndentationTypes.SPACES}>
           {schemas}
         </Text>
