@@ -1,47 +1,60 @@
 import { render } from '@asyncapi/generator-react-sdk';
+import { AsyncAPIDocumentV2 as AsyncAPIDocument, createAsyncAPIDocument } from '@asyncapi/parser';
 
 import { Operations } from '../../components/Operations';
-import AsyncAPIDocument from '@asyncapi/parser/lib/models/asyncapi';
 
 describe('Operations component', () => {
   it('should render operation', () => {
-    const asyncapi = new AsyncAPIDocument({
-      channels: {
-        'user/signedup': {
-          description: 'This channel is used to exchange messages about users signing up',
-          servers: [
-            'rabbitmqBrokerInProd',
-            'rabbitmqBrokerInStaging',
-          ],
-          subscribe: {
-            operationId: 'signedupuser',
-            externalDocs: {
-              description: 'More info here',
-              url: 'https://example.com'
-            },
-            tags: [
-              { name: 'user' },
-              { name: 'signup' },
-              { name: 'register' }
+    const asyncapi = createAsyncAPIDocument({
+      semver: {
+        major: 2,
+        minor: 0,
+        patch: 0,
+      },
+      parsed: {
+        asyncapi: '2.0.0',
+        servers: {
+          rabbitmqBrokerInProd: {},
+          rabbitmqBrokerInStaging: {},
+        },
+        channels: {
+          'user/signedup': {
+            description: 'This channel is used to exchange messages about users signing up',
+            servers: [
+              'rabbitmqBrokerInProd',
+              'rabbitmqBrokerInStaging',
             ],
-            summary: 'A user signed up.',
-            message: {
-              description: 'A longer description of the message',
-              payload: {
-                type: 'object',
-                properties: {
-                  user: {
-                    type: 'string'
-                  },
-                  signup: {
-                    type: 'number'
+            subscribe: {
+              operationId: 'signedupuser',
+              externalDocs: {
+                description: 'More info here',
+                url: 'https://example.com'
+              },
+              tags: [
+                { name: 'user' },
+                { name: 'signup' },
+                { name: 'register' }
+              ],
+              summary: 'A user signed up.',
+              message: {
+                name: 'SomeMessage',
+                description: 'A longer description of the message',
+                payload: {
+                  type: 'object',
+                  properties: {
+                    user: {
+                      type: 'string'
+                    },
+                    signup: {
+                      type: 'number'
+                    }
                   }
                 }
               }
-            }
+            },
           },
         },
-      },
+      }
     });
     const expected = `
 ## Operations
@@ -65,7 +78,7 @@ This channel is used to exchange messages about users signing up
 | signup | - | - |
 | register | - | - |
 
-#### Message \`<anonymous-message-1>\`
+#### Message \`SomeMessage\`
 
 A longer description of the message
 
@@ -138,6 +151,7 @@ A longer description of the message
             message: {
               oneOf: [
                 {
+                  messageId: 'some-message',
                   description: 'A longer description of the message',
                   payload: {
                     type: 'object',
@@ -149,6 +163,7 @@ A longer description of the message
                   }
                 },
                 {
+                  name: 'SomeMessage',
                   description: 'A longer description of the message',
                   payload: {
                     type: 'object',
@@ -172,7 +187,7 @@ A longer description of the message
 
 Accepts **one of** the following messages:
 
-#### Message \`<anonymous-message-1>\`
+#### Message \`some-message\`
 
 A longer description of the message
 
@@ -192,7 +207,7 @@ A longer description of the message
 \`\`\`
 
 
-#### Message \`<anonymous-message-1>\`
+#### Message \`SomeMessage\`
 
 A longer description of the message
 
@@ -217,43 +232,46 @@ A longer description of the message
   });
 
   it('should render security', () => {
-    const asyncapi = new AsyncAPIDocument({
-      channels: {
-        'smartylighting.streetlights.1.0.action.{streetlightId}.turn.on': {
-          subscribe: {
-            security: [
-              {
-                streetlights_auth: [
-                  'streetlights:read'
-                ]
-              }
-            ]
-          }
-        }
+    const asyncapi = createAsyncAPIDocument({
+      semver: {
+        major: 2,
+        minor: 0,
+        patch: 0,
       },
-      components: {
-        securitySchemes: {
-          saslScram: {
-            type: 'scramSha256',
-            description: 'Provide your username and password for SASL/SCRAM authentication'
-          },
-          streetlights_auth: {
-            type: 'oauth2',
-            description: 'The oauth security descriptions',
-            flows: {
-              clientCredentials: {
-                tokenUrl: 'https://example.com/api/oauth/dialog',
-                scopes: {
-                  'streetlights:read': 'Scope required for subscribing to channel',
-                  'streetlights:write': 'Scope required for publishing to channel'
+      parsed: {
+        asyncapi: '2.0.0',
+        channels: {
+          'smartylighting.streetlights.1.0.action.{streetlightId}.turn.on': {
+            subscribe: {
+              security: [
+                {
+                  streetlights_auth: [
+                    'streetlights:read'
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        components: {
+          securitySchemes: {
+            streetlights_auth: {
+              type: 'oauth2',
+              description: 'The oauth security descriptions',
+              flows: {
+                clientCredentials: {
+                  tokenUrl: 'https://example.com/api/oauth/dialog',
+                  scopes: {
+                    'streetlights:read': 'Scope required for subscribing to channel',
+                    'streetlights:write': 'Scope required for publishing to channel'
+                  }
                 }
               }
             }
           }
         }
-      }
+      },
     });
-
     const expected = `
 ## Operations
 
@@ -270,7 +288,10 @@ A longer description of the message
 
     | Flow | Auth URL | Token URL | Refresh URL | Scopes |
     |---|---|---|---|---|
+    | Authorization Code | - | - | - | - |
     | Client credentials | - | [https://example.com/api/oauth/dialog](https://example.com/api/oauth/dialog) | - | \`streetlights:read\`, \`streetlights:write\` |
+    | Implicit | - | - | - | - |
+    | Password | - | - | - | - |
 
 
 
@@ -433,7 +454,7 @@ A longer description of the message
     expect(result.trim()).toEqual(expected.trim());
   });
 
-  it('should render nothing if operations prop is undefined', () => {
+  it('should render nothing if channels with operations are not defined', () => {
     const asyncapi = new AsyncAPIDocument({});
 
     const result = render(<Operations asyncapi={asyncapi} />);

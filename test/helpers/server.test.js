@@ -1,4 +1,4 @@
-import SecurityScheme from '@asyncapi/parser/lib/models/security-scheme';
+import { SecuritySchemeV2 as SecurityScheme } from '@asyncapi/parser';
 
 import { ServerHelpers } from '../../helpers/server';
 

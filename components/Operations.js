@@ -4,7 +4,7 @@ import { Bindings } from './Bindings';
 import { Extensions } from './Extensions';
 import { Message } from './Message';
 import { Schema } from './Schema';
-import { Security } from './Servers';
+import { Security } from './Security';
 import { Tags } from './Tags';
 import { Header, ListItem, Link } from './common';
 
@@ -13,36 +13,39 @@ import { FormatHelpers } from '../helpers/format';
 
 export function Operations({ asyncapi }) {
   const channels = asyncapi.channels();
-  if (!Object.keys(channels).length) {
+  if (channels.isEmpty()) {
     return null;
   }
 
   const operationsList = [];
-  Object.entries(channels).forEach(([channelName, channel]) => {
-    if (channel.hasPublish()) {
-      operationsList.push(
-        <Operation
-          key={`pub-${channelName}`}
-          type='publish'
-          asyncapi={asyncapi}
-          operation={channel.publish()}
-          channelName={channelName}
-          channel={channel}
-        />
-      );
-    }
-    if (channel.hasSubscribe()) {
-      operationsList.push(
-        <Operation
-          key={`sub-${channelName}`}
-          type='subscribe'
-          asyncapi={asyncapi}
-          operation={channel.subscribe()}
-          channelName={channelName}
-          channel={channel}
-        />
-      );
-    }
+  channels.all().map(channel => {
+    const channelName = channel.address();
+    channel.operations().all().forEach(operation => {
+      if (operation.action() === 'publish') {
+        operationsList.push(
+          <Operation
+            key={`pub-${channelName}`}
+            type='publish'
+            asyncapi={asyncapi}
+            operation={operation}
+            channelName={channelName}
+            channel={channel}
+          />
+        );
+      }
+      if (operation.action() === 'subscribe') {
+        operationsList.push(
+          <Operation
+            key={`sub-${channelName}`}
+            type='subscribe'
+            asyncapi={asyncapi}
+            operation={operation}
+            channelName={channelName}
+            channel={channel}
+          />
+        );
+      }
+    });
   });
 
   return (
@@ -55,15 +58,15 @@ export function Operations({ asyncapi }) {
   );
 }
 
-function Operation({ type, asyncapi, operation, channelName, channel }) { // NOSONAR
+function Operation({ type, operation, channelName, channel }) { // NOSONAR
   if (!operation || !channel) {
     return null;
   }
 
-  const operationId = operation.id();
+  const operationId = operation.operationId();
   const externalDocs = operation.externalDocs();
   // check typeof as fallback for older version than `2.2.0`
-  const servers = typeof channel.servers === 'function' && channel.servers();
+  const servers = typeof channel.servers === 'function' && channel.servers().all();
   // check typeof as fallback for older version than `2.4.0`
   const security = typeof operation.security === 'function' && operation.security();
   const renderedType = type === 'publish' ? 'PUB' : 'SUB';
@@ -88,8 +91,9 @@ function Operation({ type, asyncapi, operation, channelName, channel }) { // NOS
             <ListItem>
               Available only on servers:{' '}
               {servers.map(s => {
-                const slug = FormatHelpers.slugify(s);
-                return `[${s}](#${slug}-server)`;
+                const serverId = s.id();
+                const slug = FormatHelpers.slugify(serverId);
+                return `[${serverId}](#${slug}-server)`;
               }).join(', ')}
             </ListItem>
           )}
@@ -112,18 +116,16 @@ function Operation({ type, asyncapi, operation, channelName, channel }) { // NOS
           <Link
             href={externalDocs.url()}
           >
-            {externalDocs.hasDescription() ? externalDocs.description() : 'Find more info here.'}
+            {externalDocs.description() || 'Find more info here.'}
           </Link>
         </Text>
       )}
 
-      {operation.hasTags() && (
-        <Tags name="Operation tags" tags={operation.tags()} />
-      )}
+      <Tags name="Operation tags" item={operation} />
 
       <OperationParameters channel={channel} />
 
-      <Security security={security} asyncapi={asyncapi} header='Additional security requirements' />
+      <Security security={security} header='Additional security requirements' />
 
       <Bindings
         name="Channel specific information"
@@ -143,7 +145,7 @@ function Operation({ type, asyncapi, operation, channelName, channel }) { // NOS
 }
 
 function OperationParameters({ channel }) {
-  const parameters = SchemaHelpers.parametersToSchema(channel.parameters());
+  const parameters = SchemaHelpers.parametersToSchema(channel.parameters().all());
   if (!parameters) {
     return null;
   }
@@ -157,11 +159,10 @@ function OperationParameters({ channel }) {
 }
 
 function OperationMessages({ operation }) {
-  const hasMessages = operation.hasMultipleMessages() || !!operation.message(0);
-  if (!hasMessages) {
+  const messages = operation.messages().all();
+  if (messages.length === 0) {
     return null;
   }
-  const messages = operation.messages();
 
   return (
     <>
@@ -170,8 +171,8 @@ function OperationMessages({ operation }) {
           Accepts **one of** the following messages:
         </Text>
       )}
-      {messages.map(msg => (
-        <Message title={`Message \`${msg.uid()}\``} message={msg} key={msg.uid()} />
+      {messages.map((msg, idx) => (
+        <Message message={msg} key={idx} />
       ))}
     </>
   );

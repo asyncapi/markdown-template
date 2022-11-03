@@ -1,62 +1,69 @@
 import { render } from '@asyncapi/generator-react-sdk';
+import { createAsyncAPIDocument } from '@asyncapi/parser';
 
 import { Info } from '../../components/Info';
-import AsyncAPIDocument from '@asyncapi/parser/lib/models/asyncapi';
 
 describe('Info component', () => {
   it('should render all fields', () => {
-    const asyncapi = new AsyncAPIDocument({
-      asyncapi: '2.2.0',
-      id: 'urn:com:smartylighting:streetlights:server',
-      info: {
-        title: 'Streetlights API',
-        version: '1.0.0',
-        description: 'The Smartylighting Streetlights API allows you to remotely manage the city lights.\n### Check out its awesome features:\n* Turn a specific streetlight on/off 🌃\n* Dim a specific streetlight 😎\n* Receive real-time information about environmental lighting conditions 📈\n',
-        termsOfService: 'https://asyncapi.org/terms/',
-        contact: {
-          name: 'API Support',
-          url: 'https://www.asyncapi.org/support',
-          email: 'support@asyncapi.org'
-        },
-        license: {
-          name: 'Apache 2.0',
-          url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
-        }
+    const asyncapi = createAsyncAPIDocument({
+      semver: {
+        major: 2,
+        minor: 2,
+        patch: 0,
       },
-      tags: [
-        {
-          name: 'root-tag1',
-          externalDocs: {
-            description: 'External docs description 1',
-            url: 'https://www.asyncapi.com/'
+      parsed: {
+        asyncapi: '2.2.0',
+        id: 'urn:com:smartylighting:streetlights:server',
+        info: {
+          title: 'Streetlights API',
+          version: '1.0.0',
+          description: 'The Smartylighting Streetlights API allows you to remotely manage the city lights.\n### Check out its awesome features:\n* Turn a specific streetlight on/off 🌃\n* Dim a specific streetlight 😎\n* Receive real-time information about environmental lighting conditions 📈\n',
+          termsOfService: 'https://asyncapi.org/terms/',
+          contact: {
+            name: 'API Support',
+            url: 'https://www.asyncapi.org/support',
+            email: 'support@asyncapi.org'
+          },
+          license: {
+            name: 'Apache 2.0',
+            url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
           }
         },
-        {
-          name: 'root-tag2',
-          description: 'Description 2',
-          externalDocs: {
-            url: 'https://www.asyncapi.com/'
+        tags: [
+          {
+            name: 'root-tag1',
+            externalDocs: {
+              description: 'External docs description 1',
+              url: 'https://www.asyncapi.com/'
+            }
+          },
+          {
+            name: 'root-tag2',
+            description: 'Description 2',
+            externalDocs: {
+              url: 'https://www.asyncapi.com/'
+            }
+          },
+          {
+            name: 'root-tag3'
+          },
+          {
+            name: 'root-tag4',
+            description: 'Description 4'
+          },
+          {
+            name: 'root-tag5',
+            externalDocs: {
+              url: 'https://www.asyncapi.com/'
+            }
           }
+        ],
+        externalDocs: {
+          description: 'More info here',
+          url: 'https://example.com'
         },
-        {
-          name: 'root-tag3'
-        },
-        {
-          name: 'root-tag4',
-          description: 'Description 4'
-        },
-        {
-          name: 'root-tag5',
-          externalDocs: {
-            url: 'https://www.asyncapi.com/'
-          }
-        }
-      ],
-      externalDocs: {
-        description: 'More info here',
-        url: 'https://example.com'
-      },
-      defaultContentType: 'application/json'
+        defaultContentType: 'application/json',
+      }
     });
     const expected = `
 # Streetlights API 1.0.0 documentation
@@ -92,13 +99,20 @@ The Smartylighting Streetlights API allows you to remotely manage the city light
   });
 
   it('should render logo from an extension', () => {
-    const asyncapi = new AsyncAPIDocument({
-      asyncapi: '2.2.0',
-      info: {
-        title: 'Streetlights API',
-        version: '1.0.0',
-        'x-logo': 'example.com/image'
+    const asyncapi = createAsyncAPIDocument({
+      semver: {
+        major: 2,
+        minor: 2,
+        patch: 0,
       },
+      parsed: {
+        asyncapi: '2.2.0',
+        info: {
+          title: 'Streetlights API',
+          version: '1.0.0',
+          'x-logo': 'example.com/image'
+        },
+      }
     });
     const expected = `
 # Streetlights API 1.0.0 documentation

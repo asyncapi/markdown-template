@@ -1,7 +1,7 @@
 import { render } from '@asyncapi/generator-react-sdk';
+import { MessageV2 as MessageModel } from '@asyncapi/parser';
 
 import { Message } from '../../components/Message';
-import MessageModel from '@asyncapi/parser/lib/models/message';
 
 describe('Message component', () => {
   it('should render simple message', () => {

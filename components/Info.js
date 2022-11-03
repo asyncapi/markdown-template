@@ -6,12 +6,13 @@ import { Header, Link, Image, List, NewLine } from './common';
 export function Info({ asyncapi, params = {} }) {
   const info = asyncapi.info();
 
-  const specId = asyncapi.id();
-  const externalDocs = asyncapi.externalDocs();
-  const license = info.license();
-  const termsOfService = info.termsOfService();
   const defaultContentType = asyncapi.defaultContentType();
+  const specId = info.id();
+  const termsOfService = info.termsOfService();
+  const license = info.license();
   const contact = info.contact();
+  const externalDocs = info.externalDocs();
+  const extensions = info.extensions();
 
   const infoList = [];
   if (specId) {
@@ -86,9 +87,9 @@ export function Info({ asyncapi, params = {} }) {
         {info.title()} {params.version || info.version()} documentation
       </Header>
 
-      {info.hasExt('x-logo') && (
+      {extensions.has('x-logo') && (
         <Text>
-          <Image src={info.ext('x-logo')} desc={`${info.title()} logo`} />
+          <Image src={extensions.get('x-logo').value()} desc={`${info.title()} logo`} />
         </Text>
       )}
 
@@ -104,7 +105,7 @@ export function Info({ asyncapi, params = {} }) {
           <Link
             href={externalDocs.url()}
           >
-            {externalDocs.hasDescription() ? externalDocs.description() : 'Find more info here.'}
+            {externalDocs.description() || 'Find more info here.'}
           </Link>
         </Text>
       )}
@@ -115,9 +116,7 @@ export function Info({ asyncapi, params = {} }) {
         </Text>
       )}
 
-      {asyncapi.hasTags() && (
-        <Tags name="Specification tags" tags={asyncapi.tags()} />
-      )}
+      <Tags name="Specification tags" item={info} />
     </Text>
   );
 }

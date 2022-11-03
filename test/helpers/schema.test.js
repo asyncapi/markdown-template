@@ -313,14 +313,14 @@ describe('SchemaHelpers', () => {
 
   describe('.parametersToSchema', () => {
     test('should transform parameters to schema', () => {
-      const variables = {
-        foo: new ChannelParameter({ schema: { type: 'string' } }),
-        bar: new ChannelParameter({
+      const variables = [
+        new ChannelParameter({ schema: { type: 'string' } }, { id: 'foo' }),
+        new ChannelParameter({
           schema: { type: 'string' },
           location: '$message.payload#/user/id',
           description: 'Some description',
-        }),
-      };
+        }, { id: 'bar' }),
+      ];
       const schema = new Schema({
         type: 'object',
         properties: {

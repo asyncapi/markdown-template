@@ -195,23 +195,24 @@ export class SchemaHelpers {
   }
 
   static parametersToSchema(parameters) {
-    if (!parameters || !Object.keys(parameters).length) {
-      return undefined;
+    if (parameters.length === 0) {
+      return;
     }
 
     const json = {
       type: 'object',
-      properties: Object.entries(parameters).reduce(
-        (obj, [paramaterName, parameter]) => {
-          obj[String(paramaterName)] = Object.assign({}, parameter.schema().json());
-          obj[String(paramaterName)].description =
-            parameter.description() || obj[String(paramaterName)].description;
-          obj[String(paramaterName)][this.extParameterLocation] = parameter.location();
+      properties: parameters.reduce(
+        (obj, parameter) => {
+          const parameterName = parameter.id();
+          obj[String(parameterName)] = Object.assign({}, parameter.schema().json());
+          obj[String(parameterName)].description =
+            parameter.description() || obj[String(parameterName)].description;
+          obj[String(parameterName)][this.extParameterLocation] = parameter.location();
           return obj;
         },
         {},
       ),
-      required: Object.keys(parameters),
+      required: parameters.map(parameter => parameter.id()),
       [this.extRenderType]: false,
       [this.extRenderAdditionalInfo]: false,
     };
