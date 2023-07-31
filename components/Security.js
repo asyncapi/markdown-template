@@ -11,8 +11,7 @@ export function Security({ protocol, security, header = 'Security' }) {
   if (hasMultipleRequirements) {
     renderedRequirements = security
       .map((requirement, idx) => (
-        // eslint-disable-next-line react/jsx-key
-        <SecurityRequirementItem protocol={protocol} requirement={requirement} index={idx} />
+        <SecurityRequirementItem protocol={protocol} requirement={requirement} index={idx} key={`security-requirement-${idx}`} />
       ))
       .filter(Boolean);
 
