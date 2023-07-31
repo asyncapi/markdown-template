@@ -172,7 +172,7 @@ function OperationMessages({ operation }) {
         </Text>
       )}
       {messages.map((msg, idx) => (
-        <Message message={msg} key={idx} />
+        <Message message={msg} key={`message-${idx}`} />
       ))}
     </>
   );

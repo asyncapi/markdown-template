@@ -21,7 +21,7 @@ export class MessageHelpers {
     }
   
     const payload = message.payload();
-    if (payload && payload.examples()) {
+    if (payload?.examples()) {
       return payload.examples().map(example => ({ example }));
     }
   }
@@ -46,7 +46,7 @@ export class MessageHelpers {
     }
   
     const headers = message.headers();
-    if (headers && headers.examples()) {
+    if (headers?.examples()) {
       return headers.examples().map(example => ({ example }));
     }
   }

@@ -9,24 +9,22 @@ const KAFKA_SECURE_PROTOCOL = 'kafka-secure';
 
 export function Security({ protocol, security, header = 'Security' }) {
   let renderedRequirements;
-  if (
-    !security ||
-    !security.length
-  ) {
-    if (protocol === KAFKA_PROTOCOL || protocol === KAFKA_SECURE_PROTOCOL) {
-      renderedRequirements = (
-        <SecurityRequirementItem protocol={protocol} requirement={null} />
-      );
-    }
-  } else {
+  const hasMultipleRequirements = security && security.length;
+  if (hasMultipleRequirements) {
     renderedRequirements = security
       .map((requirement, idx) => (
-        <SecurityRequirementItem protocol={protocol} requirement={requirement} index={idx} key={idx} />
+        <SecurityRequirementItem protocol={protocol} requirement={requirement} index={idx} key={`security-requirement-${idx}`} />
       ))
       .filter(Boolean);
 
     if (renderedRequirements.length === 0) {
       return null;
+    }
+  } else {
+    if (protocol === KAFKA_PROTOCOL || protocol === KAFKA_SECURE_PROTOCOL) {
+      renderedRequirements = (
+        <SecurityRequirementItem protocol={protocol} requirement={null} />
+      );
     }
   }
 
@@ -91,7 +89,7 @@ function SecurityItem({ protocol, securitySchema, requiredScopes = [] }) {
   renderSecuritySchemasFlows({ securitySchema, requiredScopes, schemas });
   schemas = schemas.filter(Boolean);
 
-  const type = securitySchema && securitySchema.type() && ServerHelpers.securityType(securitySchema.type());
+  const type = securitySchema?.type() && ServerHelpers.securityType(securitySchema.type());
   return (
     <Text>
       {type && <ListItem>Type: `{type}`</ListItem>}
@@ -100,7 +98,7 @@ function SecurityItem({ protocol, securitySchema, requiredScopes = [] }) {
           {schemas}
         </Text>
       )}
-      {securitySchema && securitySchema.hasDescription() && (
+      {securitySchema?.hasDescription() && (
         <Text indent={2} type={IndentationTypes.SPACES}>
           {securitySchema.description()}
         </Text>
@@ -159,10 +157,10 @@ const flowsHeader = ['Flow', 'Auth URL', 'Token URL', 'Refresh URL', 'Scopes'];
 function flowsRenderer([flowName, flow]) {
   return [
     ServerHelpers.flowName(flowName) || '-',
-    flow && flow.authorizationUrl() ? `[${flow.authorizationUrl()}](${flow.authorizationUrl()})` : '-',
-    flow && flow.tokenUrl() ? `[${flow.tokenUrl()}](${flow.tokenUrl()})` : '-',
-    flow && flow.refreshUrl() ? `[${flow.refreshUrl()}](${flow.refreshUrl()})` : '-',
-    flow && Object.keys(flow.scopes()).length ? Object.keys(flow.scopes()).map(v => `\`${v}\``).join(', ') : '-',
+    flow?.authorizationUrl() ? `[${flow.authorizationUrl()}](${flow.authorizationUrl()})` : '-',
+    flow?.tokenUrl() ? `[${flow.tokenUrl()}](${flow.tokenUrl()})` : '-',
+    flow?.refreshUrl() ? `[${flow.refreshUrl()}](${flow.refreshUrl()})` : '-',
+    Object.keys(flow?.scopes() || {}).length ? Object.keys(flow.scopes()).map(v => `\`${v}\``).join(', ') : '-',
   ];
 }
 

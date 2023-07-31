@@ -14,7 +14,7 @@ function tagsRenderer(tag) {
 }
 
 export function Tags({ name = 'Tags', item }) {
-  const tags = item && item.tags();
+  const tags = item?.tags();
   if (!tags || tags.isEmpty()) {
     return null;
   }
