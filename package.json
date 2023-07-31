@@ -80,7 +80,7 @@
   },
   "generator": {
     "renderer": "react",
-    "apiVersion": "v2",
+    "apiVersion": "v1",
     "generator": ">=1.9.12 <2.0.0",
     "parameters": {
       "frontMatter": {
