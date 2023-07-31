@@ -1,31 +1,28 @@
 import { IndentationTypes, Text } from '@asyncapi/generator-react-sdk';
-
 import { Header, ListItem, Link, Table, NewLine } from './common';
-
 import { ServerHelpers } from '../helpers/server';
-
 const KAFKA_PROTOCOL = 'kafka';
 const KAFKA_SECURE_PROTOCOL = 'kafka-secure';
 
 export function Security({ protocol, security, header = 'Security' }) {
   let renderedRequirements;
-  const hasMultipleRequirements = security && security.length;
+  
+  const hasMultipleRequirements = security?.length;
   if (hasMultipleRequirements) {
     renderedRequirements = security
       .map((requirement, idx) => (
-        <SecurityRequirementItem protocol={protocol} requirement={requirement} index={idx} key={`security-requirement-${idx}`} />
+        // eslint-disable-next-line react/jsx-key
+        <SecurityRequirementItem protocol={protocol} requirement={requirement} index={idx} />
       ))
       .filter(Boolean);
 
     if (renderedRequirements.length === 0) {
       return null;
     }
-  } else {
-    if (protocol === KAFKA_PROTOCOL || protocol === KAFKA_SECURE_PROTOCOL) {
-      renderedRequirements = (
-        <SecurityRequirementItem protocol={protocol} requirement={null} />
-      );
-    }
+  } else if (protocol === KAFKA_PROTOCOL || protocol === KAFKA_SECURE_PROTOCOL) {
+    renderedRequirements = (
+      <SecurityRequirementItem protocol={protocol} requirement={null} />
+    );
   }
 
   if (!renderedRequirements) {

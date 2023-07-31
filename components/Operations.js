@@ -171,8 +171,9 @@ function OperationMessages({ operation }) {
           Accepts **one of** the following messages:
         </Text>
       )}
-      {messages.map((msg, idx) => (
-        <Message message={msg} key={`message-${idx}`} />
+      {messages.map((msg) => (
+        // eslint-disable-next-line react/jsx-key
+        <Message message={msg}/>
       ))}
     </>
   );
