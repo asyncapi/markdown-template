@@ -8,11 +8,10 @@
 
 <!-- toc -->
 
-- [Markdown template for the AsyncAPI Generator](#markdown-template-for-the-asyncapi-generator)
-  - [Usage](#usage)
-  - [Supported parameters](#supported-parameters)
-  - [Development](#development)
-  - [Contributors ✨](#contributors-)
+- [Usage](#usage)
+- [Supported parameters](#supported-parameters)
+- [Development](#development)
+- [Contributors ✨](#contributors-%E2%9C%A8)
 
 <!-- tocstop -->
 
