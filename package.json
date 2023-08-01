@@ -25,8 +25,7 @@
     "dev": "ag test/spec/asyncapi.yml ./ -o test/output --force-write --watch-template",
     "generate:assets": "npm run generate:readme:toc",
     "generate:readme:toc": "markdown-toc -i README.md",
-    "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION",
-    "release": "semantic-release"
+    "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION"
   },
   "publishConfig": {
     "access": "public"
