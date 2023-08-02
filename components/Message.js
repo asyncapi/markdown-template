@@ -1,5 +1,4 @@
 import { IndentationTypes, Text } from '@asyncapi/generator-react-sdk';
-import { generateExample, getPayloadExamples, getHeadersExamples } from '@asyncapi/generator-filters';
 
 import { Bindings } from './Bindings';
 import { Extensions } from './Extensions';
@@ -7,13 +6,15 @@ import { Schema } from './Schema';
 import { Tags } from './Tags';
 import { Header, ListItem, Link, BlockQuote, CodeBlock, NewLine } from './common';
 
+import { MessageHelpers } from '../helpers/message';
+
 export function Message({ message }) { // NOSONAR
   if (!message) {
     return null;
   }
 
   // check typeof as fallback for older version than `2.4.0`
-  const messageId = typeof message.id === 'function' && message.id();
+  const messageId = typeof message.messageId === 'function' && message.messageId();
   const headers = message.headers();
   const payload = message.payload();
   const correlationId = message.correlationId();
@@ -25,8 +26,9 @@ export function Message({ message }) { // NOSONAR
   if (message.title()) {
     header += ` ${message.title()}`;
   }
-  if (message.uid()) {
-    header += ` \`${message.uid()}\``;
+  const id = message.messageId() || message.name() || message.id();
+  if (id) {
+    header += ` \`${id}\``;
   }
 
   return (
@@ -81,7 +83,7 @@ export function Message({ message }) { // NOSONAR
           <Link
             href={externalDocs.url()}
           >
-            {externalDocs.hasDescription() ? externalDocs.description() : 'Find more info here.'}
+            {externalDocs.description() || 'Find more info here.'}
           </Link>
         </Text>
       )}
@@ -108,56 +110,64 @@ export function Message({ message }) { // NOSONAR
       />
       <Extensions name="Message extensions" item={message} />
 
-      {message.hasTags() && (
-        <Tags name="Message tags" tags={message.tags()} />
-      )}
+      <Tags name="Message tags" item={message} />
     </>
   );
 }
 
 function Examples({ type = 'headers', message }) {
   if (type === 'headers') {
-    const ex = getHeadersExamples(message);
+    const ex = MessageHelpers.getHeadersExamples(message);
     if (ex) {
       return (
         <>
           <BlockQuote>Examples of headers</BlockQuote>
-          <Example examples={ex} />
+          <ExamplesRenderer examples={ex} />
         </>
       );
+    }
+
+    const headers = message.headers();
+    if (!headers) {
+      return null;
     }
 
     return (
       <>
         <BlockQuote>Examples of headers _(generated)_</BlockQuote>
         <Text newLines={2}>
-          <CodeBlock language='json'>{generateExample(message.headers().json())}</CodeBlock>
+          <CodeBlock language='json'>{MessageHelpers.generateExample(headers.json())}</CodeBlock>
         </Text>
       </>
     );
   } 
   
-  const examples = getPayloadExamples(message);
+  const examples = MessageHelpers.getPayloadExamples(message);
   if (examples) {
     return (
       <>
         <BlockQuote>Examples of payload</BlockQuote>
-        <Example examples={examples} />
+        <ExamplesRenderer examples={examples} />
       </>
     );
+  }
+
+  const payload = message.payload();
+  if (!payload) {
+    return null;
   }
 
   return (
     <>
       <BlockQuote>Examples of payload _(generated)_</BlockQuote>
       <Text newLines={2}>
-        <CodeBlock language='json'>{generateExample(message.payload().json())}</CodeBlock>
+        <CodeBlock language='json'>{MessageHelpers.generateExample(payload.json())}</CodeBlock>
       </Text>
     </>
   );
 }
 
-function Example({ examples = [] }) {
+function ExamplesRenderer({ examples }) {
   if (examples.length === 0) {
     return null;
   }

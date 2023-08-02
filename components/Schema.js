@@ -4,8 +4,9 @@ import { Header, TableHead, TableRow } from './common';
 
 import { SchemaHelpers } from '../helpers/schema';
 
+const headers = ['Name', 'Type', 'Description', 'Value', 'Constraints', 'Notes'];
+
 export function Schema({ schema, schemaName, hideTitle = false }) {
-  const headers = ['Name', 'Type', 'Description', 'Value', 'Constraints', 'Notes'];
   return (
     <Text>
       {schemaName && hideTitle === false ? <Header type={4}>{schemaName}</Header> : null}
@@ -76,7 +77,7 @@ function SchemaProperties({ schema, schemaName, path }) {
   }
 
   const required = schema.required() || [];
-  const patternProperties = schema.patternProperties();
+  const patternProperties = schema.patternProperties() || {};
 
   return (
     <>
@@ -107,7 +108,8 @@ function SchemaProperties({ schema, schemaName, path }) {
 }
 
 function SchemaAdditionalProperties({ schema, path }) {
-  if (schema.ext(SchemaHelpers.extRenderAdditionalInfo) === false) {
+  const extensions = schema.extensions();
+  if (extensions.get(SchemaHelpers.extRenderAdditionalInfo)?.value() === false) {
     return null;
   }
 
@@ -160,7 +162,8 @@ function SchemaItems({ schema, schemaName, path }) {
 }
 
 function SchemaAdditionalItems({ schema, path }) {
-  if (schema.ext(SchemaHelpers.extRenderAdditionalInfo) === false) {
+  const extensions = schema.extensions();
+  if (extensions.get(SchemaHelpers.extRenderAdditionalInfo)?.value() === false) {
     return null;
   }
 
@@ -202,8 +205,9 @@ function SchemaPropRow({
   }
 
   const isCircular = schema.isCircular() || false;
-  const renderType = schema.ext(SchemaHelpers.extRenderType) !== false;
-  const rawValue = schema.ext(SchemaHelpers.extRawValue) === true;
+  const extensions = schema.extensions();
+  const renderType = extensions.get(SchemaHelpers.extRenderType)?.value() !== false;
+  const rawValue = extensions.get(SchemaHelpers.extRawValue)?.value() === true;
 
   const name = tree(path) || schemaName;
   const schemaType = renderType && SchemaHelpers.toSchemaType(schema);
@@ -307,10 +311,12 @@ function schemaNotes({ schema, required = false, dependentRequired = [], isCircu
     notes.push(`**required when defined (${deps})**`);
   }
 
+  const extensions = schema.extensions();
+
   // location for channel parameter
-  const parameterLocation = schema.ext(SchemaHelpers.extParameterLocation);
-  if (parameterLocation) {
-    notes.push(`**parameter location (${parameterLocation})**`);
+  const parameterLocation = extensions.get(SchemaHelpers.extParameterLocation);
+  if (parameterLocation?.value()) {
+    notes.push(`**parameter location (${parameterLocation.value()})**`);
   }
 
   if (isCircular) notes.push('**circular**');
@@ -318,7 +324,7 @@ function schemaNotes({ schema, required = false, dependentRequired = [], isCircu
   if (schema.readOnly()) notes.push('**read-only**');
 
   // additional properties/items
-  if (schema.ext(SchemaHelpers.extRenderAdditionalInfo) !== false) {
+  if (extensions.get(SchemaHelpers.extRenderAdditionalInfo)?.value() !== false) {
     const type = schema.type();
     const types = Array.isArray(type) ? type : [type];
 

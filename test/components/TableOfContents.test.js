@@ -1,7 +1,7 @@
 import { render } from '@asyncapi/generator-react-sdk';
+import { AsyncAPIDocumentV2 as AsyncAPIDocument } from '@asyncapi/parser';
 
 import { TableOfContents } from '../../components/TableOfContents';
-import AsyncAPIDocument from '@asyncapi/parser/lib/models/asyncapi';
 
 describe('TableOfContents component', () => {
   it('should render toc', () => {

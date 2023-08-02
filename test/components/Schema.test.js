@@ -1,7 +1,7 @@
 import { render } from '@asyncapi/generator-react-sdk';
+import { SchemaV2 as SchemaModel } from '@asyncapi/parser';
 
 import { Schema } from '../../components/Schema';
-import SchemaModel from '@asyncapi/parser/lib/models/schema';
 
 describe('Schema component', () => {
   it('should render simple object', () => {

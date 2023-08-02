@@ -1,4 +1,4 @@
-import SchemaModel from '@asyncapi/parser/lib/models/schema';
+import { SchemaV2 as SchemaModel } from '@asyncapi/parser';
 
 export const SchemaCustomTypes = {
   // for `true` and `{}` schemas
@@ -99,15 +99,14 @@ export class SchemaHelpers {
       if (Array.isArray(items)) {
         const types = items.map(item => this.toSchemaType(item)).join(', ');
         const additionalItems = schema.additionalItems();
-        if (additionalItems === undefined || additionalItems.json()) {
-          const additionalType =
-            additionalItems === undefined || additionalItems.json() === true
-              ? SchemaCustomTypes.ANY
-              : this.toSchemaType(additionalItems);
-          return `tuple<${types ||
-            SchemaCustomTypes.UNKNOWN}, ...optional<${additionalType}>>`;
+        if (additionalItems === true) {
+          return `tuple<${types || SchemaCustomTypes.UNKNOWN}, ...optional<${SchemaCustomTypes.ANY}>>`;
         }
-        return `tuple<${types || SchemaCustomTypes.UNKNOWN}>`;
+        if (additionalItems === false) {
+          return `tuple<${types}>`;
+        }
+        const additionalType = this.toSchemaType(additionalItems);
+        return `tuple<${types || SchemaCustomTypes.UNKNOWN}, ...optional<${additionalType}>>`;
       }
       if (!items) {
         return `array<${SchemaCustomTypes.ANY}>`;
@@ -196,23 +195,24 @@ export class SchemaHelpers {
   }
 
   static parametersToSchema(parameters) {
-    if (!parameters || !Object.keys(parameters).length) {
-      return undefined;
+    if (parameters.length === 0) {
+      return;
     }
 
     const json = {
       type: 'object',
-      properties: Object.entries(parameters).reduce(
-        (obj, [paramaterName, parameter]) => {
-          obj[String(paramaterName)] = Object.assign({}, parameter.schema().json());
-          obj[String(paramaterName)].description =
-            parameter.description() || obj[String(paramaterName)].description;
-          obj[String(paramaterName)][this.extParameterLocation] = parameter.location();
+      properties: parameters.reduce(
+        (obj, parameter) => {
+          const parameterName = parameter.id();
+          obj[String(parameterName)] = Object.assign({}, parameter.schema().json());
+          obj[String(parameterName)].description =
+            parameter.description() || obj[String(parameterName)].description;
+          obj[String(parameterName)][this.extParameterLocation] = parameter.location();
           return obj;
         },
         {},
       ),
-      required: Object.keys(parameters),
+      required: parameters.map(parameter => parameter.id()),
       [this.extRenderType]: false,
       [this.extRenderAdditionalInfo]: false,
     };
@@ -396,6 +396,9 @@ export class SchemaHelpers {
   }
 
   static jsonToSchema(value) {
+    if (value && typeof value.json === 'function') {
+      value = value.json();
+    }
     const json = this.jsonFieldToSchema(value);
     return new SchemaModel(json);
   }
@@ -454,21 +457,21 @@ export class SchemaHelpers {
     return false;
   }
 
-  static getCustomExtensions(value) {
-    if (!value || typeof value.extensions !== 'function') {
-      return;
-    }
-    return Object.entries(value.extensions() || {}).reduce(
-      (obj, [extName, ext]) => {
+  static getCustomExtensions(item) {
+    try {
+      const extensions = item.extensions().all();
+      return extensions.reduce((acc, ext) => {
+        const extName = ext.id();
         if (
           !extName.startsWith('x-parser-') &&
           !extName.startsWith('x-schema-private-')
         ) {
-          obj[String(extName)] = ext;
+          acc[String(extName)] = ext.value();
         }
-        return obj;
-      },
-      {},
-    );
+        return acc;
+      }, {});
+    } catch (err) {
+      return {};
+    }
   }
 }

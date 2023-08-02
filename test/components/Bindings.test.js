@@ -1,11 +1,13 @@
 import { render } from '@asyncapi/generator-react-sdk';
+import { BindingsV2, BindingV2 } from '@asyncapi/parser';
 
 import { Bindings } from '../../components/Bindings';
 
-function createBindingMock(bindings) {
+function createBindingsMock(bindings) {
   return {
     bindings() {
-      return bindings;
+      const bindingsModels = Object.entries(bindings || {}).map(([protocol, binding]) => new BindingV2(binding, { protocol }));
+      return new BindingsV2(bindingsModels);
     }
   };
 }
@@ -45,7 +47,7 @@ describe('Bindings component', () => {
 | bindingVersion | - | - | \`"0.1.0"\` | - | - |
 `;
     
-    const result = render(<Bindings item={createBindingMock(bidnings)} />);
+    const result = render(<Bindings item={createBindingsMock(bidnings)} />);
     expect(result.trim()).toEqual(expected.trim());
   });
 
@@ -106,17 +108,17 @@ describe('Bindings component', () => {
 | bindingVersion | - | - | \`"0.1.0"\` | - | - |
 `;
     
-    const result = render(<Bindings item={createBindingMock(bidnings)} />);
+    const result = render(<Bindings item={createBindingsMock(bidnings)} />);
     expect(result.trim()).toEqual(expected.trim());
   });
 
   it('should render nothing if bindings are not defined', () => {
-    const result = render(<Bindings item={createBindingMock()} />);
+    const result = render(<Bindings item={createBindingsMock()} />);
     expect(result).toEqual('');
   });
 
   it('should render nothing if bindings are empty', () => {
-    const result = render(<Bindings item={createBindingMock({})} />);
+    const result = render(<Bindings item={createBindingsMock({})} />);
     expect(result).toEqual('');
   });
 });

@@ -1,5 +1,7 @@
-import Schema from '@asyncapi/parser/lib/models/schema';
-import ChannelParameter from '@asyncapi/parser/lib/models/channel-parameter';
+import { 
+  SchemaV2 as Schema,
+  ChannelParameterV2 as ChannelParameter,
+} from '@asyncapi/parser';
 
 import { SchemaHelpers, SchemaCustomTypes } from '../../helpers/schema';
 
@@ -311,14 +313,14 @@ describe('SchemaHelpers', () => {
 
   describe('.parametersToSchema', () => {
     test('should transform parameters to schema', () => {
-      const variables = {
-        foo: new ChannelParameter({ schema: { type: 'string' } }),
-        bar: new ChannelParameter({
+      const variables = [
+        new ChannelParameter({ schema: { type: 'string' } }, { id: 'foo' }),
+        new ChannelParameter({
           schema: { type: 'string' },
           location: '$message.payload#/user/id',
           description: 'Some description',
-        }),
-      };
+        }, { id: 'bar' }),
+      ];
       const schema = new Schema({
         type: 'object',
         properties: {

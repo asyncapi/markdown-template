@@ -1,7 +1,16 @@
 import { render } from '@asyncapi/generator-react-sdk';
+import { TagsV2, TagV2 } from '@asyncapi/parser';
 
 import { Tags } from '../../components/Tags';
-import TagModel from '@asyncapi/parser/lib/models/tag';
+
+function createTagsMock(tags = []) {
+  return {
+    tags() {
+      const tagsModels = tags.map(tag => new TagV2(tag));
+      return new TagsV2(tagsModels);
+    }
+  };
+}
 
 describe('Tags component', () => {
   it('should render list of tags', () => {
@@ -33,7 +42,8 @@ describe('Tags component', () => {
           url: 'https://www.asyncapi.com/'
         }
       }
-    ].map(t => new TagModel(t));
+    ];
+
     const expected = `
 ##### Tags
 
@@ -46,12 +56,17 @@ describe('Tags component', () => {
 | root-tag5 | - | [Find more info here](https://www.asyncapi.com/) |
 `;
     
-    const result = render(<Tags tags={tags} />);
-    expect(result.trim()).toEqual(expected.trim());
+    const result = render(<Tags item={createTagsMock(tags)} />);
+    expect(result.trim()).toEqual(expected.trim(tags));
   });
 
-  it('should render nothing if tags prop is undefined', () => {
-    const result = render(<Tags />);
+  it('should render nothing if tags', () => {
+    const result = render(<Tags item={createTagsMock()} />);
+    expect(result).toEqual('');
+  });
+
+  it('should render nothing if tags are empty', () => {
+    const result = render(<Tags item={createTagsMock([])} />);
     expect(result).toEqual('');
   });
 });
