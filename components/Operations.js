@@ -58,17 +58,16 @@ export function Operations({ asyncapi }) {
   );
 }
 
-function Operation({ type, operation, channelName, channel }) { // NOSONAR
+function Operation({ type, asyncapi, operation, channelName, channel }) { // NOSONAR
   if (!operation || !channel) {
     return null;
   }
 
   const operationId = operation.operationId();
   const externalDocs = operation.externalDocs();
-  // check typeof as fallback for older version than `2.2.0`
-  const servers = typeof channel.servers === 'function' && channel.servers().all();
-  // check typeof as fallback for older version than `2.4.0`
-  const security = typeof operation.security === 'function' && operation.security();
+  const applyToAllServers = asyncapi.servers().all().length === channel.servers().all().length;
+  const servers = applyToAllServers ? [] : channel.servers().all();
+  const security = operation.security();
   const renderedType = type === 'publish' ? 'PUB' : 'SUB';
   const showInfoList = operationId || (servers && servers.length);
 

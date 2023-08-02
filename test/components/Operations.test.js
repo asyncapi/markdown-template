@@ -22,7 +22,7 @@ describe('Operations component', () => {
             description: 'This channel is used to exchange messages about users signing up',
             servers: [
               'rabbitmqBrokerInProd',
-              'rabbitmqBrokerInStaging',
+              'rabbitmqBrokerInStaging'
             ],
             subscribe: {
               operationId: 'signedupuser',
@@ -64,7 +64,105 @@ describe('Operations component', () => {
 *A user signed up.*
 
 * Operation ID: \`signedupuser\`
-* Available only on servers: [rabbitmqBrokerInProd](#rabbitmqbrokerinprod-server), [rabbitmqBrokerInStaging](#rabbitmqbrokerinstaging-server)
+
+This channel is used to exchange messages about users signing up
+
+[More info here](https://example.com)
+
+##### Operation tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| user | - | - |
+| signup | - | - |
+| register | - | - |
+
+#### Message \`SomeMessage\`
+
+A longer description of the message
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| user | string | - | - | - | - |
+| signup | number | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  "user": "string",
+  "signup": 0
+}
+\`\`\`
+`;
+
+    const result = render(<Operations asyncapi={asyncapi} />);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+
+  it('should render servers for operation', () => {
+    const asyncapi = createAsyncAPIDocument({
+      semver: {
+        major: 2,
+        minor: 0,
+        patch: 0,
+      },
+      parsed: {
+        asyncapi: '2.0.0',
+        servers: {
+          rabbitmqBrokerInProd: {},
+          rabbitmqBrokerInStaging: {},
+        },
+        channels: {
+          'user/signedup': {
+            description: 'This channel is used to exchange messages about users signing up',
+            servers: [
+              'rabbitmqBrokerInProd',
+            ],
+            subscribe: {
+              operationId: 'signedupuser',
+              externalDocs: {
+                description: 'More info here',
+                url: 'https://example.com'
+              },
+              tags: [
+                { name: 'user' },
+                { name: 'signup' },
+                { name: 'register' }
+              ],
+              summary: 'A user signed up.',
+              message: {
+                name: 'SomeMessage',
+                description: 'A longer description of the message',
+                payload: {
+                  type: 'object',
+                  properties: {
+                    user: {
+                      type: 'string'
+                    },
+                    signup: {
+                      type: 'number'
+                    }
+                  }
+                }
+              }
+            },
+          },
+        },
+      }
+    });
+    const expected = `
+## Operations
+
+### SUB \`user/signedup\` Operation
+
+*A user signed up.*
+
+* Operation ID: \`signedupuser\`
+* Available only on servers: [rabbitmqBrokerInProd](#rabbitmqbrokerinprod-server)
 
 This channel is used to exchange messages about users signing up
 
