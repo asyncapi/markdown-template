@@ -53,7 +53,7 @@
   "generator": {
     "renderer": "react",
     "apiVersion": "v1",
-    "generator": ">=1.9.12 <2.0.0",
+    "generator": ">=1.10.11 <2.0.0",
     "parameters": {
       "frontMatter": {
         "description": "The name of a JSON or YAML formatted file containing values to provide the YAML frontmatter for static-site or documentation generators. The file may contain {{title}} and {{version}} replaceable tags.",
