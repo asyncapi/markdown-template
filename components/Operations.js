@@ -21,30 +21,30 @@ export function Operations({ asyncapi }) {
   channels.all().map(channel => {
     const channelName = channel.address();
     channel.operations().all().forEach(operation => {
-      if (operation.action() === 'publish') {
-        operationsList.push(
-          <Operation
-            key={`pub-${channelName}`}
-            type='publish'
-            asyncapi={asyncapi}
-            operation={operation}
-            channelName={channelName}
-            channel={channel}
-          />
-        );
+      let type;
+      if (operation.isSend()) {
+        if (operation.reply() !== undefined) {
+          type = 'request';
+        } else {
+          type = 'publish';
+        }
+      } else if (operation.isReceive()) {
+        if (operation.reply() !== undefined) {
+          type = 'response';
+        } else {
+          type = 'subscribe';
+        }
       }
-      if (operation.action() === 'subscribe') {
-        operationsList.push(
-          <Operation
-            key={`sub-${channelName}`}
-            type='subscribe'
-            asyncapi={asyncapi}
-            operation={operation}
-            channelName={channelName}
-            channel={channel}
-          />
-        );
-      }
+      operationsList.push(
+        <Operation
+          key={`${operation.action()}-${channelName}`}
+          type={type}
+          asyncapi={asyncapi}
+          operation={operation}
+          channelName={channelName}
+          channel={channel}
+        />
+      );
     });
   });
 
@@ -58,7 +58,7 @@ export function Operations({ asyncapi }) {
   );
 }
 
-function Operation({ type, asyncapi, operation, channelName, channel }) { // NOSONAR
+function Operation({ asyncapi, type, operation, channelName, channel }) { // NOSONAR
   if (!operation || !channel) {
     return null;
   }
@@ -68,7 +68,21 @@ function Operation({ type, asyncapi, operation, channelName, channel }) { // NOS
   const applyToAllServers = asyncapi.servers().all().length === channel.servers().all().length;
   const servers = applyToAllServers ? [] : channel.servers().all();
   const security = operation.security();
-  const renderedType = type === 'publish' ? 'PUB' : 'SUB';
+  let renderedType;
+  switch (type) {
+  case 'request':
+    renderedType = 'REQUEST';
+    break;
+  case 'publish':
+    renderedType = 'PUB';
+    break;
+  case 'response':
+    renderedType = 'RESPONSE';
+    break;
+  case 'SUB':
+    renderedType = 'SUB';
+    break;
+  }
   const showInfoList = operationId || (servers && servers.length);
 
   return (
@@ -139,6 +153,8 @@ function Operation({ type, asyncapi, operation, channelName, channel }) { // NOS
       <Extensions name="Operation extensions" item={operation} />
 
       <OperationMessages operation={operation} />
+
+      <OperationReply operation={operation} />
     </Text>
   );
 }
@@ -174,5 +190,78 @@ function OperationMessages({ operation }) {
         <Message message={msg} key={`message-${idx}`} />
       ))}
     </>
+  );
+}
+
+function OperationReply({ operation }) {
+  const reply = operation.reply();
+  if (reply === undefined) {
+    return null;
+  }
+  const replyId = reply.id();
+  const explicitChannel = reply.channel();
+
+  let type;
+  if (operation.isSend()) {
+    type = 'Request';
+  } else if (operation.isReceive()) {
+    type = 'Response';
+  }
+
+  return (
+    <Text>
+      <Header type={4}>
+        {`${type} information`}
+      </Header>
+
+      {replyId && <ListItem>Operation reply ID: `{replyId}`</ListItem>}
+
+      {explicitChannel && <ListItem>{type} should be done to channel: `{reply.channel().address()}`</ListItem>}
+
+      <OperationReplyAddress name="Operation reply address" item={reply} />
+
+      <>
+        {reply.messages().length > 1 && (
+          <Text newLines={2}>
+            Accepts **one of** the following messages:
+          </Text>
+        )}
+        {reply.messages().map((msg, idx) => (
+          <Message message={msg} key={`message-${idx}`} />
+        ))}
+      </>
+      <Extensions name="Operation reply extensions" item={reply} />
+    </Text>
+  );
+}
+
+/**
+ * Check if we need to render
+ */
+function OperationReplyAddress({ reply }) {
+  const address = reply.address();
+  if (address === undefined) {
+    return null;
+  }
+  const addressId = address.id();
+  const location = address.location();
+
+  return (
+    <Text>
+      <Header type={4}>
+        {'Operation reply address information'}
+      </Header>
+
+      {addressId && <ListItem>Operation reply address ID: `{addressId}`</ListItem>}
+      <ListItem>Operation reply address location: `{location}`</ListItem>
+
+      {address.hasDescription() && (
+        <Text newLines={2}>
+          {address.description()}
+        </Text>
+      )}
+
+      <Extensions name="Operation reply address extensions" item={address} />
+    </Text>
   );
 }
