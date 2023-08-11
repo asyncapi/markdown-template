@@ -1,5 +1,5 @@
 import { render } from '@asyncapi/generator-react-sdk';
-import { AsyncAPIDocumentV2 as AsyncAPIDocument, AsyncAPIDocumentV3, createAsyncAPIDocument } from '@asyncapi/parser';
+import { AsyncAPIDocumentV2 as AsyncAPIDocument, createAsyncAPIDocument } from '@asyncapi/parser';
 
 import { Operations } from '../../components/Operations';
 

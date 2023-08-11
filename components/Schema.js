@@ -6,6 +6,12 @@ import { SchemaHelpers } from '../helpers/schema';
 
 const headers = ['Name', 'Type', 'Description', 'Value', 'Constraints', 'Notes'];
 
+// eslint-disable-next-line no-unused-vars
+import { SchemaInterface } from '@asyncapi/parser';
+
+/**
+ * @param {{schema: SchemaInterface, schemaName: string, hideTitle: boolean}} param0 
+ */
 export function Schema({ schema, schemaName, hideTitle = false }) {
   return (
     <Text>

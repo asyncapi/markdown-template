@@ -14,6 +14,7 @@ describe('AsyncAPI component', () => {
     const actual = result.trim();
     expect(actual).toMatchSnapshot();
   });
+
   it('should render AsyncAPI v2 document', async () => {
     const { document, diagnostics } = await fromFile(parser, asyncapi_v2_path).parse();
     expect(document).not.toBeUndefined();
