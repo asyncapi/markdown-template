@@ -19,11 +19,10 @@
   },
   "homepage": "https://github.com/asyncapi/markdown-template#readme",
   "scripts": {
-    "start": "node ./node_modules/@asyncapi/generator/cli.js ./sample.yaml ./ -o ./output --force-write",
+    "start": "node ./node_modules/@asyncapi/generator/cli.js ./test/spec/asyncapi_2.yml ./ -o ./output --force-write",
     "test": "jest --coverage",
     "lint": "eslint --max-warnings 0 --config \".eslintrc\" \".\"",
     "lint:fix": "eslint --max-warnings 0 --config \".eslintrc\" \".\" --fix",
-    "dev": "ag test/spec/asyncapi.yml ./ -o test/output --force-write --watch-template",
     "generate:assets": "npm run generate:readme:toc",
     "generate:readme:toc": "markdown-toc -i README.md",
     "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION"
@@ -32,16 +31,19 @@
     "access": "public"
   },
   "dependencies": {
-    "@asyncapi/generator-filters": "^2.1.0",
-    "@asyncapi/generator-react-sdk": "^0.2.23",
-    "@asyncapi/parser": "^2.1.0",
+    "@asyncapi/generator-react-sdk": "0.2.25",
+    "@asyncapi/parser": "^2.1.0-next-major-spec.6",
     "openapi-sampler": "^1.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "@asyncapi/generator": "^1.10.12",
+    "@asyncapi/generator": "https://github.com/asyncapi/generator#add-v3-support",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
+    "@types/react": "^18.2.18",
+    "@types/react-dom": "^18.2.7",
     "eslint": "^8.7.0",
     "eslint-plugin-jest": "^25.7.0",
     "eslint-plugin-react": "7.28.0",
@@ -92,6 +94,7 @@
       "json",
       "jsx"
     ],
+    "setupFilesAfterEnv": ["./test/setupTests.js"],
     "moduleNameMapper": {
       "^nimma/legacy$": "<rootDir>/node_modules/nimma/dist/legacy/cjs/index.js",
       "^nimma/(.*)": "<rootDir>/node_modules/nimma/dist/cjs/$1"

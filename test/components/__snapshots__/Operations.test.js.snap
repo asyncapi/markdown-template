@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Operations component should render reply operation 1`] = `
+"## Operations
+
+### REQUEST \`/\` Operation
+
+* Operation ID: \`subscribe\`
+
+Accepts **one of** the following messages:
+
+#### Message \`subscribe\`
+
+Subscribe to a topic on a single or multiple currency pairs.
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| event | string | - | const (\`\\"subscribe\\"\`) | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"event\\": \\"subscribe\\"
+}
+\`\`\`
+
+
+#### Message \`unsubscribe\`
+
+Unsubscribe, can specify a channelID or multiple currency pairs.
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| event | string | - | const (\`\\"unsubscribe\\"\`) | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"event\\": \\"unsubscribe\\"
+}
+\`\`\`
+
+
+#### Message \`response\`
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| status | number | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"status\\": 0
+}
+\`\`\`
+
+
+#### Request information
+
+* Request should be done to channel: \`/\`
+
+
+### RESPONSE \`/\` Operation
+
+* Operation ID: \`unsubscribe\`
+
+Accepts **one of** the following messages:
+
+#### Message \`subscribe\`
+
+Subscribe to a topic on a single or multiple currency pairs.
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| event | string | - | const (\`\\"subscribe\\"\`) | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"event\\": \\"subscribe\\"
+}
+\`\`\`
+
+
+#### Message \`unsubscribe\`
+
+Unsubscribe, can specify a channelID or multiple currency pairs.
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| event | string | - | const (\`\\"unsubscribe\\"\`) | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"event\\": \\"unsubscribe\\"
+}
+\`\`\`
+
+
+#### Message \`response\`
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| status | number | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"status\\": 0
+}
+\`\`\`
+
+
+#### Response information
+
+* Response should be done to channel: \`/\`"
+`;

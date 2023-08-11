@@ -1,5 +1,4 @@
 import { Text } from '@asyncapi/generator-react-sdk';
-
 import { Bindings } from './Bindings';
 import { Extensions } from './Extensions';
 import { Message } from './Message';
@@ -7,10 +6,15 @@ import { Schema } from './Schema';
 import { Security } from './Security';
 import { Tags } from './Tags';
 import { Header, ListItem, Link } from './common';
-
 import { SchemaHelpers } from '../helpers/schema';
 import { FormatHelpers } from '../helpers/format';
 
+// eslint-disable-next-line no-unused-vars
+import { AsyncAPIDocumentInterface, OperationInterface, OperationReplyInterface, ChannelInterface } from '@asyncapi/parser';
+
+/**
+ * @param {{asyncapi: AsyncAPIDocumentInterface}} param0 
+ */
 export function Operations({ asyncapi }) {
   const channels = asyncapi.channels();
   if (channels.isEmpty()) {
@@ -18,9 +22,10 @@ export function Operations({ asyncapi }) {
   }
 
   const operationsList = [];
-  channels.all().map(channel => {
+  for (const channel of channels.all()) {
     const channelName = channel.address();
-    channel.operations().all().forEach(operation => {
+    const operations = channel.operations().all();
+    operations.map(operation => {
       let type;
       if (operation.isSend()) {
         if (operation.reply() !== undefined) {
@@ -46,7 +51,7 @@ export function Operations({ asyncapi }) {
         />
       );
     });
-  });
+  }
 
   return (
     <>
@@ -58,6 +63,9 @@ export function Operations({ asyncapi }) {
   );
 }
 
+/**
+ * @param {{asyncapi: AsyncAPIDocumentInterface, type: string, operation: OperationInterface, channelName: string, channel: ChannelInterface}} param0 
+ */
 function Operation({ asyncapi, type, operation, channelName, channel }) { // NOSONAR
   if (!operation || !channel) {
     return null;
@@ -79,7 +87,7 @@ function Operation({ asyncapi, type, operation, channelName, channel }) { // NOS
   case 'response':
     renderedType = 'RESPONSE';
     break;
-  case 'SUB':
+  case 'subscribe':
     renderedType = 'SUB';
     break;
   }
@@ -158,7 +166,9 @@ function Operation({ asyncapi, type, operation, channelName, channel }) { // NOS
     </Text>
   );
 }
-
+/**
+ * @param {{channel: ChannelInterface}} param0 
+ */
 function OperationParameters({ channel }) {
   const parameters = SchemaHelpers.parametersToSchema(channel.parameters().all());
   if (!parameters) {
@@ -172,7 +182,9 @@ function OperationParameters({ channel }) {
     </Text>
   );
 }
-
+/**
+ * @param {{operation: OperationInterface}} param0 
+ */
 function OperationMessages({ operation }) {
   const messages = operation.messages().all();
   if (messages.length === 0) {
@@ -193,6 +205,9 @@ function OperationMessages({ operation }) {
   );
 }
 
+/**
+ * @param {{operation: OperationInterface}} param0 
+ */
 function OperationReply({ operation }) {
   const reply = operation.reply();
   if (reply === undefined) {
@@ -218,7 +233,7 @@ function OperationReply({ operation }) {
 
       {explicitChannel && <ListItem>{type} should be done to channel: `{reply.channel().address()}`</ListItem>}
 
-      <OperationReplyAddress name="Operation reply address" item={reply} />
+      <OperationReplyAddress name="Operation reply address" reply={reply} />
 
       <>
         {reply.messages().length > 1 && (
@@ -226,7 +241,7 @@ function OperationReply({ operation }) {
             Accepts **one of** the following messages:
           </Text>
         )}
-        {reply.messages().map((msg, idx) => (
+        {reply.messages().length > 1 && reply.messages().map((msg, idx) => (
           <Message message={msg} key={`message-${idx}`} />
         ))}
       </>
@@ -236,7 +251,7 @@ function OperationReply({ operation }) {
 }
 
 /**
- * Check if we need to render
+ * @param {{reply: OperationReplyInterface}} param0 
  */
 function OperationReplyAddress({ reply }) {
   const address = reply.address();
