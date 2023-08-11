@@ -603,7 +603,7 @@ A longer description of the message
         response: responseMessage
       }
     };
-    const asyncapi = new createAsyncAPIDocument({
+    const asyncapi = createAsyncAPIDocument({
       semver: {
         major: 3,
         minor: 0,
