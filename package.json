@@ -39,7 +39,7 @@
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "@asyncapi/generator": "^1.10.14",
+    "@asyncapi/generator": "^1.11.0",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
     "eslint": "^8.7.0",
