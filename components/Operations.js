@@ -35,7 +35,7 @@ export function Operations({ asyncapi }) {
         }
       } else if (operation.isReceive()) {
         if (operation.reply() !== undefined) {
-          type = 'response';
+          type = 'reply';
         } else {
           type = 'subscribe';
         }
@@ -84,8 +84,8 @@ function Operation({ asyncapi, type, operation, channelName, channel }) { // NOS
   case 'publish':
     renderedType = 'PUB';
     break;
-  case 'response':
-    renderedType = 'RESPONSE';
+  case 'reply':
+    renderedType = 'REPLY';
     break;
   case 'subscribe':
     renderedType = 'SUB';
@@ -213,7 +213,6 @@ function OperationReply({ operation }) {
   if (reply === undefined) {
     return null;
   }
-  const replyId = reply.id();
   const explicitChannel = reply.channel();
 
   let type;
@@ -229,9 +228,7 @@ function OperationReply({ operation }) {
         {`${type} information`}
       </Header>
 
-      {replyId && <ListItem>Operation reply ID: `{replyId}`</ListItem>}
-
-      {explicitChannel && <ListItem>{type} should be done to channel: `{reply.channel().address()}`</ListItem>}
+      {explicitChannel && <ListItem>{type} should be done to channel: `{explicitChannel.address()}`</ListItem>}
 
       <OperationReplyAddress name="Operation reply address" reply={reply} />
 
@@ -258,7 +255,6 @@ function OperationReplyAddress({ reply }) {
   if (address === undefined) {
     return null;
   }
-  const addressId = address.id();
   const location = address.location();
 
   return (
@@ -267,14 +263,13 @@ function OperationReplyAddress({ reply }) {
         {'Operation reply address information'}
       </Header>
 
-      {addressId && <ListItem>Operation reply address ID: `{addressId}`</ListItem>}
-      <ListItem>Operation reply address location: `{location}`</ListItem>
-
       {address.hasDescription() && (
         <Text newLines={2}>
           {address.description()}
         </Text>
       )}
+
+      <ListItem>Operation reply address location: `{location}`</ListItem>
 
       <Extensions name="Operation reply address extensions" item={address} />
     </Text>

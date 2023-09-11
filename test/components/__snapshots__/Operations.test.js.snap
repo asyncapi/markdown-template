@@ -72,7 +72,7 @@ Unsubscribe, can specify a channelID or multiple currency pairs.
 * Request should be done to channel: \`/\`
 
 
-### RESPONSE \`/\` Operation
+### REPLY \`/\` Operation
 
 * Operation ID: \`unsubscribe\`
 

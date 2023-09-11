@@ -471,7 +471,7 @@ Kafka DEV cluster for \`dev\` and \`sit\` environments
 
 ## Operations
 
-### RESPONSE \`adeo-{env}-case-study-COSTING-REQUEST-{version}\` Operation
+### REPLY \`adeo-{env}-case-study-COSTING-REQUEST-{version}\` Operation
 
 *[COSTING] Request one or more Costing calculation for any product
 *
