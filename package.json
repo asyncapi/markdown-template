@@ -19,8 +19,11 @@
   },
   "homepage": "https://github.com/asyncapi/markdown-template#readme",
   "scripts": {
-    "start": "node ./node_modules/@asyncapi/generator/cli.js ./test/spec/asyncapi_v2.yml ./ -o ./output --force-write",
+    "start": "npm run test:generator:v2",
     "test": "jest --coverage",
+    "test:generator": "npm run test:generator:v2 && npm run test:generator:v3",
+    "test:generator:v2": "asyncapi generate fromTemplate ./test/spec/asyncapi_v2.yml ./ -o test/output --force-write",
+    "test:generator:v3": "asyncapi generate fromTemplate ./test/spec/asyncapi_v3.yml ./ -o test/output --force-write",
     "lint": "eslint --max-warnings 0 --config \".eslintrc\" \".\"",
     "lint:fix": "eslint --max-warnings 0 --config \".eslintrc\" \".\" --fix",
     "generate:assets": "npm run generate:readme:toc",
@@ -36,7 +39,7 @@
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "@asyncapi/generator": "^1.12.0",
+    "@asyncapi/cli": "^1.12.0",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
     "@types/react": "^18.2.18",
