@@ -10,12 +10,12 @@ import { SchemaHelpers } from '../helpers/schema';
 import { FormatHelpers } from '../helpers/format';
 
 // eslint-disable-next-line no-unused-vars
-import { AsyncAPIDocumentInterface, OperationInterface, ChannelInterface } from '@asyncapi/parser';
+import { AsyncAPIDocumentInterface, OperationInterface, OperationReplyInterface, ChannelInterface } from '@asyncapi/parser';
 
 /**
  * @param {{asyncapi: AsyncAPIDocumentInterface}} param0 
  */
-export function Operations({ asyncapi }) {
+export function Operationsv3({ asyncapi }) {
   const channels = asyncapi.channels();
   if (channels.isEmpty()) {
     return null;
@@ -31,18 +31,18 @@ export function Operations({ asyncapi }) {
         if (operation.reply() !== undefined) {
           type = 'request';
         } else {
-          type = 'publish';
+          type = 'send';
         }
       } else if (operation.isReceive()) {
         if (operation.reply() !== undefined) {
           type = 'reply';
         } else {
-          type = 'subscribe';
+          type = 'receive';
         }
       }
       operationsList.push(
         <Operation
-          key={`${operation.action()}-${channelName}`}
+          key={`${operation.id()}-${channelName}`}
           type={type}
           asyncapi={asyncapi}
           operation={operation}
@@ -78,14 +78,20 @@ function Operation({ asyncapi, type, operation, channelName, channel }) { // NOS
   const security = operation.security();
   let renderedType;
   switch (type) {
-  case 'publish':
-    renderedType = 'PUB';
+  case 'request':
+    renderedType = 'REQUEST';
     break;
-  case 'subscribe':
-    renderedType = 'SUB';
+  case 'send':
+    renderedType = 'SEND';
+    break;
+  case 'reply':
+    renderedType = 'REPLY';
+    break;
+  case 'receive':
+    renderedType = 'RECEIVE';
     break;
   }
-  const showInfoList = operationId || (servers && servers.length);
+  const showInfoList = operationId || (servers?.length);
 
   return (
     <Text>
@@ -95,7 +101,7 @@ function Operation({ asyncapi, type, operation, channelName, channel }) { // NOS
 
       {operation.summary() && (
         <Text newLines={2}>
-          *{operation.summary()}*
+          *{operation.summary().trim()}*
         </Text>
       )}
 
@@ -154,7 +160,9 @@ function Operation({ asyncapi, type, operation, channelName, channel }) { // NOS
       <Extensions name="Channel extensions" item={channel} />
       <Extensions name="Operation extensions" item={operation} />
 
-      <OperationMessages operation={operation} />
+      <OperationMessages operation={operation} type={type} />
+
+      <OperationReply operation={operation} />
     </Text>
   );
 }
@@ -177,22 +185,111 @@ function OperationParameters({ channel }) {
 /**
  * @param {{operation: OperationInterface}} param0 
  */
-function OperationMessages({ operation }) {
+function OperationMessages({ operation, type }) {
   const messages = operation.messages().all();
   if (messages.length === 0) {
     return null;
+  }
+
+  let messagesText = 'Accepts **one of** the following messages:';
+  if (type === 'send') {
+    messagesText = 'Sending **one of** the following messages:';
+  } else if (type === 'request') {
+    messagesText = 'Request contains **one of** the following messages:';
+  } else if (type === 'receive') {
+    messagesText = 'Receive **one of** the following messages:';
+  } else if (type === 'reply') {
+    messagesText = 'Request contains **one of** the following messages:';
   }
 
   return (
     <>
       {messages.length > 1 && (
         <Text newLines={2}>
-          Accepts **one of** the following messages:
+          {messagesText}
         </Text>
       )}
       {messages.map((msg, idx) => (
         <Message message={msg} key={`message-${idx}`} />
       ))}
     </>
+  );
+}
+
+/**
+ * @param {{operation: OperationInterface}} param0 
+ */
+function OperationReply({ operation, type }) {
+  const reply = operation.reply();
+  if (reply === undefined) {
+    return null;
+  }
+  const explicitChannel = reply.channel();
+
+  let typeText;
+  if (operation.isSend()) {
+    typeText = 'Request';
+  } else if (operation.isReceive()) {
+    typeText = 'Response';
+  }
+
+  let messagesText = 'Accepts **one of** the following messages:';
+  if (type === 'request') {
+    messagesText = 'Receive **one of** the following messages as a response to the request:';
+  } else if (type === 'reply') {
+    messagesText = 'Replying with **one of** the following messages:';
+  }
+
+  return (
+    <Text>
+      <Header type={4}>
+        {`${typeText} information`}
+      </Header>
+
+      {explicitChannel && <ListItem>{type} should be done to channel: `{explicitChannel.address()}`</ListItem>}
+
+      <OperationReplyAddress name="Operation reply address" reply={reply} />
+
+      <>
+        {reply.messages().length > 1 && (
+          <Text newLines={2}>
+            {messagesText}
+          </Text>
+        )}
+        {reply.messages().length > 1 && reply.messages().map((msg, idx) => (
+          <Message message={msg} key={`message-${idx}`} />
+        ))}
+      </>
+      <Extensions name="Operation reply extensions" item={reply} />
+    </Text>
+  );
+}
+
+/**
+ * @param {{reply: OperationReplyInterface}} param0 
+ */
+function OperationReplyAddress({ reply }) {
+  const address = reply.address();
+  if (address === undefined) {
+    return null;
+  }
+  const location = address.location();
+
+  return (
+    <Text>
+      <Header type={4}>
+        {'Operation reply address information'}
+      </Header>
+
+      {address.hasDescription() && (
+        <Text newLines={2}>
+          {address.description()}
+        </Text>
+      )}
+
+      <ListItem>Operation reply address location: `{location}`</ListItem>
+
+      <Extensions name="Operation reply address extensions" item={address} />
+    </Text>
   );
 }
