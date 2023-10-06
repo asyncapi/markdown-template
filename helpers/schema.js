@@ -194,6 +194,11 @@ export class SchemaHelpers {
     return JSON.stringify(value);
   }
 
+  /**
+   * 
+   * @param {import('@asyncapi/parser').ChannelParametersInterface} parameters 
+   * @returns 
+   */
   static parametersToSchema(parameters) {
     if (parameters.length === 0) {
       return;
@@ -204,7 +209,7 @@ export class SchemaHelpers {
       properties: parameters.reduce(
         (obj, parameter) => {
           const parameterName = parameter.id();
-          obj[String(parameterName)] = Object.assign({}, parameter.schema().json());
+          obj[String(parameterName)] = Object.assign({}, parameter.schema() === undefined ? {type: 'string'} : parameter.schema().json());
           obj[String(parameterName)].description =
             parameter.description() || obj[String(parameterName)].description;
           obj[String(parameterName)][this.extParameterLocation] = parameter.location();

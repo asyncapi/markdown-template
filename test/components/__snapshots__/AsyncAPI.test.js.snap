@@ -44,7 +44,7 @@ Test broker
 
 ## Operations
 
-### SUB \`smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured\` Operation
+### PUB \`smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured\` Operation
 
 *Inform about environmental lighting conditions of a particular streetlight.*
 
@@ -132,7 +132,7 @@ On multiple lines.
 | message-tag5 | - | [Find more info here](https://www.asyncapi.com/) |
 
 
-### PUB \`smartylighting/streetlights/1/0/action/{streetlightId}/turn/on\` Operation
+### SUB \`smartylighting/streetlights/1/0/action/{streetlightId}/turn/on\` Operation
 
 * Operation ID: \`turnOn\`
 
@@ -191,7 +191,7 @@ On multiple lines.
 
 
 
-### PUB \`smartylighting/streetlights/1/0/action/{streetlightId}/turn/off\` Operation
+### SUB \`smartylighting/streetlights/1/0/action/{streetlightId}/turn/off\` Operation
 
 * Operation ID: \`turnOff\`
 
@@ -250,7 +250,7 @@ On multiple lines.
 
 
 
-### PUB \`smartylighting/streetlights/1/0/action/{streetlightId}/dim\` Operation
+### SUB \`smartylighting/streetlights/1/0/action/{streetlightId}/dim\` Operation
 
 * Operation ID: \`dimLight\`
 
@@ -308,7 +308,7 @@ On multiple lines.
 
 
 
-### PUB \`some.channel\` Operation
+### SUB \`some.channel\` Operation
 
 this description shows in markdown
 
@@ -473,8 +473,7 @@ Kafka DEV cluster for \`dev\` and \`sit\` environments
 
 ### REPLY \`adeo-{env}-case-study-COSTING-REQUEST-{version}\` Operation
 
-*[COSTING] Request one or more Costing calculation for any product
-*
+*[COSTING] Request one or more Costing calculation for any product*
 
 * Operation ID: \`requestCosting\`
 
@@ -563,17 +562,16 @@ You can try a costing request using our [Conduktor producer template](https://co
 
 #### Response information
 
-* Response should be done to channel: \`adeo-{env}-case-study-COSTING-RESPONSE-{version}\`
+*  should be done to channel: \`adeo-{env}-case-study-COSTING-RESPONSE-{version}\`
 #### Operation reply address information
 
 * Operation reply address location: \`$message.header#/REPLY_TOPIC\`
 
 
 
-### PUB \`adeo-{env}-case-study-COSTING-RESPONSE-{version}\` Operation
+### SEND \`adeo-{env}-case-study-COSTING-RESPONSE-{version}\` Operation
 
-*[COSTING] Get the costing responses matching an initial Costing Request.
-*
+*[COSTING] Get the costing responses matching an initial Costing Request.*
 
 * Operation ID: \`getCostingResponse\`
 
