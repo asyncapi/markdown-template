@@ -1,0 +1,360 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Operations component for AsyncAPI v3 should render bindings for channel 1`] = `
+"## Operations
+
+### SEND \`user/signup\` Operation
+
+*A user signed up.*
+
+* Operation ID: \`userSignedUp\`
+
+This channel is used to exchange messages about users signing up
+
+[More info here](https://example.com)
+
+##### Operation tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| user | - | - |
+| signup | - | - |
+| register | - | - |
+
+#### \`http\` Channel specific information
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| type | - | - | \`\\"request\\"\` | - | - |
+| method | - | - | \`\\"GET\\"\` | - | - |
+| query | object | - | - | - | **additional properties are NOT allowed** |
+| query.companyId | number | The Id of the company. | - | >= 1 | **required** |
+| bindingVersion | - | - | \`\\"0.1.0\\"\` | - | - |
+
+#### Message \`SomeMessage\`
+
+A longer description of the message
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| user | string | - | - | - | - |
+| signup | number | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"user\\": \\"string\\",
+  \\"signup\\": 0
+}
+\`\`\`"
+`;
+
+exports[`Operations component for AsyncAPI v3 should render bindings for operation 1`] = `
+"## Operations
+
+### SEND \`user/signup\` Operation
+
+*A user signed up.*
+
+* Operation ID: \`userSignedUp\`
+
+This channel is used to exchange messages about users signing up
+
+[More info here](https://example.com)
+
+##### Operation tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| user | - | - |
+| signup | - | - |
+| register | - | - |
+
+#### \`kafka\` Operation specific information
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| groupId | string | - | allowed (\`\\"myGroupId\\"\`) | - | - |
+| clientId | string | - | allowed (\`\\"myClientId\\"\`) | - | - |
+| bindingVersion | - | - | \`\\"0.1.0\\"\` | - | - |
+
+#### Message \`SomeMessage\`
+
+A longer description of the message
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| user | string | - | - | - | - |
+| signup | number | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"user\\": \\"string\\",
+  \\"signup\\": 0
+}
+\`\`\`"
+`;
+
+exports[`Operations component for AsyncAPI v3 should render multiple messages 1`] = `
+"## Operations
+
+### SEND \`user/{userId}/signup/{foobar}\` Operation
+
+*A user signed up.*
+
+* Operation ID: \`userSignedUp\`
+
+This channel is used to exchange messages about users signing up
+
+[More info here](https://example.com)
+
+##### Operation tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| user | - | - |
+| signup | - | - |
+| register | - | - |
+
+#### Parameters
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| userId | string | Id of the user. | - | - | **required**, **parameter location ($message.payload#/user/id)** |
+| foobar | string | - | - | - | **required** |
+
+
+Sending **one of** the following messages:
+
+#### Message \`SomeMessage\`
+
+A longer description of the message
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| user | string | - | - | - | - |
+| signup | number | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"user\\": \\"string\\",
+  \\"signup\\": 0
+}
+\`\`\`
+
+
+#### Message \`SomeMessage2\`
+
+A longer description of the message
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| signup | number | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"signup\\": 0
+}
+\`\`\`"
+`;
+
+exports[`Operations component for AsyncAPI v3 should render receive operation 1`] = `
+"## Operations
+
+### RECEIVE \`user/signedup\` Operation
+
+*A user signed up.*
+
+* Operation ID: \`userSignedUp\`
+
+This channel is used to exchange messages about users signing up
+
+[More info here](https://example.com)
+
+##### Operation tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| user | - | - |
+| signup | - | - |
+| register | - | - |
+
+#### Message \`SomeMessage\`
+
+A longer description of the message
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| user | string | - | - | - | - |
+| signup | number | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"user\\": \\"string\\",
+  \\"signup\\": 0
+}
+\`\`\`"
+`;
+
+exports[`Operations component for AsyncAPI v3 should render reply operation 1`] = `
+"## Operations
+
+### REPLY \`user/signedup\` Operation
+
+*Sign up a user.*
+
+* Operation ID: \`userSignUp\`
+
+This channel is used to exchange messages about users signing up
+
+[More info here](https://example.com)
+
+##### Operation tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| user | - | - |
+| signup | - | - |
+| register | - | - |
+
+#### Message \`SomeMessage\`
+
+A longer description of the message
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| user | string | - | - | - | - |
+| signup | number | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"user\\": \\"string\\",
+  \\"signup\\": 0
+}
+\`\`\`
+
+
+#### Response information
+
+*  should be done to channel: \`user/signedup\`"
+`;
+
+exports[`Operations component for AsyncAPI v3 should render request operation 1`] = `
+"## Operations
+
+### REQUEST \`user/signedup\` Operation
+
+*Sign up a user.*
+
+* Operation ID: \`userSignUp\`
+
+This channel is used to exchange messages about users signing up
+
+[More info here](https://example.com)
+
+##### Operation tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| user | - | - |
+| signup | - | - |
+| register | - | - |
+
+#### Message \`SomeMessage\`
+
+A longer description of the message
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| user | string | - | - | - | - |
+| signup | number | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"user\\": \\"string\\",
+  \\"signup\\": 0
+}
+\`\`\`
+
+
+#### Request information
+
+*  should be done to channel: \`user/signedup\`"
+`;
+
+exports[`Operations component for AsyncAPI v3 should render send operation 1`] = `
+"## Operations
+
+### SEND \`user/signedup\` Operation
+
+*A user signed up.*
+
+* Operation ID: \`userSignedUp\`
+
+This channel is used to exchange messages about users signing up
+
+[More info here](https://example.com)
+
+##### Operation tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| user | - | - |
+| signup | - | - |
+| register | - | - |
+
+#### Message \`SomeMessage\`
+
+A longer description of the message
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| user | string | - | - | - | - |
+| signup | number | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"user\\": \\"string\\",
+  \\"signup\\": 0
+}
+\`\`\`"
+`;
