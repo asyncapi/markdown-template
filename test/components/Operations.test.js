@@ -918,7 +918,6 @@ A longer description of the message
                 }
               },
               SomeMessage2: {
-                messageId: 'SomeMessage2',
                 description: 'A longer description of the message',
                 payload: {
                   type: 'object',
