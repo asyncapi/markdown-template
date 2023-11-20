@@ -41,7 +41,7 @@
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "@asyncapi/parser": "^3.0.0-next-major-spec.11",
+    "@asyncapi/parser": "^3.0.0-next-major-spec.12",
     "@asyncapi/cli": "^0.60.4",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
@@ -57,8 +57,8 @@
   },
   "generator": {
     "renderer": "react",
-    "apiVersion": "v2",
-    "generator": ">=1.13.0 <2.0.0",
+    "apiVersion": "v3",
+    "generator": ">=1.15.0 <2.0.0",
     "parameters": {
       "frontMatter": {
         "description": "The name of a JSON or YAML formatted file containing values to provide the YAML frontmatter for static-site or documentation generators. The file may contain {{title}} and {{version}} replaceable tags.",
