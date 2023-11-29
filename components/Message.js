@@ -13,8 +13,7 @@ export function Message({ message }) { // NOSONAR
     return null;
   }
 
-  // check typeof as fallback for older version than `2.4.0`
-  const messageId = typeof message.messageId === 'function' && message.messageId();
+  const messageId = message.id();
   const headers = message.headers();
   const payload = message.payload();
   const correlationId = message.correlationId();
@@ -26,7 +25,7 @@ export function Message({ message }) { // NOSONAR
   if (message.title()) {
     header += ` ${message.title()}`;
   }
-  const id = message.messageId() || message.name() || message.id();
+  const id = message.name() || messageId;
   if (id) {
     header += ` \`${id}\``;
   }

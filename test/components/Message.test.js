@@ -138,9 +138,9 @@ describe('Message component', () => {
           }
         }
       ]
-    });
+    }, { id: 'UserSignup Message Id' });
     const expected = `
-#### Message User signup \`UserSignup Message Id\`
+#### Message User signup \`UserSignup\`
 
 *Action to sign a user up.*
 
