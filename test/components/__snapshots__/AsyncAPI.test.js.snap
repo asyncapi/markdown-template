@@ -397,6 +397,274 @@ Test broker
 
 ## Operations
 
+### RECEIVE \`smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured\` Operation
+
+*Inform about environmental lighting conditions of a particular streetlight.*
+
+* Operation ID: \`receiveLightMeasurement\`
+
+The topic on which measured values may be produced and consumed.
+
+This is the description with **bold** text.
+
+On multiple lines.
+
+
+##### Operation tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| oparation-tag1 | - | [External docs description 1](https://www.asyncapi.com/) |
+| oparation-tag2 | Description 2 | [Find more info here](https://www.asyncapi.com/) |
+| oparation-tag3 | - | - |
+| oparation-tag4 | Description 4 | - |
+| message-tag5 | - | [Find more info here](https://www.asyncapi.com/) |
+
+#### Parameters
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| streetlightId | string | The ID of the streetlight. | - | - | **required** |
+
+
+#### \`kafka\` Operation specific information
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| clientId | - | - | - | - | - |
+| clientId.const | - | - | \`\\"my-app-id\\"\` | - | - |
+
+#### Message Light measured \`lightMeasured\`
+
+*Inform about environmental lighting conditions of a particular streetlight.*
+
+* Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
+
+##### Headers
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| my-app-header | integer | - | - | [ 0 .. 100 ] | - |
+
+> Examples of headers _(generated)_
+
+\`\`\`json
+{
+  \\"my-app-header\\": 100
+}
+\`\`\`
+
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| lumens | integer | Light intensity measured in lumens. | - | >= 0 | - |
+| lumens.x-pi | - | - | \`\\"false\\"\` | - | - |
+| sentAt | string | Date and time when the message was sent. | - | format (\`date-time\`) | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"lumens\\": 0,
+  \\"sentAt\\": \\"2019-08-24T14:15:22Z\\"
+}
+\`\`\`
+
+
+##### Message tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| message-tag1 | - | [External docs description 1](https://www.asyncapi.com/) |
+| message-tag2 | Description 2 | [Find more info here](https://www.asyncapi.com/) |
+| message-tag3 | - | - |
+| message-tag4 | Description 4 | - |
+| message-tag5 | - | [Find more info here](https://www.asyncapi.com/) |
+
+
+### SEND \`smartylighting/streetlights/1/0/action/{streetlightId}/turn/on\` Operation
+
+* Operation ID: \`turnOn\`
+
+#### Parameters
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| streetlightId | string | The ID of the streetlight. | - | - | **required** |
+
+
+#### \`kafka\` Operation specific information
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| clientId | - | - | - | - | - |
+| clientId.const | - | - | \`\\"my-app-id\\"\` | - | - |
+
+#### Message Turn on/off \`turnOnOff\`
+
+*Command a particular streetlight to turn the lights on or off.*
+
+* Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
+
+##### Headers
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| my-app-header | integer | - | - | [ 0 .. 100 ] | - |
+
+> Examples of headers _(generated)_
+
+\`\`\`json
+{
+  \\"my-app-header\\": 100
+}
+\`\`\`
+
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| command | string | Whether to turn on or off the light. | allowed (\`\\"on\\"\`, \`\\"off\\"\`) | - | - |
+| command.x-pi | - | - | \`\\"false\\"\` | - | - |
+| sentAt | string | Date and time when the message was sent. | - | format (\`date-time\`) | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"command\\": \\"on\\",
+  \\"sentAt\\": \\"2019-08-24T14:15:22Z\\"
+}
+\`\`\`
+
+
+
+### SEND \`smartylighting/streetlights/1/0/action/{streetlightId}/turn/off\` Operation
+
+* Operation ID: \`turnOff\`
+
+#### Parameters
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| streetlightId | string | The ID of the streetlight. | - | - | **required** |
+
+
+#### \`kafka\` Operation specific information
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| clientId | - | - | - | - | - |
+| clientId.const | - | - | \`\\"my-app-id\\"\` | - | - |
+
+#### Message Turn on/off \`turnOnOff\`
+
+*Command a particular streetlight to turn the lights on or off.*
+
+* Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
+
+##### Headers
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| my-app-header | integer | - | - | [ 0 .. 100 ] | - |
+
+> Examples of headers _(generated)_
+
+\`\`\`json
+{
+  \\"my-app-header\\": 100
+}
+\`\`\`
+
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| command | string | Whether to turn on or off the light. | allowed (\`\\"on\\"\`, \`\\"off\\"\`) | - | - |
+| command.x-pi | - | - | \`\\"false\\"\` | - | - |
+| sentAt | string | Date and time when the message was sent. | - | format (\`date-time\`) | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"command\\": \\"on\\",
+  \\"sentAt\\": \\"2019-08-24T14:15:22Z\\"
+}
+\`\`\`
+
+
+
+### SEND \`smartylighting/streetlights/1/0/action/{streetlightId}/dim\` Operation
+
+* Operation ID: \`dimLight\`
+
+#### Parameters
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| streetlightId | string | The ID of the streetlight. | - | - | **required** |
+
+
+#### \`kafka\` Operation specific information
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| clientId | - | - | - | - | - |
+| clientId.const | - | - | \`\\"my-app-id\\"\` | - | - |
+
+#### Message Dim light \`dimLight\`
+
+*Command a particular streetlight to dim the lights.*
+
+* Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
+
+##### Headers
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| my-app-header | integer | - | - | [ 0 .. 100 ] | - |
+
+> Examples of headers _(generated)_
+
+\`\`\`json
+{
+  \\"my-app-header\\": 100
+}
+\`\`\`
+
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| percentage | integer | Percentage to which the light should be dimmed to. | - | [ 0 .. 100 ] | - |
+| sentAt | string | Date and time when the message was sent. | - | format (\`date-time\`) | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"percentage\\": 100,
+  \\"sentAt\\": \\"2019-08-24T14:15:22Z\\"
+}
+\`\`\`
+
+
+
 ### SEND \`some.channel\` Operation
 
 * Operation ID: \`some.channel.subscribe\`
