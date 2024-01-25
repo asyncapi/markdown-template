@@ -17,28 +17,26 @@ export function TableOfContents({ asyncapi }) {
   });
 
   const operationsList = [];
-  asyncapi.channels().all().map(channel => {
-    const channelName = channel.address();
-    channel.operations().all().forEach(operation => {
-      if (operation.action() === 'publish') {
+  asyncapi.operations().all().map(operation => {
+    const operationId = operation.id();
+      if (operation.action() === 'send') {
         operationsList.push(
-          <Indent size={2} type={IndentationTypes.SPACES} key={`pub-${channelName}`}>
+          <Indent size={2} type={IndentationTypes.SPACES} key={`pub-${operationId}`}>
             <ListItem>
-              <Link href={`#pub-${FormatHelpers.slugify(channelName)}-operation`}>PUB {channelName}</Link>
+              <Link href={`#pub-${FormatHelpers.slugify(operationId)}-operation`}>PUB {operationId}</Link>
             </ListItem>
           </Indent>
         );
       }
-      if (operation.action() === 'subscribe') {
+      if (operation.action() === 'receive') {
         operationsList.push(
-          <Indent size={2} type={IndentationTypes.SPACES} key={`sub-${channelName}`}>
+          <Indent size={2} type={IndentationTypes.SPACES} key={`sub-${operationId}`}>
             <ListItem>
-              <Link href={`#sub-${FormatHelpers.slugify(channelName)}-operation`}>SUB {channelName}</Link>
+              <Link href={`#sub-${FormatHelpers.slugify(operationId)}-operation`}>SUB {operationId}</Link>
             </ListItem>
           </Indent>
         );
       }
-    });
   });
 
   return (
