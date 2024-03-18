@@ -1,5 +1,5 @@
 import { render } from '@asyncapi/generator-react-sdk';
-import { AsyncAPIDocumentV2 as AsyncAPIDocument } from '@asyncapi/parser';
+import { AsyncAPIDocumentV3 as AsyncAPIDocument } from '@asyncapi/parser';
 
 import { TableOfContents } from '../../components/TableOfContents';
 
@@ -13,16 +13,14 @@ describe('TableOfContents component', () => {
       },
       channels: {
         testChannel: {
-          publish: {},
-          subscribe: {},
-        },
-        'smartylighting/streetlights/1/0': {
-          subscribe: {},
-        },
-        'smartylighting/streetlights': {
-          publish: {},
-        },
+        }
       },
+      operations: {
+        testOperation: {
+          action: 'send',
+          channel: '$ref:#testChannel'
+        }
+      }
     });
     const expected = `
 ## Table of Contents
@@ -32,10 +30,7 @@ describe('TableOfContents component', () => {
   * [testing](#testing-server)
   * [canary](#canary-server)
 * [Operations](#operations)
-  * [PUB testChannel](#pub-testchannel-operation)
-  * [SUB testChannel](#sub-testchannel-operation)
-  * [SUB smartylighting/streetlights/1/0](#sub-smartylightingstreetlights10-operation)
-  * [PUB smartylighting/streetlights](#pub-smartylightingstreetlights-operation)
+  * [PUB testOperation](#pub-testOperation)
 `;
 
     const result = render(<TableOfContents asyncapi={asyncapi} />);
