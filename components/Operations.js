@@ -8,6 +8,7 @@ import { Tags } from './Tags';
 import { Header, ListItem, Link } from './common';
 import { SchemaHelpers } from '../helpers/schema';
 import { FormatHelpers } from '../helpers/format';
+import { CommonHelpers } from '../helpers/common';
 
 // eslint-disable-next-line no-unused-vars
 import { AsyncAPIDocumentInterface, OperationInterface, ChannelInterface } from '@asyncapi/parser';
@@ -17,7 +18,7 @@ function isV3({asyncapi}) {
 }
 
 /**
- * @param {{asyncapi: AsyncAPIDocumentInterface}} param0 
+ * @param {{asyncapi: AsyncAPIDocumentInterface}} param0
  */
 export function Operations({ asyncapi }) {
   const channels = asyncapi.channels();
@@ -30,20 +31,8 @@ export function Operations({ asyncapi }) {
     const channelName = channel.address();
     const operations = channel.operations().all();
     operations.map(operation => {
-      let type;
-      if (operation.isSend()) {
-        if (operation.reply() !== undefined) {
-          type = 'request';
-        } else {
-          type = 'send';
-        }
-      } else if (operation.isReceive()) {
-        if (operation.reply() !== undefined) {
-          type = 'reply';
-        } else {
-          type = 'receive';
-        }
-      }
+      const type = CommonHelpers.getOperationType(operation);
+
       operationsList.push(
         <Operation
           key={`${operation.action()}-${channelName}`}
@@ -92,7 +81,7 @@ function getRenderedTypeForOperation({asyncapi, type}) {
   return 'UNKNOWN';
 }
 /**
- * @param {{asyncapi: AsyncAPIDocumentInterface, type: string, operation: OperationInterface, channelName: string, channel: ChannelInterface}} param0 
+ * @param {{asyncapi: AsyncAPIDocumentInterface, type: string, operation: OperationInterface, channelName: string, channel: ChannelInterface}} param0
  */
 function Operation({ asyncapi, type, operation, channelName, channel }) { // NOSONAR
   if (!operation || !channel) {
@@ -177,13 +166,13 @@ function Operation({ asyncapi, type, operation, channelName, channel }) { // NOS
 
       <OperationMessages operation={operation} asyncapi={asyncapi} type={type} />
 
-      <OperationReply operation={operation} />
+      <OperationReply operation={operation} type={type} />
     </Text>
   );
 }
 
 /**
- * @param {{channel: ChannelInterface}} param0 
+ * @param {{channel: ChannelInterface}} param0
  */
 function OperationParameters({ channel }) {
   const parameters = SchemaHelpers.parametersToSchema(channel.parameters().all());
@@ -214,7 +203,7 @@ function getOperationMessageText({asyncapi, type}) {
   return messagesText;
 }
 /**
- * @param {{operation: OperationInterface, asyncapi: AsyncAPIDocumentInterface, type: string}} param0 
+ * @param {{operation: OperationInterface, asyncapi: AsyncAPIDocumentInterface, type: string}} param0
  */
 function OperationMessages({ asyncapi, operation, type }) {
   const messages = operation.messages().all();
@@ -238,13 +227,18 @@ function OperationMessages({ asyncapi, operation, type }) {
 }
 
 /**
- * @param {{operation: OperationInterface}} param0 
+ * @param {{operation: OperationInterface}} param0
  */
 function OperationReply({ operation, type }) {
   const reply = operation.reply();
   if (reply === undefined) {
     return null;
   }
+
+  const replyMessages = reply.messages().length
+    ? reply.messages()
+    : reply.channel().messages();
+
   const explicitChannel = reply.channel();
 
   let typeText;
@@ -267,17 +261,19 @@ function OperationReply({ operation, type }) {
         {`${typeText} information`}
       </Header>
 
-      {explicitChannel && <ListItem>{type} should be done to channel: `{explicitChannel.address()}`</ListItem>}
-
-      <OperationReplyAddress name="Operation reply address" reply={reply} />
+      {explicitChannel?.address() ? (
+        <ListItem>{type} should be done to channel: `{explicitChannel.address()}`</ListItem>
+      ) : (
+        <OperationReplyAddress name="Operation reply address" reply={reply} />
+      )}
 
       <>
-        {reply.messages().length > 1 && (
+        {replyMessages.length > 1 && (
           <Text newLines={2}>
             {messagesText}
           </Text>
         )}
-        {reply.messages().length > 1 && reply.messages().map((msg, idx) => (
+        {replyMessages.all().map((msg, idx) => (
           <Message message={msg} key={`message-${idx}`} />
         ))}
       </>
@@ -287,7 +283,7 @@ function OperationReply({ operation, type }) {
 }
 
 /**
- * @param {{reply: OperationReplyInterface}} param0 
+ * @param {{reply: OperationReplyInterface}} param0
  */
 function OperationReplyAddress({ reply }) {
   const address = reply.address();
