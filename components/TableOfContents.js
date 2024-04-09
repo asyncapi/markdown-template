@@ -45,7 +45,7 @@ export function TableOfContents({asyncapi}) {
             {operations.map((operation) => {
               const channel = operation.channels().all()[0];
               const channelAddress = channel?.address() ?? '';
-              const type = CommonHelpers.getOperationType(operation);
+              const type = CommonHelpers.getOperationType(operation, asyncapi);
               return (
                 <Indent
                   size={2}
