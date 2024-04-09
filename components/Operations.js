@@ -31,7 +31,7 @@ export function Operations({ asyncapi }) {
     const channelName = channel.address();
     const operations = channel.operations().all();
     operations.map(operation => {
-      const type = CommonHelpers.getOperationType(operation);
+      const type = CommonHelpers.getOperationType(operation, asyncapi);
 
       operationsList.push(
         <Operation
@@ -55,31 +55,6 @@ export function Operations({ asyncapi }) {
     </>
   );
 }
-function getRenderedTypeForOperation({asyncapi, type}) {
-  const isv3 = isV3({asyncapi});
-  if (isv3) {
-    switch (type) {
-    case 'request':
-      return 'REQUEST';
-    case 'send':
-      return 'SEND';
-    case 'reply':
-      return 'REPLY';
-    case 'receive':
-      return 'RECEIVE';
-    }
-  }
-  // For v2, we render the application view still
-  // Meaning the when you use publish operation it means other publish to your application because your application is subscribing to it.
-  switch (type) {
-  case 'send': // This is the publish operation
-    return 'SUB';
-  case 'receive': // This is the subscribe operation
-    return 'PUB';
-  }
-  // This case should never happen, if it does this function needs to be changed
-  return 'UNKNOWN';
-}
 /**
  * @param {{asyncapi: AsyncAPIDocumentInterface, type: string, operation: OperationInterface, channelName: string, channel: ChannelInterface}} param0
  */
@@ -93,14 +68,13 @@ function Operation({ asyncapi, type, operation, channelName, channel }) { // NOS
   const applyToAllServers = asyncapi.servers().all().length === channel.servers().all().length;
   const servers = applyToAllServers ? [] : channel.servers().all();
   const security = operation.security();
-  const renderedType = getRenderedTypeForOperation({asyncapi, type});
 
   const showInfoList = operationId || (servers && servers.length);
 
   return (
     <Text>
       <Header type={3}>
-        {`${renderedType} \`${channelName}\` Operation`}
+        {`${type.toUpperCase()} \`${channelName}\` Operation`}
       </Header>
 
       {operation.summary() && (

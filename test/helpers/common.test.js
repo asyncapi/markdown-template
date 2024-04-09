@@ -21,17 +21,17 @@ beforeAll(async () => {
 describe('CommonHelpers', () => {
   describe('v2', () => {
     describe('.getOperationType', () => {
-      test('should return "send" - in case send operation', () => {
+      test('should return "publish" - in case send operation', () => {
         const sendOperation = v2Doc.operations().filterBySend()[0];
 
-        const result = CommonHelpers.getOperationType(sendOperation);
-        expect(result).toEqual('send');
+        const result = CommonHelpers.getOperationType(sendOperation, v2Doc);
+        expect(result).toEqual('publish');
       });
-      test('should return "receive" - in case receive operation', () => {
+      test('should return "subscribe" - in case receive operation', () => {
         const receiveOperation = v2Doc.operations().filterByReceive()[0];
 
-        const result = CommonHelpers.getOperationType(receiveOperation);
-        expect(result).toEqual('receive');
+        const result = CommonHelpers.getOperationType(receiveOperation, v2Doc);
+        expect(result).toEqual('subscribe');
       });
     });
   });
@@ -42,7 +42,7 @@ describe('CommonHelpers', () => {
           .filterBySend()
           .find((operation) => operation.reply() === undefined);
 
-        const result = CommonHelpers.getOperationType(sendOperationWithoutReply);
+        const result = CommonHelpers.getOperationType(sendOperationWithoutReply, v3Doc);
         expect(result).toEqual('send');
       });
       test('should return "reply" - in case receive with reply', () => {
@@ -50,7 +50,7 @@ describe('CommonHelpers', () => {
           .filterByReceive()
           .find((operation) => operation.reply() !== undefined);
 
-        const result = CommonHelpers.getOperationType(receiveOperationWithReply);
+        const result = CommonHelpers.getOperationType(receiveOperationWithReply, v3Doc);
         expect(result).toEqual('reply');
       });
       test('should return "receive" - in case receive without reply', () => {
@@ -58,7 +58,7 @@ describe('CommonHelpers', () => {
           .filterByReceive()
           .find((operation) => operation.reply() === undefined);
 
-        const result = CommonHelpers.getOperationType(receiveOperationWithoutReply);
+        const result = CommonHelpers.getOperationType(receiveOperationWithoutReply, v3Doc);
         expect(result).toEqual('receive');
       });
     });
