@@ -21,14 +21,14 @@ beforeAll(async () => {
 describe('CommonHelpers', () => {
   describe('v2', () => {
     describe('.getOperationType', () => {
-      test('should return "publish" - in case send operation', () => {
-        const sendOperation = v2Doc.operations().filterBySend()[0];
+      test('should return "publish" - in case receive operation', () => {
+        const sendOperation = v2Doc.operations().filterByReceive()[0];
 
         const result = CommonHelpers.getOperationType(sendOperation, v2Doc);
         expect(result).toEqual('publish');
       });
-      test('should return "subscribe" - in case receive operation', () => {
-        const receiveOperation = v2Doc.operations().filterByReceive()[0];
+      test('should return "subscribe" - in case send operation', () => {
+        const receiveOperation = v2Doc.operations().filterBySend()[0];
 
         const result = CommonHelpers.getOperationType(receiveOperation, v2Doc);
         expect(result).toEqual('subscribe');

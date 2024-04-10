@@ -6,10 +6,10 @@ const OPERATION_TYPES = {
     RECEIVE: 'receive',
   },
   V2: {
-    REQUEST: 'request',
-    SEND: 'publish',
-    REPLY: 'reply',
-    RECEIVE: 'subscribe',
+    REQUEST: 'publish',
+    SEND: 'subscribe',
+    REPLY: 'subscribe',
+    RECEIVE: 'publish',
   }
 };
 
