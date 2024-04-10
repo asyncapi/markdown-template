@@ -45,6 +45,14 @@ describe('CommonHelpers', () => {
         const result = CommonHelpers.getOperationType(sendOperationWithoutReply, v3Doc);
         expect(result).toEqual('send');
       });
+      test('should return "receive" - in case receive without reply', () => {
+        const receiveOperationWithoutReply = v3Doc.operations()
+          .filterByReceive()
+          .find((operation) => operation.reply() === undefined);
+
+        const result = CommonHelpers.getOperationType(receiveOperationWithoutReply, v3Doc);
+        expect(result).toEqual('receive');
+      });
       test('should return "reply" - in case receive with reply', () => {
         const receiveOperationWithReply = v3Doc.operations()
           .filterByReceive()
@@ -53,13 +61,13 @@ describe('CommonHelpers', () => {
         const result = CommonHelpers.getOperationType(receiveOperationWithReply, v3Doc);
         expect(result).toEqual('reply');
       });
-      test('should return "receive" - in case receive without reply', () => {
-        const receiveOperationWithoutReply = v3Doc.operations()
-          .filterByReceive()
-          .find((operation) => operation.reply() === undefined);
+      test('should return "request" - in case send with reply', () => {
+        const sendOperationWithoutReply = v3Doc.operations()
+          .filterBySend()
+          .find((operation) => operation.reply() !== undefined);
 
-        const result = CommonHelpers.getOperationType(receiveOperationWithoutReply, v3Doc);
-        expect(result).toEqual('receive');
+        const result = CommonHelpers.getOperationType(sendOperationWithoutReply, v3Doc);
+        expect(result).toEqual('request');
       });
     });
   });

@@ -73,6 +73,17 @@ channels:
     messages:
       SomeRequestSend:
         $ref: "#/components/messages/SomeRequestSend"
+  someSendRequest:
+    address: "someRequest"
+    description: ""
+    messages:
+      SomeRequestReceive:
+        $ref: "#/components/messages/SomeRequestSend"
+  someSendRequestReply:
+    address: null
+    messages:
+      SomeSendRequestReply:
+        $ref: "#/components/messages/SomeRequestReceive"
 operations:
   receiveLightMeasurement:
     action: receive
@@ -140,17 +151,28 @@ operations:
     messages:
       - $ref: '#/channels/some.channel/messages/subscribe.message.0'
       - $ref: '#/channels/some.channel/messages/subscribe.message.1'
-  "createSomeRequest":
-    "action": "receive"
-    "channel":
-      "$ref": "#/channels/someRequest"
-    "tags":
-        - "name": "response-reply"
-    "reply":
-      "address":
-        "location": "$message.payload#/replyTo"
-      "channel":
-        "$ref": "#/channels/someRequestReply"
+  createSomeRequest:
+    action: "receive"
+    channel:
+      $ref: "#/channels/someRequest"
+    tags:
+        - name: "response-reply"
+    reply:
+      address:
+        location: "$message.payload#/replyTo"
+      channel:
+        $ref: "#/channels/someRequestReply"
+  createSomeSendRequest:
+    action: "send"
+    channel:
+      $ref: "#/channels/someSendRequest"
+    tags:
+        - name: "request-reply"
+    reply:
+      address:
+        location: "$message.payload#/replyTo"
+      channel:
+        $ref: "#/channels/someSendRequestReply"
 components:
   messages:
     lightMeasured:
