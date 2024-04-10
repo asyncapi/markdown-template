@@ -5,6 +5,8 @@ const OPERATION_TYPES = {
     REPLY: 'reply',
     RECEIVE: 'receive',
   },
+  // For v2, when you use publish operation it means
+  // other publish to your application because your application is subscribing to it.
   V2: {
     REQUEST: 'publish',
     SEND: 'subscribe',
