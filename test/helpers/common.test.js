@@ -34,6 +34,12 @@ describe('CommonHelpers', () => {
         expect(result).toEqual('subscribe');
       });
     });
+    describe('.isV3', () => {
+      test('should return "false" - in case v2 doc', () => {
+        const result = CommonHelpers.isV3(v2Doc);
+        expect(result).toBe(false);
+      });
+    });
   });
   describe('v3', () => {
     describe('.getOperationType', () => {
@@ -68,6 +74,12 @@ describe('CommonHelpers', () => {
 
         const result = CommonHelpers.getOperationType(sendOperationWithoutReply, v3Doc);
         expect(result).toEqual('request');
+      });
+    });
+    describe('.isV3', () => {
+      test('should return "true" - in case v3 doc', () => {
+        const result = CommonHelpers.isV3(v3Doc);
+        expect(result).toBe(true);
       });
     });
   });
