@@ -13,10 +13,6 @@ import { CommonHelpers } from '../helpers/common';
 // eslint-disable-next-line no-unused-vars
 import { AsyncAPIDocumentInterface, OperationInterface, ChannelInterface } from '@asyncapi/parser';
 
-function isV3({asyncapi}) {
-  return asyncapi.version().split('.')[0] === '3';
-}
-
 /**
  * @param {{asyncapi: AsyncAPIDocumentInterface}} param0
  */
@@ -63,6 +59,7 @@ function Operation({ asyncapi, type, operation, channelName, channel }) { // NOS
     return null;
   }
 
+  const isV3Doc = CommonHelpers.isV3(asyncapi);
   const operationId = operation.operationId();
   const externalDocs = operation.externalDocs();
   const applyToAllServers = asyncapi.servers().all().length === channel.servers().all().length;
@@ -70,11 +67,12 @@ function Operation({ asyncapi, type, operation, channelName, channel }) { // NOS
   const security = operation.security();
 
   const showInfoList = operationId || (servers && servers.length);
+  const typeToRender = isV3Doc ? type.toUpperCase() : type.slice(0, 3).toUpperCase();
 
   return (
     <Text>
       <Header type={3}>
-        {`${type.toUpperCase()} \`${channelName}\` Operation`}
+        {`${typeToRender} \`${channelName}\` Operation`}
       </Header>
 
       {operation.summary() && (
@@ -163,7 +161,7 @@ function OperationParameters({ channel }) {
 }
 function getOperationMessageText({asyncapi, type}) {
   let messagesText = 'Accepts **one of** the following messages:';
-  if (isV3({asyncapi})) {
+  if (CommonHelpers.isV3(asyncapi)) {
     if (type === 'send') {
       messagesText = 'Sending **one of** the following messages:';
     } else if (type === 'request') {

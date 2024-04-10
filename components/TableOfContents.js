@@ -8,6 +8,7 @@ import { Header, Link, ListItem } from './common';
 export function TableOfContents({asyncapi}) {
   const servers = asyncapi.servers().all();
   const operations = asyncapi.operations().all();
+  const isV3Doc = CommonHelpers.isV3(asyncapi);
 
   return (
     <>
@@ -46,18 +47,20 @@ export function TableOfContents({asyncapi}) {
               const channel = operation.channels().all()[0];
               const channelAddress = channel?.address() ?? '';
               const type = CommonHelpers.getOperationType(operation, asyncapi);
+              const typeToRender = isV3Doc ? type : type.slice(0, 3);
+
               return (
                 <Indent
                   size={2}
                   type={IndentationTypes.SPACES}
-                  key={`${type}-${channelAddress}`}
+                  key={`${typeToRender}-${channelAddress}`}
                 >
                   <ListItem>
                     <Link
-                      href={`#${type}-${FormatHelpers.slugify(
+                      href={`#${typeToRender}-${FormatHelpers.slugify(
                         channelAddress)}-operation`}
                     >
-                      {type.toUpperCase()} {channelAddress}
+                      {typeToRender.toUpperCase()} {channelAddress}
                     </Link>
                   </ListItem>
                 </Indent>
