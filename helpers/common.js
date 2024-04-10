@@ -34,4 +34,8 @@ export class CommonHelpers {
     }
     return operationsTypes.RECEIVE;
   }
+
+  static isV3(asyncApiDoc) {
+    return asyncApiDoc.version().split('.')[0] === '3';
+  }
 }
