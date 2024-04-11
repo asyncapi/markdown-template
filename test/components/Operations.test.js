@@ -100,11 +100,11 @@ A longer description of the message
 }
 \`\`\`
 `;
-  
+
       const result = render(<Operations asyncapi={asyncapi} />);
       expect(result.trim()).toEqual(expected.trim());
     });
-  
+
     it('should render servers for operation', () => {
       const asyncapi = createAsyncAPIDocument({
         semver: {
@@ -199,11 +199,11 @@ A longer description of the message
 }
 \`\`\`
 `;
-  
+
       const result = render(<Operations asyncapi={asyncapi} />);
       expect(result.trim()).toEqual(expected.trim());
     });
-  
+
     it('should render parameters for operation', () => {
       const asyncapi = new AsyncAPIDocument({
         asyncapi: '2.0.0',
@@ -239,11 +239,11 @@ A longer description of the message
 | userId | string | Id of the user. | - | - | **required**, **parameter location ($message.payload#/user/id)** |
 | foobar | string | - | - | - | **required** |
 `;
-  
+
       const result = render(<Operations asyncapi={asyncapi} />);
       expect(result.trim()).toEqual(expected.trim());
     });
-  
+
     it('should render multiple messages', () => {
       const asyncapi = new AsyncAPIDocument({
         asyncapi: '2.0.0',
@@ -328,11 +328,11 @@ A longer description of the message
 }
 \`\`\`
 `;
-  
+
       const result = render(<Operations asyncapi={asyncapi} />);
       expect(result.trim()).toEqual(expected.trim());
     });
-  
+
     it('should render security', () => {
       const asyncapi = createAsyncAPIDocument({
         semver: {
@@ -399,11 +399,11 @@ A longer description of the message
 
   The oauth security descriptions
 `;
-      
+
       const result = render(<Operations asyncapi={asyncapi} />);
       expect(result.trim()).toEqual(expected.trim());
     });
-  
+
     it('should render bindings', () => {
       const asyncapi = new AsyncAPIDocument({
         asyncapi: '2.0.0',
@@ -475,11 +475,11 @@ A longer description of the message
 | clientId | string | - | allowed (\`"myClientId"\`) | - | - |
 | bindingVersion | - | - | \`"0.1.0"\` | - | - |
 `;
-  
+
       const result = render(<Operations asyncapi={asyncapi} />);
       expect(result.trim()).toEqual(expected.trim());
     });
-  
+
     it('should render extensions', () => {
       const asyncapi = new AsyncAPIDocument({
         asyncapi: '2.0.0',
@@ -553,14 +553,14 @@ A longer description of the message
 | x-schema-extensions-as-array.0 (index) | - | - | \`"item1"\` | - | - |
 | x-schema-extensions-as-array.1 (index) | - | - | \`"item2"\` | - | - |
 `;
-  
+
       const result = render(<Operations asyncapi={asyncapi} />);
       expect(result.trim()).toEqual(expected.trim());
     });
-  
+
     it('should render nothing if channels with operations are not defined', () => {
       const asyncapi = new AsyncAPIDocument({});
-  
+
       const result = render(<Operations asyncapi={asyncapi} />);
       expect(result).toEqual('');
     });
@@ -625,7 +625,7 @@ A longer description of the message
           }
         }
       });
-  
+
       expect(diagnostics).toEqual([]);
       const result = render(<Operations asyncapi={document} />);
       expect(result.trim()).toMatchSnapshot();
@@ -689,7 +689,7 @@ A longer description of the message
           }
         }
       });
-  
+
       expect(diagnostics).toEqual([]);
       const result = render(<Operations asyncapi={document} />);
       expect(result.trim()).toMatchSnapshot();
@@ -778,7 +778,7 @@ A longer description of the message
           }
         }
       });
-  
+
       expect(diagnostics).toEqual([]);
       const result = render(<Operations asyncapi={document} />);
       expect(result.trim()).toMatchSnapshot();
@@ -867,7 +867,7 @@ A longer description of the message
           }
         }
       });
-  
+
       expect(diagnostics).toEqual([]);
       const result = render(<Operations asyncapi={document} />);
       expect(result.trim()).toMatchSnapshot();
@@ -1111,7 +1111,7 @@ A longer description of the message
                     'myClientId'
                   ]
                 },
-                bindingVersion: '0.1.0'
+                bindingVersion: '0.4.0'
               }
             },
           }
