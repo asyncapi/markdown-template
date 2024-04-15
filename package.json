@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@asyncapi/cli": "^1.2.2",
-    "@asyncapi/parser": "^3.0.0-next-major-spec.14",
+    "@asyncapi/parser": "^3.0.13",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
     "@types/react": "^18.2.18",
