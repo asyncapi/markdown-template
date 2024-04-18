@@ -100,18 +100,18 @@ export class SchemaHelpers {
         const types = items.map(item => this.toSchemaType(item)).join(', ');
         const additionalItems = schema.additionalItems();
         if (additionalItems === true) {
-          return `tuple\\<${types || SchemaCustomTypes.UNKNOWN}, ...optional\\<${SchemaCustomTypes.ANY}\\>\\>`;
+          return `tuple&lt;${types || SchemaCustomTypes.UNKNOWN}, ...optional&lt;${SchemaCustomTypes.ANY}&gt;&gt;`;
         }
         if (additionalItems === false) {
-          return `tuple\\<${types}\\>`;
+          return `tuple&lt;${types}&gt;`;
         }
         const additionalType = this.toSchemaType(additionalItems);
-        return `tuple\\<${types || SchemaCustomTypes.UNKNOWN}, ...optional\\<${additionalType}\\>\\>`;
+        return `tuple&lt;${types || SchemaCustomTypes.UNKNOWN}, ...optional&lt;${additionalType}&gt;&gt;`;
       }
       if (!items) {
-        return `array\\<${SchemaCustomTypes.ANY}\\>`;
+        return `array&lt;${SchemaCustomTypes.ANY}&gt;`;
       }
-      return `array\\<${this.toSchemaType(items) || SchemaCustomTypes.UNKNOWN}\\>`;
+      return `array&lt;${this.toSchemaType(items) || SchemaCustomTypes.UNKNOWN}&gt;`;
     }
     return type;
   }
