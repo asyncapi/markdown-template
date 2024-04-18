@@ -60,6 +60,30 @@ channels:
         $ref: '#/components/messages/successMessage'
       subscribe.message.1:
         $ref: '#/components/messages/failureMessage'
+
+  someRequest:
+    address: "someRequest"
+    description: ""
+    messages:
+      SomeRequestReceive:
+        $ref: "#/components/messages/SomeRequestReceive"
+
+  someRequestReply:
+    address: null
+    messages:
+      SomeRequestSend:
+        $ref: "#/components/messages/SomeRequestSend"
+  someSendRequest:
+    address: "someRequest"
+    description: ""
+    messages:
+      SomeRequestReceive:
+        $ref: "#/components/messages/SomeRequestSend"
+  someSendRequestReply:
+    address: null
+    messages:
+      SomeSendRequestReply:
+        $ref: "#/components/messages/SomeRequestReceive"
 operations:
   receiveLightMeasurement:
     action: receive
@@ -127,6 +151,28 @@ operations:
     messages:
       - $ref: '#/channels/some.channel/messages/subscribe.message.0'
       - $ref: '#/channels/some.channel/messages/subscribe.message.1'
+  createSomeRequest:
+    action: "receive"
+    channel:
+      $ref: "#/channels/someRequest"
+    tags:
+        - name: "response-reply"
+    reply:
+      address:
+        location: "$message.payload#/replyTo"
+      channel:
+        $ref: "#/channels/someRequestReply"
+  createSomeSendRequest:
+    action: "send"
+    channel:
+      $ref: "#/channels/someSendRequest"
+    tags:
+        - name: "request-reply"
+    reply:
+      address:
+        location: "$message.payload#/replyTo"
+      channel:
+        $ref: "#/channels/someSendRequestReply"
 components:
   messages:
     lightMeasured:
@@ -196,6 +242,28 @@ components:
           - error:
               errorCode: 404
               errorMessage: Something messed up
+    SomeRequestSend:
+      name: SomeRequestSend
+      payload:
+        type: object
+        properties:
+          someId:
+            type: integer
+      correlationId:
+        $ref: "#/components/correlationIds/someRequestCorrelationId"
+    SomeRequestReceive:
+      name: SomeRequestReceive
+      payload:
+        type: object
+        properties:
+          someId:
+            type: integer
+          someText:
+            type: string
+            examples:
+              - some important text
+      correlationId:
+        $ref: "#/components/correlationIds/someRequestCorrelationId"
   schemas:
     lightMeasuredPayload:
       type: object
@@ -287,5 +355,8 @@ components:
     kafka:
       bindings:
         kafka:
-          clientId: 
+          clientId:
             const: my-app-id
+  correlationIds:
+    someRequestCorrelationId:
+      location: '$message.payload#/replyTo'

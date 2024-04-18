@@ -8,16 +8,13 @@ import { Tags } from './Tags';
 import { Header, ListItem, Link } from './common';
 import { SchemaHelpers } from '../helpers/schema';
 import { FormatHelpers } from '../helpers/format';
+import { CommonHelpers } from '../helpers/common';
 
 // eslint-disable-next-line no-unused-vars
 import { AsyncAPIDocumentInterface, OperationInterface, ChannelInterface } from '@asyncapi/parser';
 
-function isV3({asyncapi}) {
-  return asyncapi.version().split('.')[0] === '3';
-}
-
 /**
- * @param {{asyncapi: AsyncAPIDocumentInterface}} param0 
+ * @param {{asyncapi: AsyncAPIDocumentInterface}} param0
  */
 export function Operations({ asyncapi }) {
   const channels = asyncapi.channels();
@@ -30,20 +27,8 @@ export function Operations({ asyncapi }) {
     const channelName = channel.address();
     const operations = channel.operations().all();
     operations.map(operation => {
-      let type;
-      if (operation.isSend()) {
-        if (operation.reply() !== undefined) {
-          type = 'request';
-        } else {
-          type = 'send';
-        }
-      } else if (operation.isReceive()) {
-        if (operation.reply() !== undefined) {
-          type = 'reply';
-        } else {
-          type = 'receive';
-        }
-      }
+      const type = CommonHelpers.getOperationType(operation, asyncapi);
+
       operationsList.push(
         <Operation
           key={`${operation.action()}-${channelName}`}
@@ -66,52 +51,28 @@ export function Operations({ asyncapi }) {
     </>
   );
 }
-function getRenderedTypeForOperation({asyncapi, type}) {
-  const isv3 = isV3({asyncapi});
-  if (isv3) {
-    switch (type) {
-    case 'request':
-      return 'REQUEST';
-    case 'send':
-      return 'SEND';
-    case 'reply':
-      return 'REPLY';
-    case 'receive':
-      return 'RECEIVE';
-    }
-  }
-  // For v2, we render the application view still
-  // Meaning the when you use publish operation it means other publish to your application because your application is subscribing to it.
-  switch (type) {
-  case 'send': // This is the publish operation
-    return 'SUB';
-  case 'receive': // This is the subscribe operation
-    return 'PUB';
-  }
-  // This case should never happen, if it does this function needs to be changed
-  return 'UNKNOWN';
-}
 /**
- * @param {{asyncapi: AsyncAPIDocumentInterface, type: string, operation: OperationInterface, channelName: string, channel: ChannelInterface}} param0 
+ * @param {{asyncapi: AsyncAPIDocumentInterface, type: string, operation: OperationInterface, channelName: string, channel: ChannelInterface}} param0
  */
 function Operation({ asyncapi, type, operation, channelName, channel }) { // NOSONAR
   if (!operation || !channel) {
     return null;
   }
 
+  const isV3Doc = CommonHelpers.isV3(asyncapi);
   const operationId = operation.operationId();
   const externalDocs = operation.externalDocs();
   const applyToAllServers = asyncapi.servers().all().length === channel.servers().all().length;
   const servers = applyToAllServers ? [] : channel.servers().all();
   const security = operation.security();
-  const renderedType = getRenderedTypeForOperation({asyncapi, type});
 
   const showInfoList = operationId || (servers && servers.length);
+  const typeToRender = isV3Doc ? type.toUpperCase() : type.slice(0, 3).toUpperCase();
 
   return (
     <Text>
       <Header type={3}>
-        {`${renderedType} \`${channelName}\` Operation`}
+        {`${typeToRender} \`${channelName}\` Operation`}
       </Header>
 
       {operation.summary() && (
@@ -177,13 +138,13 @@ function Operation({ asyncapi, type, operation, channelName, channel }) { // NOS
 
       <OperationMessages operation={operation} asyncapi={asyncapi} type={type} />
 
-      <OperationReply operation={operation} />
+      <OperationReply operation={operation} type={type} />
     </Text>
   );
 }
 
 /**
- * @param {{channel: ChannelInterface}} param0 
+ * @param {{channel: ChannelInterface}} param0
  */
 function OperationParameters({ channel }) {
   const parameters = SchemaHelpers.parametersToSchema(channel.parameters().all());
@@ -200,7 +161,7 @@ function OperationParameters({ channel }) {
 }
 function getOperationMessageText({asyncapi, type}) {
   let messagesText = 'Accepts **one of** the following messages:';
-  if (isV3({asyncapi})) {
+  if (CommonHelpers.isV3(asyncapi)) {
     if (type === 'send') {
       messagesText = 'Sending **one of** the following messages:';
     } else if (type === 'request') {
@@ -214,7 +175,7 @@ function getOperationMessageText({asyncapi, type}) {
   return messagesText;
 }
 /**
- * @param {{operation: OperationInterface, asyncapi: AsyncAPIDocumentInterface, type: string}} param0 
+ * @param {{operation: OperationInterface, asyncapi: AsyncAPIDocumentInterface, type: string}} param0
  */
 function OperationMessages({ asyncapi, operation, type }) {
   const messages = operation.messages().all();
@@ -238,13 +199,18 @@ function OperationMessages({ asyncapi, operation, type }) {
 }
 
 /**
- * @param {{operation: OperationInterface}} param0 
+ * @param {{operation: OperationInterface}} param0
  */
 function OperationReply({ operation, type }) {
   const reply = operation.reply();
   if (reply === undefined) {
     return null;
   }
+
+  const replyMessages = reply.messages().length
+    ? reply.messages()
+    : reply.channel().messages();
+
   const explicitChannel = reply.channel();
 
   let typeText;
@@ -267,17 +233,19 @@ function OperationReply({ operation, type }) {
         {`${typeText} information`}
       </Header>
 
-      {explicitChannel && <ListItem>{type} should be done to channel: `{explicitChannel.address()}`</ListItem>}
-
-      <OperationReplyAddress name="Operation reply address" reply={reply} />
+      {explicitChannel?.address() ? (
+        <ListItem>{type} should be done to channel: `{explicitChannel.address()}`</ListItem>
+      ) : (
+        <OperationReplyAddress name="Operation reply address" reply={reply} />
+      )}
 
       <>
-        {reply.messages().length > 1 && (
+        {replyMessages.length > 1 && (
           <Text newLines={2}>
             {messagesText}
           </Text>
         )}
-        {reply.messages().length > 1 && reply.messages().map((msg, idx) => (
+        {replyMessages.all().map((msg, idx) => (
           <Message message={msg} key={`message-${idx}`} />
         ))}
       </>
@@ -287,7 +255,7 @@ function OperationReply({ operation, type }) {
 }
 
 /**
- * @param {{reply: OperationReplyInterface}} param0 
+ * @param {{reply: OperationReplyInterface}} param0
  */
 function OperationReplyAddress({ reply }) {
   const address = reply.address();

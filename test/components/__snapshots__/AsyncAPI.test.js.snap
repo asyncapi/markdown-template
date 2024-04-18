@@ -378,6 +378,14 @@ The Smartylighting Streetlights API allows you to remotely manage the city light
 
 * [Servers](#servers)
   * [production](#production-server)
+* [Operations](#operations)
+  * [RECEIVE smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured](#receive-smartylightingstreetlights10eventstreetlightidlightingmeasured-operation)
+  * [SEND smartylighting/streetlights/1/0/action/{streetlightId}/turn/on](#send-smartylightingstreetlights10actionstreetlightidturnon-operation)
+  * [SEND smartylighting/streetlights/1/0/action/{streetlightId}/turn/off](#send-smartylightingstreetlights10actionstreetlightidturnoff-operation)
+  * [SEND smartylighting/streetlights/1/0/action/{streetlightId}/dim](#send-smartylightingstreetlights10actionstreetlightiddim-operation)
+  * [SEND some.channel](#send-somechannel-operation)
+  * [REPLY someRequest](#reply-somerequest-operation)
+  * [REQUEST someRequest](#request-somerequest-operation)
 
 ## Servers
 
@@ -438,6 +446,7 @@ On multiple lines.
 
 *Inform about environmental lighting conditions of a particular streetlight.*
 
+* Message ID: \`receiveLightMeasurement.message\`
 * Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
 
 ##### Headers
@@ -508,6 +517,7 @@ On multiple lines.
 
 *Command a particular streetlight to turn the lights on or off.*
 
+* Message ID: \`turnOn.message\`
 * Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
 
 ##### Headers
@@ -568,6 +578,7 @@ On multiple lines.
 
 *Command a particular streetlight to turn the lights on or off.*
 
+* Message ID: \`turnOn.message\`
 * Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
 
 ##### Headers
@@ -628,6 +639,7 @@ On multiple lines.
 
 *Command a particular streetlight to dim the lights.*
 
+* Message ID: \`dimLight.message\`
 * Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
 
 ##### Headers
@@ -675,6 +687,7 @@ Sending **one of** the following messages:
 
 #### Message \`Success\`
 
+* Message ID: \`subscribe.message.0\`
 * Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
 
 ##### Payload
@@ -695,6 +708,7 @@ Sending **one of** the following messages:
 
 #### Message \`Failure\`
 
+* Message ID: \`subscribe.message.1\`
 * Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
 
 ##### Payload
@@ -714,6 +728,133 @@ Sending **one of** the following messages:
     \\"errorCode\\": 404,
     \\"errorMessage\\": \\"Something messed up\\"
   }
+}
+\`\`\`
+
+
+
+### REPLY \`someRequest\` Operation
+
+* Operation ID: \`createSomeRequest\`
+
+##### Operation tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| response-reply | - | - |
+
+#### Message \`SomeRequestReceive\`
+
+* Message ID: \`SomeRequestReceive\`
+* Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
+* Correlation ID: \`$message.payload#/replyTo\`
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| someId | integer | - | - | - | - |
+| someText | string | - | examples (\`\\"some important text\\"\`) | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"someId\\": 0,
+  \\"someText\\": \\"some important text\\"
+}
+\`\`\`
+
+
+#### Response information
+
+#### Operation reply address information
+
+* Operation reply address location: \`$message.payload#/replyTo\`
+
+#### Message \`SomeRequestSend\`
+
+* Message ID: \`SomeRequestSend\`
+* Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
+* Correlation ID: \`$message.payload#/replyTo\`
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| someId | integer | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"someId\\": 0
+}
+\`\`\`
+
+
+
+
+### REQUEST \`someRequest\` Operation
+
+* Operation ID: \`createSomeSendRequest\`
+
+##### Operation tags
+
+| Name | Description | Documentation |
+|---|---|---|
+| request-reply | - | - |
+
+#### Message \`SomeRequestSend\`
+
+* Message ID: \`SomeRequestReceive\`
+* Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
+* Correlation ID: \`$message.payload#/replyTo\`
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| someId | integer | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"someId\\": 0
+}
+\`\`\`
+
+
+#### Request information
+
+#### Operation reply address information
+
+* Operation reply address location: \`$message.payload#/replyTo\`
+
+#### Message \`SomeRequestReceive\`
+
+* Message ID: \`SomeSendRequestReply\`
+* Content type: [application/json](https://www.iana.org/assignments/media-types/application/json)
+* Correlation ID: \`$message.payload#/replyTo\`
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| someId | integer | - | - | - | - |
+| someText | string | - | examples (\`\\"some important text\\"\`) | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"someId\\": 0,
+  \\"someText\\": \\"some important text\\"
 }
 \`\`\`"
 `;

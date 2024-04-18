@@ -80,7 +80,7 @@ This channel is used to exchange messages about users signing up
 |---|---|---|---|---|---|
 | groupId | string | - | allowed (\`\\"myGroupId\\"\`) | - | - |
 | clientId | string | - | allowed (\`\\"myClientId\\"\`) | - | - |
-| bindingVersion | - | - | \`\\"0.1.0\\"\` | - | - |
+| bindingVersion | - | - | \`\\"0.4.0\\"\` | - | - |
 
 #### Message \`SomeMessage\`
 
@@ -265,7 +265,27 @@ A longer description of the message
 
 #### Response information
 
-*  should be done to channel: \`user/signedup\`"
+* reply should be done to channel: \`user/signedup\`
+#### Message \`SomeReplyMessage\`
+
+A longer description of the message
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| user | string | - | - | - | - |
+| signup | number | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"user\\": \\"string\\",
+  \\"signup\\": 0
+}
+\`\`\`"
 `;
 
 exports[`Operations component for AsyncAPI v3 should render request operation 1`] = `
@@ -313,7 +333,27 @@ A longer description of the message
 
 #### Request information
 
-*  should be done to channel: \`user/signedup\`"
+* request should be done to channel: \`user/signedup\`
+#### Message \`SomeReplyMessage\`
+
+A longer description of the message
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| user | string | - | - | - | - |
+| signup | number | - | - | - | - |
+
+> Examples of payload _(generated)_
+
+\`\`\`json
+{
+  \\"user\\": \\"string\\",
+  \\"signup\\": 0
+}
+\`\`\`"
 `;
 
 exports[`Operations component for AsyncAPI v3 should render send operation 1`] = `

@@ -1,28 +1,36 @@
 import { render } from '@asyncapi/generator-react-sdk';
-import { AsyncAPIDocumentV2 as AsyncAPIDocument } from '@asyncapi/parser';
+import { createAsyncAPIDocument } from '@asyncapi/parser';
 
 import { TableOfContents } from '../../components/TableOfContents';
 
 describe('TableOfContents component', () => {
   it('should render toc', () => {
-    const asyncapi = new AsyncAPIDocument({
-      servers: {
-        production: {},
-        testing: {},
-        canary: {},
+    const asyncapi = createAsyncAPIDocument({
+      semver: {
+        major: 2,
+        minor: 0,
+        patch: 0,
       },
-      channels: {
-        testChannel: {
-          publish: {},
-          subscribe: {},
+      parsed: {
+        asyncapi: '2.0.0',
+        servers: {
+          production: {},
+          testing: {},
+          canary: {},
         },
-        'smartylighting/streetlights/1/0': {
-          subscribe: {},
+        channels: {
+          testChannel: {
+            publish: {},
+            subscribe: {},
+          },
+          'smartylighting/streetlights/1/0': {
+            subscribe: {},
+          },
+          'smartylighting/streetlights': {
+            publish: {},
+          },
         },
-        'smartylighting/streetlights': {
-          publish: {},
-        },
-      },
+      }
     });
     const expected = `
 ## Table of Contents
