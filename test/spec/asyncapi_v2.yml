@@ -44,7 +44,7 @@ channels:
       operationId: receiveLightMeasurement
       tags:
         - name: oparation-tag1
-          externalDocs: 
+          externalDocs:
             description: External docs description 1
             url: https://www.asyncapi.com/
         - name: oparation-tag2
@@ -55,7 +55,7 @@ channels:
         - name: oparation-tag4
           description: Description 4
         - name: message-tag5
-          externalDocs:  
+          externalDocs:
             url: "https://www.asyncapi.com/"
       traits:
         - $ref: '#/components/operationTraits/kafka'
@@ -111,7 +111,7 @@ components:
       contentType: application/json
       tags:
         - name: message-tag1
-          externalDocs: 
+          externalDocs:
             description: External docs description 1
             url: https://www.asyncapi.com/
         - name: message-tag2
@@ -122,7 +122,7 @@ components:
         - name: message-tag4
           description: Description 4
         - name: message-tag5
-          externalDocs:  
+          externalDocs:
             url: "https://www.asyncapi.com/"
       traits:
         - $ref: '#/components/messageTraits/commonHeaders'
@@ -162,7 +162,7 @@ components:
               type: object
               properties:
                 errorCode:
-                  type: integer              
+                  type: integer
                 errorMessage:
                   type: string
           examples:
