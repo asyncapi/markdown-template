@@ -125,6 +125,16 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "korifey91",
+      "name": "Kirill Efimov",
+      "avatar_url": "https://avatars.githubusercontent.com/u/40362351?v=4",
+      "profile": "https://github.com/korifey91",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
