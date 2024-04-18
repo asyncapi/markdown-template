@@ -62,7 +62,7 @@ describe('Schema component', () => {
 
 | Name | Type | Description | Value | Constraints | Notes |
 |---|---|---|---|---|---|
-| (root) | tuple<string, string, integer, ...optional<any>> | - | - | - | **additional items are allowed** |
+| (root) | tuple\\<string, string, integer, ...optional\\<any\\>\\> | - | - | - | **additional items are allowed** |
 | 0 (index) | string | The person's first name. | - | - | - |
 | 1 (index) | string | The person's last name. | - | - | - |
 | 2 (index) | integer | Age in years which must be equal to or greater than zero. | - | >= 0 | - |
@@ -225,7 +225,7 @@ describe('Schema component', () => {
 
 | Name | Type | Description | Value | Constraints | Notes |
 |---|---|---|---|---|---|
-| (root) | array<string> | - | - | [ 1 .. 5 ] unique items | - |
+| (root) | array\\<string\\> | - | - | [ 1 .. 5 ] unique items | - |
 | (single item) | string | - | - | format (\`email\`), [ 3 .. 26 ] characters | - |
 | (contains) | string | - | const (\`"email@example.com"\`) | - | - |
 `;
@@ -266,7 +266,7 @@ describe('Schema component', () => {
 
 | Name | Type | Description | Value | Constraints | Notes |
 |---|---|---|---|---|---|
-| (root) | tuple<string, string, ...optional<integer>> | - | - | [ 1 .. 5 ] unique items | - |
+| (root) | tuple\\<string, string, ...optional\\<integer\\>\\> | - | - | [ 1 .. 5 ] unique items | - |
 | 0 (index) | string | - | - | format (\`email\`), [ 3 .. 26 ] characters | - |
 | 1 (index) | string | - | - | format (\`email\`), [ 3 .. 26 ] characters | - |
 | (contains) | string | - | const (\`"email@example.com"\`) | - | - |
@@ -334,7 +334,7 @@ describe('Schema component', () => {
 | productId | integer | The unique identifier for a product | - | - | **required** |
 | productName | string | Name of the product | - | - | **required** |
 | price | number | The price of the product | - | > 0 | **required** |
-| tags | array<string> | Tags for the product | - | non-empty | - |
+| tags | array\\<string\\> | Tags for the product | - | non-empty | - |
 | tags (single item) | string | - | - | - | - |
 | dimensions | object | - | - | - | **additional properties are allowed** |
 | dimensions.length | number | - | - | - | **required** |
@@ -559,15 +559,15 @@ describe('Schema component', () => {
 |---|---|---|---|---|---|
 | (root) | object | - | - | - | **additional properties are allowed** |
 | RecursiveSelf | object | - | - | - | **additional properties are allowed** |
-| RecursiveSelf.selfChildren | array<object> | - | - | - | - |
-| RecursiveSelf.selfChildren.selfChildren | array<object> | - | - | - | **circular** |
+| RecursiveSelf.selfChildren | array\\<object\\> | - | - | - | - |
+| RecursiveSelf.selfChildren.selfChildren | array\\<object\\> | - | - | - | **circular** |
 | RecursiveSelf.selfChildren.selfObjectChildren | object | - | - | - | **additional properties are allowed** |
 | RecursiveSelf.selfChildren.selfObjectChildren.test | object | - | - | - | **circular**, **additional properties are allowed** |
 | RecursiveSelf.selfChildren.selfObjectChildren.nonRecursive | string | - | - | - | - |
 | RecursiveSelf.selfChildren.selfSomething | object | - | - | - | **additional properties are allowed** |
 | RecursiveSelf.selfChildren.selfSomething.test | object | - | - | - | **additional properties are allowed** |
-| RecursiveSelf.selfChildren.selfSomething.test.ancestorChildren | array<object> | - | - | - | - |
-| RecursiveSelf.selfChildren.selfSomething.test.ancestorChildren.selfChildren | array<object> | - | - | - | **circular** |
+| RecursiveSelf.selfChildren.selfSomething.test.ancestorChildren | array\\<object\\> | - | - | - | - |
+| RecursiveSelf.selfChildren.selfSomething.test.ancestorChildren.selfChildren | array\\<object\\> | - | - | - | **circular** |
 | RecursiveSelf.selfChildren.selfSomething.test.ancestorChildren.selfObjectChildren | object | - | - | - | **additional properties are allowed** |
 | RecursiveSelf.selfChildren.selfSomething.test.ancestorChildren.selfObjectChildren.test | object | - | - | - | **circular**, **additional properties are allowed** |
 | RecursiveSelf.selfChildren.selfSomething.test.ancestorChildren.selfObjectChildren.nonRecursive | string | - | - | - | - |
@@ -578,9 +578,9 @@ describe('Schema component', () => {
 | RecursiveSelf.selfObjectChildren.nonRecursive | string | - | - | - | - |
 | RecursiveSelf.selfSomething | object | - | - | - | **additional properties are allowed** |
 | RecursiveSelf.selfSomething.test | object | - | - | - | **additional properties are allowed** |
-| RecursiveSelf.selfSomething.test.ancestorChildren | array<object> | - | - | - | - |
-| RecursiveSelf.selfSomething.test.ancestorChildren.selfChildren | array<object> | - | - | - | - |
-| RecursiveSelf.selfSomething.test.ancestorChildren.selfChildren.selfChildren | array<object> | - | - | - | **circular** |
+| RecursiveSelf.selfSomething.test.ancestorChildren | array\\<object\\> | - | - | - | - |
+| RecursiveSelf.selfSomething.test.ancestorChildren.selfChildren | array\\<object\\> | - | - | - | - |
+| RecursiveSelf.selfSomething.test.ancestorChildren.selfChildren.selfChildren | array\\<object\\> | - | - | - | **circular** |
 | RecursiveSelf.selfSomething.test.ancestorChildren.selfChildren.selfObjectChildren | object | - | - | - | **additional properties are allowed** |
 | RecursiveSelf.selfSomething.test.ancestorChildren.selfChildren.selfObjectChildren.test | object | - | - | - | **circular**, **additional properties are allowed** |
 | RecursiveSelf.selfSomething.test.ancestorChildren.selfChildren.selfObjectChildren.nonRecursive | string | - | - | - | - |
@@ -591,9 +591,9 @@ describe('Schema component', () => {
 | RecursiveSelf.selfSomething.test.ancestorChildren.selfSomething | object | - | - | - | **circular**, **additional properties are allowed** |
 | RecursiveSelf.selfSomething.test.ancestorSomething | string | - | - | - | - |
 | RecursiveAncestor | object | - | - | - | **additional properties are allowed** |
-| RecursiveAncestor.ancestorChildren | array<object> | - | - | - | - |
-| RecursiveAncestor.ancestorChildren.selfChildren | array<object> | - | - | - | - |
-| RecursiveAncestor.ancestorChildren.selfChildren.selfChildren | array<object> | - | - | - | **circular** |
+| RecursiveAncestor.ancestorChildren | array\\<object\\> | - | - | - | - |
+| RecursiveAncestor.ancestorChildren.selfChildren | array\\<object\\> | - | - | - | - |
+| RecursiveAncestor.ancestorChildren.selfChildren.selfChildren | array\\<object\\> | - | - | - | **circular** |
 | RecursiveAncestor.ancestorChildren.selfChildren.selfObjectChildren | object | - | - | - | **additional properties are allowed** |
 | RecursiveAncestor.ancestorChildren.selfChildren.selfObjectChildren.test | object | - | - | - | **circular**, **additional properties are allowed** |
 | RecursiveAncestor.ancestorChildren.selfChildren.selfObjectChildren.nonRecursive | string | - | - | - | - |

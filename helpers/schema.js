@@ -64,7 +64,7 @@ export class SchemaHelpers {
     if (schema.isBooleanSchema()) {
       if (schema.json() === true) {
         return SchemaCustomTypes.ANY;
-      } 
+      }
       return SchemaCustomTypes.NEVER;
     }
     // handle case with `{}` schemas
@@ -100,18 +100,18 @@ export class SchemaHelpers {
         const types = items.map(item => this.toSchemaType(item)).join(', ');
         const additionalItems = schema.additionalItems();
         if (additionalItems === true) {
-          return `tuple<${types || SchemaCustomTypes.UNKNOWN}, ...optional<${SchemaCustomTypes.ANY}>>`;
+          return `tuple\\<${types || SchemaCustomTypes.UNKNOWN}, ...optional\\<${SchemaCustomTypes.ANY}\\>\\>`;
         }
         if (additionalItems === false) {
-          return `tuple<${types}>`;
+          return `tuple\\<${types}\\>`;
         }
         const additionalType = this.toSchemaType(additionalItems);
-        return `tuple<${types || SchemaCustomTypes.UNKNOWN}, ...optional<${additionalType}>>`;
+        return `tuple\\<${types || SchemaCustomTypes.UNKNOWN}, ...optional\\<${additionalType}\\>\\>`;
       }
       if (!items) {
-        return `array<${SchemaCustomTypes.ANY}>`;
+        return `array\\<${SchemaCustomTypes.ANY}\\>`;
       }
-      return `array<${this.toSchemaType(items) || SchemaCustomTypes.UNKNOWN}>`;
+      return `array\\<${this.toSchemaType(items) || SchemaCustomTypes.UNKNOWN}\\>`;
     }
     return type;
   }
@@ -195,9 +195,9 @@ export class SchemaHelpers {
   }
 
   /**
-   * 
-   * @param {import('@asyncapi/parser').ChannelParametersInterface} parameters 
-   * @returns 
+   *
+   * @param {import('@asyncapi/parser').ChannelParametersInterface} parameters
+   * @returns
    */
   static parametersToSchema(parameters) {
     if (parameters.length === 0) {

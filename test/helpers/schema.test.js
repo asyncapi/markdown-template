@@ -1,4 +1,4 @@
-import { 
+import {
   SchemaV2 as Schema,
   ChannelParameterV2 as ChannelParameter,
 } from '@asyncapi/parser';
@@ -81,7 +81,7 @@ describe('SchemaHelpers', () => {
         items: { type: ['string', 'number'] },
       });
       const result = SchemaHelpers.toSchemaType(schema);
-      expect(result).toEqual('array<string | number>');
+      expect(result).toEqual('array\\<string | number\\>');
     });
 
     test('should handle empty array type', () => {
@@ -89,7 +89,7 @@ describe('SchemaHelpers', () => {
         type: 'array',
       });
       const result = SchemaHelpers.toSchemaType(schema);
-      expect(result).toEqual(`array<${SchemaCustomTypes.ANY}>`);
+      expect(result).toEqual(`array\\<${SchemaCustomTypes.ANY}\\>`);
     });
 
     test('should handle tuple types', () => {
@@ -99,7 +99,7 @@ describe('SchemaHelpers', () => {
       });
       const result = SchemaHelpers.toSchemaType(schema);
       expect(result).toEqual(
-        `tuple<object, string, ${SchemaCustomTypes.ANY}, ...optional<${SchemaCustomTypes.ANY}>>`,
+        `tuple\\<object, string, ${SchemaCustomTypes.ANY}, ...optional\\<${SchemaCustomTypes.ANY}\\>\\>`,
       );
     });
 
@@ -111,7 +111,7 @@ describe('SchemaHelpers', () => {
       });
       const result = SchemaHelpers.toSchemaType(schema);
       expect(result).toEqual(
-        `tuple<object, string, ${SchemaCustomTypes.ANY}, ...optional<string>>`,
+        `tuple\\<object, string, ${SchemaCustomTypes.ANY}, ...optional\\<string\\>\\>`,
       );
     });
 
@@ -123,7 +123,7 @@ describe('SchemaHelpers', () => {
       });
       const result = SchemaHelpers.toSchemaType(schema);
       expect(result).toEqual(
-        `tuple<object, string, ${SchemaCustomTypes.ANY}, ...optional<${SchemaCustomTypes.ANY}>>`,
+        `tuple\\<object, string, ${SchemaCustomTypes.ANY}, ...optional\\<${SchemaCustomTypes.ANY}\\>\\>`,
       );
     });
 
@@ -134,7 +134,7 @@ describe('SchemaHelpers', () => {
         additionalItems: false,
       });
       const result = SchemaHelpers.toSchemaType(schema);
-      expect(result).toEqual(`tuple<object, string, ${SchemaCustomTypes.ANY}>`);
+      expect(result).toEqual(`tuple\\<object, string, ${SchemaCustomTypes.ANY}\\>`);
     });
 
     test('should handle combined types', () => {
