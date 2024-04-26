@@ -41,7 +41,7 @@
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "@asyncapi/cli": "^1.9.1",
+    "@asyncapi/cli": "^1.9.2",
     "@asyncapi/parser": "^3.0.14",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
