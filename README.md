@@ -29,7 +29,7 @@ Generate using CLI
 asyncapi generate fromTemplate <asyncapi.yaml> @asyncapi/markdown-template@1.2.1
 ```
 
-You can replace `<asyncapi.yaml>` with local path or URL pointing to [any AsyncAPI document](https://raw.githubusercontent.com/asyncapi/spec/master/examples/streetlights-kafka.yml).
+You can replace `<asyncapi.yaml>` with local path or URL pointing to [any AsyncAPI document](https://raw.githubusercontent.com/asyncapi/spec/master/examples/streetlights-kafka-asyncapi.yml).
 Look into [Releases](/asyncapi/markdown-template/releases) of this template to pick up the version you need. It is not recommended to always use the latest in production. Always use a specific version.
 
 ## Supported parameters
