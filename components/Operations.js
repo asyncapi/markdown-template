@@ -77,7 +77,7 @@ function Operation({ asyncapi, type, operation, channelName, channel }) { // NOS
 
       {operation.summary() && (
         <Text newLines={2}>
-          *{operation.summary().trim()}*
+          {operation.summary().trim()}
         </Text>
       )}
 
