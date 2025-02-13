@@ -234,7 +234,7 @@ function OperationReply({ operation, type }) {
       </Header>
 
       {explicitChannel?.address() ? (
-        <ListItem>{type} should be done to channel: `{explicitChannel.address()}`</ListItem>
+        <ListItem>{type} will be provided via this designated address: `{explicitChannel.address()}`</ListItem>
       ) : (
         <OperationReplyAddress name="Operation reply address" reply={reply} />
       )}

@@ -265,7 +265,7 @@ A longer description of the message
 
 #### Response information
 
-* reply should be done to channel: \`user/signedup\`
+* reply will be provided via this designated address: \`user/signedup\`
 #### Message \`SomeReplyMessage\`
 
 A longer description of the message
@@ -333,7 +333,7 @@ A longer description of the message
 
 #### Request information
 
-* request should be done to channel: \`user/signedup\`
+* request will be provided via this designated address: \`user/signedup\`
 #### Message \`SomeReplyMessage\`
 
 A longer description of the message
