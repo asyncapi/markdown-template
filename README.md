@@ -26,7 +26,7 @@ npm install -g @asyncapi/cli
 Generate using CLI 
 
 ```bash
-asyncapi generate fromTemplate <asyncapi.yaml> @asyncapi/markdown-template@1.2.1
+asyncapi generate fromTemplate <asyncapi.yaml> @asyncapi/markdown-template@2.0.0
 ```
 
 You can replace `<asyncapi.yaml>` with local path or URL pointing to [any AsyncAPI document](https://raw.githubusercontent.com/asyncapi/spec/master/examples/streetlights-kafka-asyncapi.yml).
@@ -44,12 +44,7 @@ Look into [Releases](/asyncapi/markdown-template/releases) of this template to p
 
 ## Development
 
-1. Make sure you have the latest generator installed `npm install -g @asyncapi/generator`.
-2. Modify the template or it's reusable parts. Adjust `test/spec/asyncapi.yml` to have more complexity if needed.
-3. Generate output with watcher enabled by running the command `npm run dev`.
-4. Check generated markdown file located in `./test/output/asyncapi.md`.
-
-Parameters for the template are defined in `package.json`.
+The best and most reliable way of developing template is by using Generator's build in CLI. Clone Generator and follow official [development guide](https://github.com/asyncapi/generator/blob/master/Development.md#manually-testing-with-test-templates).
 
 ## Contributors ✨
 
