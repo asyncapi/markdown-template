@@ -20,12 +20,8 @@
   "homepage": "https://github.com/asyncapi/markdown-template#readme",
   "scripts": {
     "start": "npm run test:generator:v2",
-    "test": "npm run test:library && npm run test:generator",
+    "test": "npm run test:library",
     "test:library": "jest --coverage",
-    "test:generator": "npm run test:generator:v2 && npm run test:generator:v3",
-    "test:generator:v2": "asyncapi generate fromTemplate ./test/spec/asyncapi_v2.yml ./ -o test/output --force-write",
-    "test:generator:v3": "asyncapi generate fromTemplate ./test/spec/asyncapi_v3.yml ./ -o test/output --force-write",
-    "dev": "asyncapi generate fromTemplate ./test/spec/asyncapi_v2.yml ./ -o test/output --force-write --watch-template",
     "lint": "eslint --max-warnings 0 --config \".eslintrc\" \".\"",
     "lint:fix": "eslint --max-warnings 0 --config \".eslintrc\" \".\" --fix",
     "generate:assets": "npm run generate:readme:toc",
@@ -41,7 +37,6 @@
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "@asyncapi/cli": "^3.1.1",
     "@asyncapi/parser": "^3.1.0",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
@@ -58,7 +53,7 @@
   "generator": {
     "renderer": "react",
     "apiVersion": "v3",
-    "generator": ">=1.15.0 <2.0.0",
+    "generator": ">=3.0.0 <4.0.0",
     "parameters": {
       "frontMatter": {
         "description": "The name of a JSON or YAML formatted file containing values to provide the YAML frontmatter for static-site or documentation generators. The file may contain {{title}} and {{version}} replaceable tags.",
