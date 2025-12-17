@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/asyncapi/markdown-template#readme",
   "scripts": {
-    "start": "npm run test:generator:v2",
     "test": "npm run test:library",
     "test:library": "jest --coverage",
     "lint": "eslint --max-warnings 0 --config \".eslintrc\" \".\"",
