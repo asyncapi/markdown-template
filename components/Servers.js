@@ -1,6 +1,5 @@
 import { Text } from '@asyncapi/generator-react-sdk';
 
-import PropTypes from 'prop-types';
 import { Bindings } from './Bindings';
 import { Extensions } from './Extensions';
 import { Security } from './Security';
@@ -63,12 +62,7 @@ function ServerInfo({ server }) {
     </Text>
   );
 }
-ServerInfo.propTypes = {
-  server: PropTypes.shape({
-    host: PropTypes.func.isRequired,
-    pathname: PropTypes.func,
-  }).isRequired,
-};
+
 
 const variableHeader = ['Name', 'Description', 'Default value', 'Allowed values'];
 const variableRenderer = (variable) => [
