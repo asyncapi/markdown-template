@@ -51,7 +51,7 @@ function ServerInfo({ server }) {
   return (
     <Text>
       <Text>
-        <ListItem>URL: `{server.url()}`</ListItem>
+        <ListItem>Host: `{server.host()}${server.pathname() ? server.pathname() : ''}`</ListItem>
         <ListItem>Protocol: `{server.protocol()}{server.protocolVersion() ? ` ${server.protocolVersion()}` : ''}`</ListItem>
       </Text>
       {server.hasDescription() && (
@@ -62,6 +62,7 @@ function ServerInfo({ server }) {
     </Text>
   );
 }
+
 
 const variableHeader = ['Name', 'Description', 'Default value', 'Allowed values'];
 const variableRenderer = (variable) => [
